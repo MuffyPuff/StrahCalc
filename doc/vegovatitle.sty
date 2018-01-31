@@ -1,0 +1,38 @@
+\ProvidesPackage{vegovatitle}[2017/12/31 Custom Package]
+\RequirePackage{graphicx}
+\renewcommand{\today}{%
+\ifcase \month \or January\or February\or March\or April\or May \or June\or%
+July\or August\or September\or October\or November\or December\fi%
+\ \number \year%
+}
+\newcommand*{\project}[1]{\gdef\@project{#1}%
+}
+\newcommand*{\@project}{Strokovno poročilo}
+\newcommand*{\mentor}[1]{\gdef\@mentor{#1}%
+}
+\newcommand*{\@mentor}{\texttt{\string\mentor} currently not set. Please fix this.}
+\renewcommand*{\maketitle}{%
+\begin{titlepage}
+	\centering
+{%
+	\vspace{-3cm}
+	\includegraphics[width=12cm]{VegovaZnakVodoravno.jpg}\par
+}
+{\Huge\bfseries\@title\unskip\strut\par}
+\vspace{1cm}
+{\Large\@project\unskip\strut\par}
+\vspace{2cm}
+\vfill
+
+{%
+{Mentor: \@mentor\unskip\strut}
+\hfill
+{Avtor: \@author\unskip\strut}\par
+}
+\vspace{2cm}
+%{\large \@date\par}
+{Ljubljana, \today\par}
+
+\end{titlepage}
+}
+\endinput
