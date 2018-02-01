@@ -13,6 +13,13 @@
 //#include "exprtk.hpp"
 namespace exprtk
 {
+template <typename T>
+class symbol_table;
+template <typename T>
+class expression;
+template <typename T>
+class parser;
+
 namespace parser_error
 {
 struct type;
