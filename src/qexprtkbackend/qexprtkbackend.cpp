@@ -6,7 +6,7 @@
 #include "exprtk.hpp"
 //#include "exprtk_mpfr_adaptor.hpp"
 
-QExprtkBackend::QExprtkBackend(QObject *parent, const QString &in)
+QExprtkBackend::QExprtkBackend(QObject* parent, const QString& in)
         : QThread(parent), _input(in), _hasnewinfo(false), _abort(false)
 {
 }
@@ -31,7 +31,7 @@ QExprtkBackend::~QExprtkBackend()
 }
 
 bool
-QExprtkBackend::addVariable(QString name, const double value)
+QExprtkBackend::addVariable(const QString& name, const double& value)
 {
 //	typedef QPair<std::string, double *>       symbol_t;
 
@@ -43,7 +43,7 @@ QExprtkBackend::addVariable(QString name, const double value)
 }
 
 bool
-QExprtkBackend::addConstant(QString name, const double value)
+QExprtkBackend::addConstant(const QString& name, const double& value)
 {
 //	typedef QPair<std::string, double *>       symbol_t;
 
@@ -135,7 +135,7 @@ QExprtkBackend::run()
 }
 
 bool
-QExprtkBackend::inputChanged(const QString &in)
+QExprtkBackend::inputChanged(const QString& in)
 {
 	QMutexLocker mutexlocker(&_mutex);
 	if (_input == in) {
