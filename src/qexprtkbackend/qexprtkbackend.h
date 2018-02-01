@@ -23,35 +23,41 @@ struct type;
 class QExprtkBackend : public QThread
 {
 	Q_OBJECT
+
+	typedef exprtk::symbol_table<double> symbol_table_t;
+	typedef exprtk::expression<double>     expression_t;
+	typedef exprtk::parser<double>             parser_t;
+	typedef QPair<std::string, double *>       symbol_t;
+
 public:
-	explicit QExprtkBackend(QObject *parent, QString in);
+	explicit QExprtkBackend(QObject *parent, const QString &in);
 	virtual ~QExprtkBackend();
 
-	double output;
+	double          output;
 	QList<exprtk::parser_error::type> error_list;
 
-	bool addVariable(QString name, double value);
-	bool addConstant(QString name, double value);
+	bool addVariable(QString name, const double value);
+	bool addConstant(QString name, const double value);
 
-	void run();
+	void            run();
 
 signals:
-	void resultAvailable(double);
-	void error();
+	void            resultAvailable(double);
+	void            error();
 
 public slots:
-	bool inputChanged(const QString &in);
+	bool            inputChanged(const QString &in);
 
 protected:
-	QList<QPair<std::string, double *>> _variables;
-	QList<QPair<std::string, double *>> _constants;
-	QString _input;
+	QList<symbol_t> _variables;
+	QList<symbol_t> _constants;
+	QString         _input;
 
-	QMutex _mutex;
-	QWaitCondition _condnewinfoavail;
+	QMutex          _mutex;
+	QWaitCondition  _condnewinfoavail;
 
-	bool _hasnewinfo;
-	bool _abort;
+	bool            _hasnewinfo;
+	bool            _abort;
 
 };
 

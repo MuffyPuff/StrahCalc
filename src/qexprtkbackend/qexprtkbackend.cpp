@@ -6,35 +6,50 @@
 #include "exprtk.hpp"
 //#include "exprtk_mpfr_adaptor.hpp"
 
-QExprtkBackend::QExprtkBackend(QObject *parent, QString in)
+QExprtkBackend::QExprtkBackend(QObject *parent, const QString &in)
         : QThread(parent), _input(in), _hasnewinfo(false), _abort(false)
 {
 }
 
 QExprtkBackend::~QExprtkBackend()
 {
+	typedef QPair<std::string, double *>       symbol_t;
+
 	_mutex.lock();
 	_abort = true;
+	foreach (symbol_t var, variables) {
+		delete var.second;
+	}
+
+	foreach (symbol_t con, constants) {
+		delete con.second;
+	}
 	_condnewinfoavail.wakeOne();
 	_mutex.unlock();
 	wait();
 }
 
 bool
-QExprtkBackend::addVariable(QString name, double value)
+QExprtkBackend::addVariable(QString name, const double value)
 {
-	_variables.append(QPair<std::string, double *>(
-	                          name.toStdString(),
-	                          new double(value)));
+	typedef QPair<std::string, double *>       symbol_t;
+
+	QMutexLocker mutexlocker(&_mutex);
+	_variables.append(symbol_t(name.toStdString(), new double(value)));
+	_hasnewinfo = true;
+	_condnewinfoavail.wakeOne();
 	return true;
 }
 
 bool
-QExprtkBackend::addConstant(QString name, double value)
+QExprtkBackend::addConstant(QString name, const double value)
 {
-	_constants.append(QPair<std::string, double *>(
-	                          name.toStdString(),
-	                          new double(value)));
+	typedef QPair<std::string, double *>       symbol_t;
+
+	QMutexLocker mutexlocker(&_mutex);
+	_constants.append(symbol_t(name.toStdString(), new double(value)));
+	_hasnewinfo = true;
+	_condnewinfoavail.wakeOne();
 	return true;
 }
 
@@ -110,7 +125,11 @@ QExprtkBackend::run()
 		}
 		output = expression.value();
 		emit resultAvailable(output);
-		return;
+//		return;
+
+		_mutex.lock();
+		_condnewinfoavail.wait(&_mutex);
+		_mutex.unlock();
 	}
 }
 

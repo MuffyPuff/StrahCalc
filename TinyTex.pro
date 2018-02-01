@@ -46,7 +46,7 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib
 else:unix: LIBS += -L$$PWD/lib
 
-#INCLUDEPATH += $$PWD/src
+INCLUDEPATH += $$PWD/src
 #DEPENDPATH += $$PWD/src
 
 
