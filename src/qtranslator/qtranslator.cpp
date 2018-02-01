@@ -18,7 +18,7 @@ bool QTranslator::_abort = false;
 QString QTranslator::languageDir = QDir::homePath() +
                                    "/.strah_calc/lang/en-GB.json";
 
-QTranslator::QTranslator(const QString &lang, QObject *parent)
+QTranslator::QTranslator(const QString& lang, QObject* parent)
         : QObject(parent)
 //        : _language(lang), QObject(parent), _hasnewinfo(false), _abort(false)
 {
@@ -37,7 +37,7 @@ QTranslator::~QTranslator()
 }
 
 QString
-QTranslator::operator()(const QString &code, const QString &lang)
+QTranslator::operator()(const QString& code, const QString& lang)
 {
 	QJsonArray langFile;
 	QString language;
@@ -98,7 +98,7 @@ QTranslator::operator()(const QString &code, const QString &lang)
 }
 
 bool
-QTranslator::loadLangFile(const QString &lang)
+QTranslator::loadLangFile(const QString& lang)
 {
 //	qDebug() << "loading file";
 	QMutexLocker mutexlocker(&_mutex);
@@ -129,7 +129,7 @@ QTranslator::loadLangFile(const QString &lang)
 }
 
 bool
-QTranslator::changeLanguage(const QString &lang)
+QTranslator::changeLanguage(const QString& lang)
 {
 //	QMutexLocker mutexlocker(&_mutex);
 //	qDebug() << "changing language";

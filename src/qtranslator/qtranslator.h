@@ -15,29 +15,29 @@ class QTranslator : public QObject
 {
 	Q_OBJECT
 public:
-	explicit QTranslator(const QString &lang, QObject *parent = 0);
+	explicit QTranslator(const QString& lang, QObject* parent = 0);
 	~QTranslator();
 
-	QString operator()(const QString &code, const QString &lang = "");
-	static bool changeLanguage(const QString &lang);
+	QString         operator()(const QString& code, const QString& lang = "");
+	static bool     changeLanguage(const QString& lang);
 
 private:
-	static bool loadLangFile(const QString &lang = "");
+	static bool     loadLangFile(const QString& lang = "");
 
 signals:
 
 public slots:
 
 private:
-	static QString _language;
+	static QString  _language;
 	static QJsonArray _languageFile;
 
-	static QMutex _mutex;
+	static QMutex   _mutex;
 	static QWaitCondition _condnewinfoavail;
 
-	static bool _hasnewinfo;
-	static bool _abort;
-	static QString languageDir;
+	static bool     _hasnewinfo;
+	static bool     _abort;
+	static QString  languageDir;
 };
 
 #endif // QTRANSLATOR_H
