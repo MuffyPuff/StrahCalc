@@ -11,10 +11,10 @@
 #define REP(i, n) for (int i = 0; i < (int)(n); ++i)
 #define FOR(i, a, b) for (int i = (a); i <= (b); ++i)
 
-namespace
+namespace Muf
 {
 
-QTranslator translation("en-GB");
+static QTranslator translation("en-GB");
 
 int prec = 12;
 
