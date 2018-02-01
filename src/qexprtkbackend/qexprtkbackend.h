@@ -38,14 +38,14 @@ class QExprtkBackend : public QThread
 	typedef exprtk::parser_error::type      parse_err_t;
 
 public:
-	explicit QExprtkBackend(QObject *parent, const QString &in);
-	virtual ~QExprtkBackend();
+	explicit        QExprtkBackend(QObject *parent, const QString &in);
+	virtual         ~QExprtkBackend();
 
 	double          output;
 	QList<parse_err_t> error_list;
 
-	bool addVariable(QString name, const double value);
-	bool addConstant(QString name, const double value);
+	bool            addVariable(QString name, const double value);
+	bool            addConstant(QString name, const double value);
 
 	void            run();
 
