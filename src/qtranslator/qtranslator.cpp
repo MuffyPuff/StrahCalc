@@ -6,11 +6,25 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+QString QTranslator::_language = "en-GB";
+QJsonArray QTranslator::_languageFile = QJsonArray();
+
+QMutex QTranslator::_mutex;
+QWaitCondition QTranslator::_condnewinfoavail;
+
+bool QTranslator::_hasnewinfo = false;
+bool QTranslator::_abort = false;
+
+QString QTranslator::languageDir = QDir::homePath() +
+                                   "/.strah_calc/lang/en-GB.json";
+
 QTranslator::QTranslator(const QString &lang, QObject *parent)
-        : _language(lang), QObject(parent), _hasnewinfo(false), _abort(false)
+        : QObject(parent)
+//        : _language(lang), QObject(parent), _hasnewinfo(false), _abort(false)
 {
 	languageDir = QDir::homePath() +
 	              "/.strah_calc/lang/";
+	changeLanguage(lang);
 	loadLangFile();
 }
 
@@ -86,12 +100,15 @@ QTranslator::operator()(const QString &code, const QString &lang)
 bool
 QTranslator::loadLangFile(const QString &lang)
 {
+//	qDebug() << "loading file";
 	QMutexLocker mutexlocker(&_mutex);
+//	qDebug() << "locked mutex";
 	QString language = _language;
 	if (!lang.isEmpty()  and lang.compare(language) != 0) {
 		language = lang;
 	}
 	QFile lingo(languageDir + language + ".json");
+//	qDebug() << "set file";
 //	QDir dir(languageDir);
 //	qDebug() << dir.absolutePath();
 //	qDebug() << languageDir;
@@ -100,6 +117,7 @@ QTranslator::loadLangFile(const QString &lang)
 		qDebug() << "language file not found";
 		return false;
 	}
+//	qDebug() << "language file found";
 	QByteArray langData = lingo.readAll();
 	lingo.close();
 	QJsonDocument doc = QJsonDocument::fromJson(langData);
@@ -113,14 +131,22 @@ QTranslator::loadLangFile(const QString &lang)
 bool
 QTranslator::changeLanguage(const QString &lang)
 {
-	QMutexLocker mutexlocker(&_mutex);
+//	QMutexLocker mutexlocker(&_mutex);
+//	qDebug() << "changing language";
+	_mutex.lock();
 	if (_language == lang) {
+		_mutex.unlock();
 		return false;
 	}
 	_language = lang;
-	loadLangFile();
 	_hasnewinfo = true;
+	_mutex.unlock();
+//	qDebug() << "calling loadLangFile";
+	loadLangFile();
+//	qDebug() << "called loadLangFile";
+	_mutex.lock();
 	_condnewinfoavail.wakeOne();
+	_mutex.unlock();
 	return true;
 }
 

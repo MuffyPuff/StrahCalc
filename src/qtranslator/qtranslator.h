@@ -19,25 +19,25 @@ public:
 	~QTranslator();
 
 	QString operator()(const QString &code, const QString &lang = "");
-	bool changeLanguage(const QString &lang);
+	static bool changeLanguage(const QString &lang);
 
 private:
-	bool loadLangFile(const QString &lang = "");
+	static bool loadLangFile(const QString &lang = "");
 
 signals:
 
 public slots:
 
 private:
-	QString _language;
-	QJsonArray _languageFile;
+	static QString _language;
+	static QJsonArray _languageFile;
 
-	QMutex _mutex;
-	QWaitCondition _condnewinfoavail;
+	static QMutex _mutex;
+	static QWaitCondition _condnewinfoavail;
 
-	bool _hasnewinfo;
-	bool _abort;
-	QString languageDir;
+	static bool _hasnewinfo;
+	static bool _abort;
+	static QString languageDir;
 };
 
 #endif // QTRANSLATOR_H
