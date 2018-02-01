@@ -11,7 +11,7 @@
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow)//,
-//        Muf::translation("en-GB", this)
+//        translation("en-GB", this)
 {
 	ui->setupUi(this);
 
@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	mPreviewBuilderThread = new KLFPreviewBuilderThread(this, input, settings);
 	mExprtk = new QExprtkBackend(this, input.latex);
 
-	qDebug() << Muf::translation("language_code");
+	qDebug() << translation("language_code");
 
 	// make connections
 	connect(ui->plainTextEdit, SIGNAL(textChanged()),
@@ -62,29 +62,29 @@ MainWindow::MainWindow(QWidget *parent) :
 //	connect(ui->, SIGNAL(clicked()),
 //	        this, SLOT());
 
-	QMenu *menu = ui->menuBar->addMenu(Muf::translation("tools"));
-//	QToolBar *toolBar = addToolBar(Muf::translation("tools"));
-	QAction *act = new QAction(Muf::translation("options"), this);
+	QMenu *menu = ui->menuBar->addMenu(translation("tools"));
+//	QToolBar *toolBar = addToolBar(translation("tools"));
+	QAction *act = new QAction(translation("options"), this);
 	menu->addAction(act);
 //	toolBar->addAction(act);
 
 	// rename tabs
-	ui->tabWidget->setTabText(0, Muf::translation("calc"));
-//	ui->tabWidget->setTabText(1, Muf::translation("vars"));
-	ui->tabWidget->setTabText(2, Muf::translation("vars"));
-	ui->tabWidget->setTabText(3, Muf::translation("consts"));
+	ui->tabWidget->setTabText(0, translation("calc"));
+//	ui->tabWidget->setTabText(1, translation("vars"));
+	ui->tabWidget->setTabText(2, translation("vars"));
+	ui->tabWidget->setTabText(3, translation("consts"));
 
-//	ui->varName_l->setText(Muf::translation("var_name"));
-//	ui->varValue_l->setText(Muf::translation("var_value"));
-//	ui->addVar_b->setText(Muf::translation("add_var"));
+//	ui->varName_l->setText(translation("var_name"));
+//	ui->varValue_l->setText(translation("var_value"));
+//	ui->addVar_b->setText(translation("add_var"));
 
 //	/* model init */
 //	model = new QStandardItemModel(this);
 ////    model->setItem(0, 0, new QStandardItem("name"));
 ////    model->setItem(0, 1, new QStandardItem("value"));
 //	model->appendRow({new QStandardItem("name"), new QStandardItem("value")});
-//	qDebug() << model->setHeaderData(0, Qt::Horizontal, Muf::translation("name"));
-//	qDebug() << model->setHeaderData(1, Qt::Horizontal, Muf::translation("value"));
+//	qDebug() << model->setHeaderData(0, Qt::Horizontal, translation("name"));
+//	qDebug() << model->setHeaderData(1, Qt::Horizontal, translation("value"));
 //	model->removeRow(0);
 //	ui->varList->setModel(model);
 //	ui->varList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -95,9 +95,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->tabWidget->removeTab(1); // comment out tab i don't need right now
 
 	// sybol view init
-	mVarList   = new SymbolListView_w({Muf::translation("name"), Muf::translation("value")},
+	mVarList   = new SymbolListView_w({translation("name"), translation("value")},
 	                                  this);
-	mConstList = new SymbolListView_w({Muf::translation("name"), Muf::translation("value")},
+	mConstList = new SymbolListView_w({translation("name"), translation("value")},
 	                                  this);
 
 	ui->tab_3->layout()->addWidget(mVarList);
@@ -116,7 +116,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	ui->plainTextEdit->setFocus();
 //	ui->statusBar->showMessage("Waiting for input...");
-	ui->statusBar->showMessage(Muf::translation("wait"));
+	ui->statusBar->showMessage(translation("wait"));
 }
 
 //QString
@@ -124,17 +124,17 @@ MainWindow::MainWindow(QWidget *parent) :
 //{
 //	//      qDebug() << "round " << double(value);
 //	if (count > 15) {
-////            return QString::number(value * pow(10, -count), 'g', Muf::prec);
-//		return QString::number(value, 'g', Muf::prec);
+////            return QString::number(value * pow(10, -count), 'g', prec);
+//		return QString::number(value, 'g', prec);
 //	}
 //	int whole = round(value);
 //	double eps = 1e-12;
 //	if (value > whole - eps and value < whole + eps) {
-////            return QString::number(whole * pow(10, -count), 'g', Muf::prec);
-//		return QString::number(whole, 'g', Muf::prec);
+////            return QString::number(whole * pow(10, -count), 'g', prec);
+//		return QString::number(whole, 'g', prec);
 //	} else {
 //		return QString::number(roundFloat(value * 10, count + 1).toDouble() * 0.1,
-//		                       'g', Muf::prec);
+//		                       'g', prec);
 //		//this->roundValue = QString::number(this->roundValue.toDouble() * 0.1);
 //	}
 //}
@@ -143,7 +143,7 @@ void
 MainWindow::getResult(double value)
 {
 	this->rawValue = value;
-	this->roundValue = Muf::roundFloat(value);
+	this->roundValue = roundFloat(value);
 	emit resultAvailable();
 ////    qDebug() << "round " << double(value);
 //	if (count > 15) {
@@ -157,7 +157,7 @@ MainWindow::getResult(double value)
 ////             << " Whole: " << whole
 ////             << " eps: " << QString::number(eps, 'e', 25);
 //	if (value > whole - eps and value < whole + eps) {
-//		this->roundValue = QString::number(whole * pow(10, -count), 'g', Muf::prec);
+//		this->roundValue = QString::number(whole * pow(10, -count), 'g', prec);
 //		emit resultAvailable();
 //		return;
 //	} else {
@@ -202,7 +202,7 @@ void
 MainWindow::copyEqToClipboard()
 {
 	clipboard->setPixmap(pixmap);
-	ui->statusBar->showMessage(Muf::translation("img_copied"));
+	ui->statusBar->showMessage(translation("img_copied"));
 }
 
 void
@@ -210,7 +210,7 @@ MainWindow::copyResToClipboard()
 {
 //	clipboard->setText(QString::number(this->value, 'e', acc));
 	clipboard->setText(roundValue);
-	ui->statusBar->showMessage(Muf::translation("res_copied"));
+	ui->statusBar->showMessage(translation("res_copied"));
 }
 
 //void
@@ -220,7 +220,7 @@ MainWindow::copyResToClipboard()
 //	double value = ui->varValue_i->text().toDouble();
 //	ui->varName_i->clear();
 //	ui->varValue_i->clear();
-////    model->appendRow({new QStandardItem(name), new QStandardItem(QString::number(value, 'g', Muf::prec))});
+////    model->appendRow({new QStandardItem(name), new QStandardItem(QString::number(value, 'g', prec))});
 //	model->appendRow({new QStandardItem(name), new QStandardItem(roundFloat(value))});
 //	mExprtk->addVariable(name, value);
 //}
@@ -265,7 +265,7 @@ MainWindow::handleExprtkError()
 {
 	// TODO: halt render
 //	QList<exprtk::parser_error::type> errors = mExprtk->error_list;
-	ui->statusBar->showMessage(Muf::translation("calc_err_general"));
+	ui->statusBar->showMessage(translation("calc_err_general"));
 }
 
 void
@@ -293,10 +293,10 @@ MainWindow::updatePreviewBuilderThreadInput()
 //	              QString::number(this->value, 'e', acc);
 	if (mPreviewBuilderThread->inputChanged(input)) {
 		qDebug() << "input changed. Render...";
-		ui->statusBar->showMessage(Muf::translation("rendering"));
+		ui->statusBar->showMessage(translation("rendering"));
 		mPreviewBuilderThread->start();
 	} else {
-		ui->statusBar->showMessage(Muf::translation("done"));
+		ui->statusBar->showMessage(translation("done"));
 	}
 }
 
@@ -306,7 +306,7 @@ MainWindow::updateExprtkInput()
 	QString input(ui->plainTextEdit->toPlainText());
 	if (mExprtk->inputChanged(input)) {
 		qDebug() << "input changed. Calculate...";
-		ui->statusBar->showMessage(Muf::translation("calculating"));
+		ui->statusBar->showMessage(translation("calculating"));
 		mExprtk->start();
 	}
 }
@@ -315,10 +315,10 @@ void
 MainWindow::showRealTimePreview(const QImage &preview, bool latexerror)
 {
 	if (latexerror) {
-		ui->statusBar->showMessage(Muf::translation("render_err_general"));
+		ui->statusBar->showMessage(translation("render_err_general"));
 //		ui->statusBar->showMessage("Unable to render your equation. Please double check.");
 	} else {
-		ui->statusBar->showMessage(Muf::translation("done"));
+		ui->statusBar->showMessage(translation("done"));
 		pixmap = QPixmap::fromImage(preview);
 		ui->label->setPixmap(pixmap);
 		ui->label->adjustSize();
