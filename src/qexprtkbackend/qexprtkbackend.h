@@ -38,8 +38,8 @@ class QExprtkBackend : public QThread
 	typedef exprtk::parser_error::type      parse_err_t;
 
 public:
-	explicit        QExprtkBackend(QObject *parent, const QString &in);
-	virtual         ~QExprtkBackend();
+	explicit QExprtkBackend(QObject *parent, const QString &in);
+	~QExprtkBackend();
 
 	double          output;
 	QList<parse_err_t> error_list;
