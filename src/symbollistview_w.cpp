@@ -8,7 +8,7 @@
  * TODO: add dynamic columns
  */
 
-SymbolListView_w::SymbolListView_w(QStringList header, QWidget *parent) :
+SymbolListView_w::SymbolListView_w(QStringList header, QWidget* parent) :
         QWidget(parent),
         ui(new Ui::SymbolListView_w)//,
 //        header(head)
@@ -42,7 +42,7 @@ SymbolListView_w::SymbolListView_w(QStringList header, QWidget *parent) :
 SymbolListView_w::~SymbolListView_w()
 {
 	for (int row = 0; row < mModel->rowCount(); ++row) {
-		foreach (QStandardItem *i, mModel->takeRow(row)) {
+		foreach (QStandardItem* i, mModel->takeRow(row)) {
 			delete i;
 		}
 	}
@@ -62,14 +62,14 @@ SymbolListView_w::addItem()
 }
 
 bool
-SymbolListView_w::addItem(QList<QStandardItem *> item)
+SymbolListView_w::addItem(QList<QStandardItem*> item)
 {
 	mModel->appendRow(item);
 	return true;
 }
 
 bool
-SymbolListView_w::addItem(const int &row, QList<QStandardItem *> item)
+SymbolListView_w::addItem(const int& row, QList<QStandardItem*> item)
 {
 	mModel->insertRow(row, item);
 	return true;
@@ -88,13 +88,13 @@ SymbolListView_w::removeItem()
 }
 
 bool
-SymbolListView_w::removeItem(const int &row)
+SymbolListView_w::removeItem(const int& row)
 {
 //	for (int i = 0; i < mModel->columnCount(); ++i) {
 //		delete mModel->item(row, i);
 //	}
 
-	foreach (QStandardItem *i, mModel->takeRow(row)) {
+	foreach (QStandardItem* i, mModel->takeRow(row)) {
 		delete i;
 	}
 
@@ -105,7 +105,7 @@ SymbolListView_w::removeItem(const int &row)
 }
 
 bool
-SymbolListView_w::editItem(const int &row, QList<QStandardItem *> item)
+SymbolListView_w::editItem(const int& row, QList<QStandardItem*> item)
 {
 	for (int i = 0; i < item.size(); ++i) {
 		mModel->setItem(row, i, item.at(i));
@@ -114,14 +114,14 @@ SymbolListView_w::editItem(const int &row, QList<QStandardItem *> item)
 }
 
 bool
-SymbolListView_w::editItem(const int &row, const int &col, QStandardItem *item)
+SymbolListView_w::editItem(const int& row, const int& col, QStandardItem* item)
 {
 	mModel->setItem(row, col, item);
 	return true;
 }
 
 bool
-SymbolListView_w::moveItem(const int &row, SymbolListView_w::Direction d)
+SymbolListView_w::moveItem(const int& row, SymbolListView_w::Direction d)
 {
 	// TODO: implement moveItem
 	Q_UNUSED(row)
