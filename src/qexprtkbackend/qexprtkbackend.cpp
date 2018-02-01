@@ -110,7 +110,11 @@ QExprtkBackend::run()
 		}
 		output = expression.value();
 		emit resultAvailable(output);
-		return;
+//		return;
+
+		_mutex.lock();
+		_condnewinfoavail.wait(&_mutex);
+		_mutex.unlock();
 	}
 }
 
