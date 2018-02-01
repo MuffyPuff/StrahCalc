@@ -13,7 +13,7 @@ QExprtkBackend::QExprtkBackend(QObject *parent, const QString &in)
 
 QExprtkBackend::~QExprtkBackend()
 {
-	typedef QPair<std::string, double *>       symbol_t;
+//	typedef QPair<std::string, double *>       symbol_t;
 
 	_mutex.lock();
 	_abort = true;
@@ -33,7 +33,7 @@ QExprtkBackend::~QExprtkBackend()
 bool
 QExprtkBackend::addVariable(QString name, const double value)
 {
-	typedef QPair<std::string, double *>       symbol_t;
+//	typedef QPair<std::string, double *>       symbol_t;
 
 	QMutexLocker mutexlocker(&_mutex);
 	_variables.append(symbol_t(name.toStdString(), new double(value)));
@@ -45,7 +45,7 @@ QExprtkBackend::addVariable(QString name, const double value)
 bool
 QExprtkBackend::addConstant(QString name, const double value)
 {
-	typedef QPair<std::string, double *>       symbol_t;
+//	typedef QPair<std::string, double *>       symbol_t;
 
 	QMutexLocker mutexlocker(&_mutex);
 	_constants.append(symbol_t(name.toStdString(), new double(value)));
@@ -58,10 +58,10 @@ void
 QExprtkBackend::run()
 {
 	qDebug() << "calculating";
-	typedef exprtk::symbol_table<double> symbol_table_t;
-	typedef exprtk::expression<double>     expression_t;
-	typedef exprtk::parser<double>             parser_t;
-	typedef QPair<std::string, double *>       symbol_t;
+//	typedef exprtk::symbol_table<double> symbol_table_t;
+//	typedef exprtk::expression<double>     expression_t;
+//	typedef exprtk::parser<double>             parser_t;
+//	typedef QPair<std::string, double *>       symbol_t;
 
 	symbol_table_t symbol_table;
 	expression_t expression;

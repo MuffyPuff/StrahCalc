@@ -35,13 +35,14 @@ class QExprtkBackend : public QThread
 	typedef exprtk::expression<double>     expression_t;
 	typedef exprtk::parser<double>             parser_t;
 	typedef QPair<std::string, double *>       symbol_t;
+	typedef exprtk::parser_error::type      parse_err_t;
 
 public:
 	explicit QExprtkBackend(QObject *parent, const QString &in);
 	virtual ~QExprtkBackend();
 
 	double          output;
-	QList<exprtk::parser_error::type> error_list;
+	QList<parse_err_t> error_list;
 
 	bool addVariable(QString name, const double value);
 	bool addConstant(QString name, const double value);
