@@ -17,13 +17,14 @@ QExprtkBackend::~QExprtkBackend()
 
 	_mutex.lock();
 	_abort = true;
-	foreach (symbol_t var, variables) {
+
+	foreach (symbol_t var, _variables) {
 		delete var.second;
 	}
-
-	foreach (symbol_t con, constants) {
+	foreach (symbol_t con, _constants) {
 		delete con.second;
 	}
+
 	_condnewinfoavail.wakeOne();
 	_mutex.unlock();
 	wait();
