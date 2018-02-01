@@ -6,7 +6,7 @@
 #include "exprtk.hpp"
 //#include "exprtk_mpfr_adaptor.hpp"
 
-QExprtkBackend::QExprtkBackend(QObject *parent, QString in)
+QExprtkBackend::QExprtkBackend(QObject *parent, const QString &in)
         : QThread(parent), _input(in), _hasnewinfo(false), _abort(false)
 {
 }
@@ -30,7 +30,7 @@ QExprtkBackend::~QExprtkBackend()
 }
 
 bool
-QExprtkBackend::addVariable(QString name, double value)
+QExprtkBackend::addVariable(QString name, const double value)
 {
 	typedef QPair<std::string, double *>       symbol_t;
 
@@ -42,7 +42,7 @@ QExprtkBackend::addVariable(QString name, double value)
 }
 
 bool
-QExprtkBackend::addConstant(QString name, double value)
+QExprtkBackend::addConstant(QString name, const double value)
 {
 	typedef QPair<std::string, double *>       symbol_t;
 
