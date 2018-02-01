@@ -19,7 +19,7 @@ static QTranslator translation("en-GB");
 static int prec = 12;
 
 static QString
-roundFloat(const double &value, int count = 0)
+roundFloat(const double& value, int count = 0)
 {
 	//      qDebug() << "round " << double(value);
 	if (count > 15) {
