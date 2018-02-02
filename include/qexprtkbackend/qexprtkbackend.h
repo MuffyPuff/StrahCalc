@@ -10,7 +10,6 @@
 #include <QMutex>
 #include <QMutexLocker>
 
-//#include "exprtk.hpp"
 namespace exprtk
 {
 template <typename T>
@@ -25,7 +24,6 @@ namespace parser_error
 struct type;
 }
 }
-//#include "gmpxx.h"
 
 class QExprtkBackend : public QThread
 {

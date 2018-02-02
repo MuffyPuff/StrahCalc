@@ -1,10 +1,10 @@
 #include "qexprtkbackend.h"
+
 #include <QDebug>
 #include <QStringLiteral>
-#include <cmath>
+#include <QtMath>
 
 #include "exprtk.hpp"
-//#include "exprtk_mpfr_adaptor.hpp"
 
 QExprtkBackend::QExprtkBackend(QObject* parent, const QString& in)
         : QThread(parent), _input(in), _hasnewinfo(false), _abort(false)
@@ -13,8 +13,6 @@ QExprtkBackend::QExprtkBackend(QObject* parent, const QString& in)
 
 QExprtkBackend::~QExprtkBackend()
 {
-//	typedef QPair<std::string, double *>       symbol_t;
-
 	_mutex.lock();
 	_abort = true;
 
@@ -33,8 +31,6 @@ QExprtkBackend::~QExprtkBackend()
 bool
 QExprtkBackend::addVariable(const QString& name, const double& value)
 {
-//	typedef QPair<std::string, double *>       symbol_t;
-
 	QMutexLocker mutexlocker(&_mutex);
 	_variables.append(symbol_t(name.toStdString(), new double(value)));
 	_hasnewinfo = true;
@@ -45,8 +41,6 @@ QExprtkBackend::addVariable(const QString& name, const double& value)
 bool
 QExprtkBackend::addConstant(const QString& name, const double& value)
 {
-//	typedef QPair<std::string, double *>       symbol_t;
-
 	QMutexLocker mutexlocker(&_mutex);
 	_constants.append(symbol_t(name.toStdString(), new double(value)));
 	_hasnewinfo = true;
@@ -58,10 +52,6 @@ void
 QExprtkBackend::run()
 {
 	qDebug() << "calculating";
-//	typedef exprtk::symbol_table<double> symbol_table_t;
-//	typedef exprtk::expression<double>     expression_t;
-//	typedef exprtk::parser<double>             parser_t;
-//	typedef QPair<std::string, double *>       symbol_t;
 
 	symbol_table_t symbol_table;
 	expression_t expression;
@@ -73,12 +63,9 @@ QExprtkBackend::run()
 
 	for (;;) {
 		_mutex.lock();
-//		qDebug() << "in mutex lock 1";
 		bool abrt = _abort;
 		_mutex.unlock();
-//		qDebug() << "out of mutex lock 1";
 		if (abrt) {
-//			qDebug() << "abort1";
 			return;
 		}
 
@@ -104,7 +91,6 @@ QExprtkBackend::run()
 
 		if (!parser.compile(input.toStdString(), expression)) {
 			qDebug() << "expression compilation error...";
-//			ui->statusBar->showMessage("Not a valid expression");
 			for (int i = parser.error_count(); i > 0; --i) {
 				error_list.prepend(parser.get_error(i - 1));
 			}
@@ -121,7 +107,6 @@ QExprtkBackend::run()
 			return;
 		}
 		if (hasnewinfo) {
-//			qDebug() << "new info?";
 			continue;
 		}
 		output = expression.value();
