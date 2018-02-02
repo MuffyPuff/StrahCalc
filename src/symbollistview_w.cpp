@@ -10,8 +10,7 @@
 
 SymbolListView_w::SymbolListView_w(QStringList header, QWidget* parent) :
         QWidget(parent),
-        ui(new Ui::SymbolListView_w)//,
-//        header(head)
+        ui(new Ui::SymbolListView_w)
 {
 	ui->setupUi(this);
 
@@ -32,11 +31,6 @@ SymbolListView_w::SymbolListView_w(QStringList header, QWidget* parent) :
 		mModel->setHeaderData(i, Qt::Horizontal, header.at(i));
 	}
 	mModel->removeRow(0);
-
-//	this->addItem({new QStandardItem("name"), new QStandardItem("value")});
-//	qDebug() << model->setHeaderData(0, Qt::Horizontal, translation("name"));
-//	qDebug() << model->setHeaderData(1, Qt::Horizontal, translation("value"));
-//	this->removeItem(0);
 }
 
 SymbolListView_w::~SymbolListView_w()
@@ -90,16 +84,9 @@ SymbolListView_w::removeItem()
 bool
 SymbolListView_w::removeItem(const int& row)
 {
-//	for (int i = 0; i < mModel->columnCount(); ++i) {
-//		delete mModel->item(row, i);
-//	}
-
 	foreach (QStandardItem* i, mModel->takeRow(row)) {
 		delete i;
 	}
-
-//	delete mModel->takeItem(row, 0);
-//	delete mModel->takeItem(row, 1);
 	mModel->removeRow(row);
 	return true;
 }

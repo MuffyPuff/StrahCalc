@@ -20,7 +20,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="calc_t">
        <attribute name="title">
         <string>Tab 1</string>
        </attribute>
@@ -308,7 +308,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_3">
+      <widget class="QWidget" name="varList_t">
        <attribute name="title">
         <string>Page</string>
        </attribute>
@@ -318,7 +318,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_4">
+      <widget class="QWidget" name="constList_t">
        <attribute name="title">
         <string>Page</string>
        </attribute>
@@ -338,7 +338,7 @@
      <x>0</x>
      <y>0</y>
      <width>461</width>
-     <height>29</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>

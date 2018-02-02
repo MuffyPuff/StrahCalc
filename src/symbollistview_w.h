@@ -22,8 +22,8 @@ public:
 	enum class Direction {UP, DOWN, LEFT, RIGHT};
 	Q_ENUM(Direction)
 
-//	bool setHeaderText(const int &index, const Qstring &text);
-//	QStringList header;
+//	bool            setHeaderText(const int &index, const Qstring &text);
+//	QStringList     header;
 protected:
 
 public slots:

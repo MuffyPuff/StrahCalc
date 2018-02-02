@@ -3,15 +3,14 @@
 
 #include <QMainWindow>
 #include <QClipboard>
+
 #include "klfbackend.h"
 #include "klfpreviewbuilderthread.h"
+
 #include "qexprtkbackend.h"
+
 #include "symbollistview_w.h"
-
-//#include "qtranslator.h"
 #include "global.h"
-
-//#include <QStandardItemModel>
 
 namespace Ui
 {

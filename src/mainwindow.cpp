@@ -1,17 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "klfbackend.h"
-//#include "exprtk.hpp"
-#include <QDebug>
+
 #include <cmath>
 
-//using global::translation;
+#include <QDebug>
+
+#include "klfbackend.h"
 
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget* parent) :
         QMainWindow(parent),
-        ui(new Ui::MainWindow)//,
-//        Muf::translation("en-GB", this)
+        ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
 
@@ -22,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->label->setMinimumHeight(input.dpi / 2);
 
 //	input.bg_color = qRgba(225, 225, 225, 225);
+//	input.bg_color = qRgba(0x33, 0x33, 0x33, 255);
+//	input.fg_color = qRgba(255, 255, 255, 255 * 0.70);
 	input.preamble =
 	        QString("\\usepackage{amssymb,amsmath,mathrsfs}");
 
@@ -50,48 +51,28 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(mExprtk, SIGNAL(error()),
 	        this, SLOT(handleExprtkError()),
 	        Qt::QueuedConnection);
-	connect(mPreviewBuilderThread, SIGNAL(previewAvailable(const QImage &, bool)),
-	        this, SLOT(showRealTimePreview(const QImage &, bool)),
+	connect(mPreviewBuilderThread,
+	        SIGNAL(previewAvailable(const QImage&, bool)),
+	        this, SLOT(showRealTimePreview(const QImage&, bool)),
 	        Qt::QueuedConnection);
 	connect(ui->clipBtnEq, SIGNAL(clicked()),
 	        this, SLOT(copyEqToClipboard()));
 	connect(ui->clipBtnRes, SIGNAL(clicked()),
 	        this, SLOT(copyResToClipboard()));
-//	connect(ui->addVar_b, SIGNAL(clicked()),
-//	        this, SLOT(addNewVariable()));
 //	connect(ui->, SIGNAL(clicked()),
 //	        this, SLOT());
 
-	QMenu *menu = ui->menuBar->addMenu(Muf::translation("tools"));
+	QMenu* menu = ui->menuBar->addMenu(Muf::translation("tools"));
 //	QToolBar *toolBar = addToolBar(Muf::translation("tools"));
-	QAction *act = new QAction(Muf::translation("options"), this);
+	QAction* act = new QAction(Muf::translation("options"), this);
 	menu->addAction(act);
 //	toolBar->addAction(act);
 
 	// rename tabs
 	ui->tabWidget->setTabText(0, Muf::translation("calc"));
-//	ui->tabWidget->setTabText(1, Muf::translation("vars"));
 	ui->tabWidget->setTabText(2, Muf::translation("vars"));
 	ui->tabWidget->setTabText(3, Muf::translation("consts"));
 
-//	ui->varName_l->setText(Muf::translation("var_name"));
-//	ui->varValue_l->setText(Muf::translation("var_value"));
-//	ui->addVar_b->setText(Muf::translation("add_var"));
-
-//	/* model init */
-//	model = new QStandardItemModel(this);
-////    model->setItem(0, 0, new QStandardItem("name"));
-////    model->setItem(0, 1, new QStandardItem("value"));
-//	model->appendRow({new QStandardItem("name"), new QStandardItem("value")});
-//	qDebug() << model->setHeaderData(0, Qt::Horizontal, Muf::translation("name"));
-//	qDebug() << model->setHeaderData(1, Qt::Horizontal, Muf::translation("value"));
-//	model->removeRow(0);
-//	ui->varList->setModel(model);
-//	ui->varList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-//	ui->varList->verticalHeader()->setVisible(false);
-
-//	ui->tab_2->setVisible(false);
-//	ui->tab_2->hide();
 	ui->tabWidget->removeTab(1); // comment out tab i don't need right now
 
 	// sybol view init
@@ -100,44 +81,23 @@ MainWindow::MainWindow(QWidget *parent) :
 	mConstList = new SymbolListView_w({Muf::translation("name"), Muf::translation("value")},
 	                                  this);
 
-	ui->tab_3->layout()->addWidget(mVarList);
-	ui->tab_4->layout()->addWidget(mConstList);
+	ui->varList_t->layout()->addWidget(mVarList);
+	ui->constList_t->layout()->addWidget(mConstList);
 
 	// add symbols from view to exprtk
-	connect(mVarList, SIGNAL(addSym(const QString &, const double &)),
-	        this, SLOT(addVariable(const QString &, const double &)));
-	connect(mVarList, SIGNAL(remSym(const QString &)),
-	        this, SLOT(removeVariable(const QString &)));
-	connect(mConstList, SIGNAL(addSym(const QString &, const double &)),
-	        this, SLOT(addConstant(const QString &, const double &)));
-	connect(mConstList, SIGNAL(remSym(const QString &)),
-	        this, SLOT(removeConstant(const QString &)));
+	connect(mVarList, SIGNAL(addSym(const QString&, const double&)),
+	        this, SLOT(addVariable(const QString&, const double&)));
+	connect(mVarList, SIGNAL(remSym(const QString&)),
+	        this, SLOT(removeVariable(const QString&)));
+	connect(mConstList, SIGNAL(addSym(const QString&, const double&)),
+	        this, SLOT(addConstant(const QString&, const double&)));
+	connect(mConstList, SIGNAL(remSym(const QString&)),
+	        this, SLOT(removeConstant(const QString&)));
 
 
 	ui->plainTextEdit->setFocus();
-//	ui->statusBar->showMessage("Waiting for input...");
 	ui->statusBar->showMessage(Muf::translation("wait"));
 }
-
-//QString
-//MainWindow::roundFloat(double value, int count)
-//{
-//	//      qDebug() << "round " << double(value);
-//	if (count > 15) {
-////            return QString::number(value * pow(10, -count), 'g', Muf::prec);
-//		return QString::number(value, 'g', Muf::prec);
-//	}
-//	int whole = round(value);
-//	double eps = 1e-12;
-//	if (value > whole - eps and value < whole + eps) {
-////            return QString::number(whole * pow(10, -count), 'g', Muf::prec);
-//		return QString::number(whole, 'g', Muf::prec);
-//	} else {
-//		return QString::number(roundFloat(value * 10, count + 1).toDouble() * 0.1,
-//		                       'g', Muf::prec);
-//		//this->roundValue = QString::number(this->roundValue.toDouble() * 0.1);
-//	}
-//}
 
 void
 MainWindow::getResult(double value)
@@ -145,58 +105,33 @@ MainWindow::getResult(double value)
 	this->rawValue = value;
 	this->roundValue = Muf::roundFloat(value);
 	emit resultAvailable();
-////    qDebug() << "round " << double(value);
-//	if (count > 15) {
-//		this->roundValue = QString::number(value * pow(10, -count), 'g', prec);
-//		emit resultAvailable();
-//		return;
-//	}
-//	int whole = round(value);
-//	double eps = 1e-12;
-////    qDebug() << "Value: " << QString::number(value, 'e', 25)
-////             << " Whole: " << whole
-////             << " eps: " << QString::number(eps, 'e', 25);
-//	if (value > whole - eps and value < whole + eps) {
-//		this->roundValue = QString::number(whole * pow(10, -count), 'g', Muf::prec);
-//		emit resultAvailable();
-//		return;
-//	} else {
-//		getResult(value * 10, count + 1);
-//		//this->roundValue = QString::number(this->roundValue.toDouble() * 0.1);
-	//      }
 }
 
 void
-MainWindow::addVariable(const QString &name, const double &value)
+MainWindow::addVariable(const QString& name, const double& value)
 {
 	mExprtk->addVariable(name, value);
 }
 
 void
-MainWindow::removeVariable(const QString &name)
+MainWindow::removeVariable(const QString& name)
 {
 	// TODO: implement removal
 	Q_UNUSED(name);
 }
 
 void
-MainWindow::addConstant(const QString &name, const double &value)
+MainWindow::addConstant(const QString& name, const double& value)
 {
 	mExprtk->addConstant(name, value);
 }
 
 void
-MainWindow::removeConstant(const QString &name)
+MainWindow::removeConstant(const QString& name)
 {
 	// TODO: implement removal
 	Q_UNUSED(name);
 }
-//template <typename T>
-//inline T equal_impl(const T v0, const T v1, real_type_tag)
-//{
-//   const T epsilon = epsilon_type<T>::value();
-//   return (abs_impl(v0 - v1,real_type_tag()) <= (std::max(T(1),std::max(abs_impl(v0,real_type_tag()),abs_impl(v1,real_type_tag()))) * epsilon)) ? T(1) : T(0);
-//}
 
 void
 MainWindow::copyEqToClipboard()
@@ -208,23 +143,9 @@ MainWindow::copyEqToClipboard()
 void
 MainWindow::copyResToClipboard()
 {
-//	clipboard->setText(QString::number(this->value, 'e', acc));
 	clipboard->setText(roundValue);
 	ui->statusBar->showMessage(Muf::translation("res_copied"));
 }
-
-//void
-//MainWindow::addNewVariable()
-//{
-//	QString name  = ui->varName_i->text();
-//	double value = ui->varValue_i->text().toDouble();
-//	ui->varName_i->clear();
-//	ui->varValue_i->clear();
-////    model->appendRow({new QStandardItem(name), new QStandardItem(QString::number(value, 'g', Muf::prec))});
-//	model->appendRow({new QStandardItem(name), new QStandardItem(roundFloat(value))});
-//	mExprtk->addVariable(name, value);
-//}
-
 
 MainWindow::~MainWindow()
 {
@@ -232,33 +153,6 @@ MainWindow::~MainWindow()
 	delete mExprtk;
 	delete ui;
 }
-
-//bool
-//MainWindow::compute()
-//{
-//	typedef exprtk::symbol_table<double> symbol_table_t;
-//	typedef exprtk::expression<double>     expression_t;
-//	typedef exprtk::parser<double>             parser_t;
-
-//	QString expr_input = ui->plainTextEdit->toPlainText();
-
-//	symbol_table_t symbol_table;
-//	symbol_table.add_constants();
-
-//	expression_t expression;
-//	expression.register_symbol_table(symbol_table);
-
-//	parser_t parser;
-
-//	if (!parser.compile(expr_input.toStdString(), expression)) {
-//		qDebug() << "expression compilation error...";
-//		ui->statusBar->showMessage("Not a valid expression");
-//		return false;
-//	}
-
-//	value = expression.value();
-//	return true;
-//}
 
 void
 MainWindow::handleExprtkError()
@@ -269,7 +163,6 @@ MainWindow::handleExprtkError()
 }
 
 void
-//MainWindow::updatePreviewBuilderThreadInput(const double &res)
 MainWindow::updatePreviewBuilderThreadInput()
 {
 //	if (!compute()) {
@@ -290,7 +183,6 @@ MainWindow::updatePreviewBuilderThreadInput()
 	input.latex = ui->plainTextEdit->toPlainText() +
 	              " = " +
 	              roundValue;
-//	              QString::number(this->value, 'e', acc);
 	if (mPreviewBuilderThread->inputChanged(input)) {
 		qDebug() << "input changed. Render...";
 		ui->statusBar->showMessage(Muf::translation("rendering"));
@@ -312,11 +204,11 @@ MainWindow::updateExprtkInput()
 }
 
 void
-MainWindow::showRealTimePreview(const QImage &preview, bool latexerror)
+MainWindow::showRealTimePreview(const QImage& preview, bool latexerror)
 {
 	if (latexerror) {
-		ui->statusBar->showMessage(Muf::translation("render_err_general"));
-//		ui->statusBar->showMessage("Unable to render your equation. Please double check.");
+		ui->statusBar->showMessage(
+		        Muf::translation("render_err_general"));
 	} else {
 		ui->statusBar->showMessage(Muf::translation("done"));
 		pixmap = QPixmap::fromImage(preview);
@@ -324,4 +216,3 @@ MainWindow::showRealTimePreview(const QImage &preview, bool latexerror)
 		ui->label->adjustSize();
 	}
 }
-
