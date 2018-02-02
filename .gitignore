@@ -48,5 +48,9 @@ target_wrapper.*
 # QtCtreator CMake
 CMakeLists.txt.user*
 
+# system
+.directory
+*swp
 
-
+# local old files i want to keep
+*.bck
