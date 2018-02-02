@@ -1,8 +1,9 @@
 #include "qexprtkbackend.h"
 
+#include <cmath>
+
 #include <QDebug>
 #include <QStringLiteral>
-#include <QtMath>
 
 #include "exprtk.hpp"
 

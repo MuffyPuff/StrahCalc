@@ -3,7 +3,7 @@
 
 #include "qtranslator.h"
 
-#include <QtMath>
+#include <cmath>
 
 
 #define ALL(c) (c).begin(),(c).end()
