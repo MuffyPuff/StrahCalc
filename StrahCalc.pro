@@ -46,29 +46,29 @@ INCLUDEPATH += $$PWD/include/klfbackend
 DEPENDPATH += $$PWD/include/klfbackend
 
 
-win32:CONFIG(release, debug|release): LIBS += -lqtranslator
-else:win32:CONFIG(debug, debug|release): LIBS += -lqtranslator
-else:unix: LIBS += -lQTranslator
+win32:CONFIG(release, debug|release): LIBS += -lMufTranslate
+else:win32:CONFIG(debug, debug|release): LIBS += -lMufTranslate
+else:unix: LIBS += -lMufTranslate
 
-INCLUDEPATH += $$PWD/../qtranslator
-DEPENDPATH += $$PWD/../qtranslator
-
-
-win32:CONFIG(release, debug|release): LIBS += -lqexprtkbackend
-else:win32:CONFIG(debug, debug|release): LIBS += -lqexprtkbackend
-else:unix: LIBS += -lQExprtkBackend
-
-INCLUDEPATH += $$PWD/../qexprtkbackend
-DEPENDPATH += $$PWD/../qexprtkbackend
+INCLUDEPATH += $$PWD/../MufTranslate/src
+DEPENDPATH += $$PWD/../MufTranslate/src
 
 
-include($$PWD/include/klfbackend/KLFBackend.pri)
-include($$PWD/../qexprtkbackend/QExprtkBackend.pri)
-include($$PWD/../qtranslator/QTranslator.pri)
+win32:CONFIG(release, debug|release): LIBS += -lMufExprtkBackend
+else:win32:CONFIG(debug, debug|release): LIBS += -lMufExprtkBackend
+else:unix: LIBS += -lMufExprtkBackend
+
+INCLUDEPATH += $$PWD/../MufExprtkBackend/src
+DEPENDPATH += $$PWD/../MufExprtkBackend/src
+
+
+include(include/klfbackend/KLFBackend.pri)
+include(../MufExprtkBackend/MufExprtkBackend.pri)
+include(../MufTranslate/MufTranslate.pri)
+
 
 #move lang files
 DISTFILES += \
           /home/muf/.strah_calc/lang/en-GB.json \
           /home/muf/.strah_calc/lang/sl-SI.json
-
 

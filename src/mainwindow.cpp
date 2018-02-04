@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	// setup variables:
 	mPreviewBuilderThread = new KLFPreviewBuilderThread(this, input, settings);
-	mExprtk = new QExprtkBackend(this, input.latex);
+	mExprtk = new MufExprtkBackend(this, input.latex);
 
 	qDebug() << Muf::translation("language_code");
 

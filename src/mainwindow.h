@@ -7,7 +7,7 @@
 #include "klfbackend.h"
 #include "klfpreviewbuilderthread.h"
 
-#include "qexprtkbackend.h"
+#include "mufexprtkbackend.h"
 
 #include "symbollistview_w.h"
 #include "global.h"
@@ -57,13 +57,13 @@ private:
 	KLFInput        input;
 	KLFSettings     settings;
 	KLFOutput       output;
-	QExprtkBackend* mExprtk;
+	MufExprtkBackend* mExprtk;
 	QClipboard*     clipboard;
 	QPixmap         pixmap;
 	double          rawValue;
 	QString         roundValue;
 
-//	QTranslator     translation;
+//	MufTranslator     translation;
 
 //	QStandardItemModel* model;
 	SymbolListView_w* mVarList;
