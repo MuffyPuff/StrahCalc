@@ -69,6 +69,6 @@ include(../MufTranslate/MufTranslate.pri)
 
 #move lang files
 DISTFILES += \
-          /home/muf/.strah_calc/lang/en-GB.json \
-          /home/muf/.strah_calc/lang/sl-SI.json
+          $$PWD/lang/en-GB.json \
+          $$PWD/lang/sl-SI.json
 

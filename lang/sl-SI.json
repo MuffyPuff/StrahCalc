@@ -1,0 +1,87 @@
+[
+{
+    "id": "language_code",
+    "translation": "sl-SI"
+},
+{
+    "id": "language_name",
+    "translation": "Slovenščina"
+},
+{
+    "id": "wait",
+    "translation": "Čakam na vnos.."
+},
+{
+    "id": "img_copied",
+    "translation": "Slika je bila skopirana v clipboard."
+},
+{
+    "id": "res_copied",
+    "translation": "Rezultat je bil skopirana v clipboard."
+},
+{
+    "id": "rendering",
+    "translation": "Izrisovanje..."
+},
+{
+    "id": "calculating",
+    "translation": "Računanje..."
+},
+{
+    "id": "done",
+    "translation": "Končano."
+},
+{
+    "id": "calc_err_general",
+    "translation": "Neveljaven račun."
+},
+{
+    "id": "render_err_general",
+    "translation": "Napaka pri izrisu računa."
+},
+{
+    "id": "calc",
+    "translation": "Kalkulator"
+},
+{
+    "id": "vars",
+    "translation": "Spremenljivke"
+},
+{
+    "id": "consts",
+    "translation": "Konstante"
+},
+{
+    "id": "tools",
+    "translation": "Orodja"
+},
+{
+    "id": "options",
+    "translation": "Možnosti"
+},
+{
+    "id": "var_name",
+    "translation": "Ime Spremenljivke"
+},
+{
+    "id": "var_value",
+    "translation": "Vrednost Spremenljivke"
+},
+{
+    "id": "add_var",
+    "translation": "Dodaj Spremenljivko"
+},
+{
+    "id": "name",
+    "translation": "Ime"
+},
+{
+    "id": "value",
+    "translation": "Vrednost"
+},
+{
+    "id": "",
+    "translation": ""
+}
+]
+

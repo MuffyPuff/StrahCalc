@@ -1,0 +1,86 @@
+[
+{
+    "id": "language_code",
+    "translation": "en-GB"
+},
+{
+    "id": "language_name",
+    "translation": "English"
+},
+{
+    "id": "wait",
+    "translation": "Waiting for input..."
+},
+{
+    "id": "img_copied",
+    "translation": "Your image has been copied to the clipboard."
+},
+{
+    "id": "res_copied",
+    "translation": "Your result has been copied to the clipboard."
+},
+{
+    "id": "rendering",
+    "translation": "Rendering new expression..."
+},
+{
+    "id": "calculating",
+    "translation": "Calculating new result..."
+},
+{
+    "id": "done",
+    "translation": "Done!"
+},
+{
+    "id": "calc_err_general",
+    "translation": "Invalid expression entered."
+},
+{
+    "id": "render_err_general",
+    "translation": "Unable to render your equation. Sorry for the inconvenience."
+},
+{
+    "id": "calc",
+    "translation": "Calculator"
+},
+{
+    "id": "vars",
+    "translation": "Variables"
+},
+{
+    "id": "consts",
+    "translation": "Constants"
+},
+{
+    "id": "tools",
+    "translation": "Tools"
+},
+{
+    "id": "options",
+    "translation": "Options"
+},
+{
+    "id": "var_name",
+    "translation": "Variable Name"
+},
+{
+    "id": "var_value",
+    "translation": "Variable Value"
+},
+{
+    "id": "add_var",
+    "translation": "Add Variable"
+},
+{
+    "id": "name",
+    "translation": "Name"
+},
+{
+    "id": "value",
+    "translation": "Value"
+},
+{
+    "id": "",
+    "translation": ""
+}
+]
