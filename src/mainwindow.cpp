@@ -39,26 +39,29 @@ MainWindow::MainWindow(QWidget* parent) :
 	qDebug() << Muf::translation("language_code");
 
 	// make connections
-	connect(ui->plainTextEdit, SIGNAL(textChanged()),
-	        this, SLOT(updateExprtkInput()),
+	connect(ui->plainTextEdit, &QPlainTextEdit::textChanged,
+	        this, &MainWindow::updateExprtkInput,
 	        Qt::QueuedConnection);
-	connect(mExprtk, SIGNAL(resultAvailable(double)), // TODO: add var update
-	        this, SLOT(getResult(double)),
+	connect(mExprtk, &MufExprtkBackend::resultAvailable,
+	        this, &MainWindow::getResult,
 	        Qt::QueuedConnection);
 	connect(this, SIGNAL(resultAvailable()),
 	        this, SLOT(updatePreviewBuilderThreadInput()),
 	        Qt::QueuedConnection);
-	connect(mExprtk, SIGNAL(error()),
-	        this, SLOT(handleExprtkError()),
+	connect(this, &MainWindow::resultAvailable,
+	        this, &MainWindow::updatePreviewBuilderThreadInput,
+	        Qt::QueuedConnection);
+	connect(mExprtk, &MufExprtkBackend::error,
+	        this, &MainWindow::handleExprtkError,
 	        Qt::QueuedConnection);
 	connect(mPreviewBuilderThread,
-	        SIGNAL(previewAvailable(const QImage&, bool)),
-	        this, SLOT(showRealTimePreview(const QImage&, bool)),
+	        &KLFPreviewBuilderThread::previewAvailable,
+	        this, &MainWindow::showRealTimePreview,
 	        Qt::QueuedConnection);
-	connect(ui->clipBtnEq, SIGNAL(clicked()),
-	        this, SLOT(copyEqToClipboard()));
-	connect(ui->clipBtnRes, SIGNAL(clicked()),
-	        this, SLOT(copyResToClipboard()));
+	connect(ui->clipBtnEq, &QAbstractButton::clicked,
+	        this, &MainWindow::copyEqToClipboard);
+	connect(ui->clipBtnRes, &QAbstractButton::clicked,
+	        this, &MainWindow::copyResToClipboard);
 //	connect(ui->, SIGNAL(clicked()),
 //	        this, SLOT());
 
