@@ -45,8 +45,8 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(mExprtk, &MufExprtkBackend::resultAvailable,
 	        this, &MainWindow::getResult,
 	        Qt::QueuedConnection);
-	connect(this, SIGNAL(resultAvailable()),
-	        this, SLOT(updatePreviewBuilderThreadInput()),
+	connect(this, &MainWindow::resultAvailable,
+	        this, &MainWindow::updateVariableDisplay,
 	        Qt::QueuedConnection);
 	connect(this, &MainWindow::resultAvailable,
 	        this, &MainWindow::updatePreviewBuilderThreadInput,
@@ -108,6 +108,12 @@ MainWindow::getResult(double value)
 	this->rawValue = value;
 	this->roundValue = Muf::roundFloat(value);
 	emit resultAvailable();
+}
+
+void
+MainWindow::updateVariableDisplay()
+{
+	mVarList->setList(mExprtk->getVariables());
 }
 
 void
