@@ -3,6 +3,9 @@
 
 #include <QWidget>
 #include <QStandardItemModel>
+#include <QList>
+#include <QPair>
+#include <string>
 
 #include "global.h"
 
@@ -15,6 +18,8 @@ class SymbolListView_w : public QWidget
 {
 	Q_OBJECT
 
+	typedef QPair<std::string, double*>        symbol_t;
+
 public:
 	explicit SymbolListView_w(QStringList header, QWidget* parent = 0);
 	~SymbolListView_w();
@@ -22,9 +27,10 @@ public:
 	enum class Direction {UP, DOWN, LEFT, RIGHT};
 	Q_ENUM(Direction)
 
+	bool            setList(const QList<QPair<std::string, double*>>& list);
+
 //	bool            setHeaderText(const int &index, const Qstring &text);
 //	QStringList     header;
-protected:
 
 public slots:
 	bool            addItem();
@@ -42,6 +48,7 @@ protected:
 	bool            editItem(const int& row, QList<QStandardItem*> item);
 	bool            editItem(const int& row, const int& col, QStandardItem* item);
 	bool            moveItem(const int& row, Direction d);
+
 
 protected:
 	Ui::SymbolListView_w* ui;

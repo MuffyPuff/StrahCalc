@@ -115,3 +115,17 @@ SymbolListView_w::moveItem(const int& row, SymbolListView_w::Direction d)
 	Q_UNUSED(d)
 	return false;
 }
+
+bool
+SymbolListView_w::setList(const QList<QPair<std::string, double*>>& list)
+{
+//	mModel->clear(); works but clears header
+	mModel->removeRows(0, mModel->rowCount());
+	foreach (auto el, list) {
+		mModel->appendRow({
+		        new QStandardItem(QString::fromStdString(el.first)),
+		        new QStandardItem(Muf::roundFloat(*el.second))
+		});
+	}
+	return true;
+}

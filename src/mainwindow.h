@@ -39,6 +39,7 @@ private slots:
 	void            copyResToClipboard();
 //	void            addNewVariable();
 	void            getResult(double value);
+	void            updateVariableDisplay();
 
 	void            addVariable(const QString& name, const double& value);
 	void            removeVariable(const QString& name);
