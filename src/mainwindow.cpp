@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	qDebug() << Muf::translation("language_code");
 
 	// make connections
-	connect(ui->plainTextEdit, &QPlainTextEdit::textChanged,
+	connect(ui->eqnInput, &QLineEdit::returnPressed,
 	        this, &MainWindow::updateExprtkInput,
 	        Qt::QueuedConnection);
 	connect(mExprtk, &MufExprtkBackend::resultAvailable,
@@ -73,10 +73,12 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	// rename tabs
 	ui->tabWidget->setTabText(0, Muf::translation("calc"));
-	ui->tabWidget->setTabText(2, Muf::translation("vars"));
-	ui->tabWidget->setTabText(3, Muf::translation("consts"));
+	ui->tabWidget->setTabText(1, Muf::translation("calc_adv"));
+	ui->tabWidget->setTabText(3, Muf::translation("vars"));
+	ui->tabWidget->setTabText(4, Muf::translation("consts"));
+	ui->tabWidget->setTabText(5, Muf::translation("history"));
 
-	ui->tabWidget->removeTab(1); // comment out tab i don't need right now
+	ui->tabWidget->removeTab(2); // comment out tab i don't need right now
 
 	// sybol view init
 	mVarList   = new SymbolListView_w({Muf::translation("name"), Muf::translation("value")},
@@ -98,7 +100,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	        this, SLOT(removeConstant(const QString&)));
 
 
-	ui->plainTextEdit->setFocus();
+	ui->eqnInput->setFocus();
 	ui->statusBar->showMessage(Muf::translation("wait"));
 }
 
@@ -189,7 +191,7 @@ MainWindow::updatePreviewBuilderThreadInput()
 	 * TODO: some assignment stuff
 	 **/
 
-	input.latex = ui->plainTextEdit->toPlainText() +
+	input.latex = ui->eqnInput->text() +
 	              " = " +
 	              roundValue;
 	if (mPreviewBuilderThread->inputChanged(input)) {
@@ -204,7 +206,7 @@ MainWindow::updatePreviewBuilderThreadInput()
 void
 MainWindow::updateExprtkInput()
 {
-	QString input(ui->plainTextEdit->toPlainText());
+	QString input(ui->eqnInput->text());
 	if (mExprtk->inputChanged(input)) {
 		qDebug() << "input changed. Calculate...";
 		ui->statusBar->showMessage(Muf::translation("calculating"));

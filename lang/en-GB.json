@@ -44,12 +44,20 @@
     "translation": "Calculator"
 },
 {
+    "id": "calc_adv",
+    "translation": "Advanced"
+},
+{
     "id": "vars",
     "translation": "Variables"
 },
 {
     "id": "consts",
     "translation": "Constants"
+},
+{
+    "id": "history",
+    "translation": "History"
 },
 {
     "id": "tools",

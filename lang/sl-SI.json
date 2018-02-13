@@ -44,12 +44,20 @@
     "translation": "Kalkulator"
 },
 {
+    "id": "calc_adv",
+    "translation": "Napredno"
+},
+{
     "id": "vars",
     "translation": "Spremenljivke"
 },
 {
     "id": "consts",
     "translation": "Konstante"
+},
+{
+    "id": "history",
+    "translation": "Zgodovina"
 },
 {
     "id": "tools",
