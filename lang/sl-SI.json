@@ -44,12 +44,20 @@
     "translation": "Kalkulator"
 },
 {
+    "id": "calc_adv",
+    "translation": "Napredno"
+},
+{
     "id": "vars",
     "translation": "Spremenljivke"
 },
 {
     "id": "consts",
     "translation": "Konstante"
+},
+{
+    "id": "history",
+    "translation": "Zgodovina"
 },
 {
     "id": "tools",
@@ -78,6 +86,14 @@
 {
     "id": "value",
     "translation": "Vrednost"
+},
+{
+    "id": "copy_img",
+    "translation": "Kopiraj Sliko"
+},
+{
+    "id": "copy_res",
+    "translation": "Kopiraj Rezultat"
 },
 {
     "id": "",

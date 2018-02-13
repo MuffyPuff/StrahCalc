@@ -67,7 +67,6 @@ include(../MufExprtkBackend/MufExprtkBackend.pri)
 include(../MufTranslate/MufTranslate.pri)
 
 
-#move lang files
 DISTFILES += \
           $$PWD/lang/en-GB.json \
           $$PWD/lang/sl-SI.json
