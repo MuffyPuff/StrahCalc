@@ -88,6 +88,14 @@
     "translation": "Value"
 },
 {
+    "id": "copy_img",
+    "translation": "Copy Image"
+},
+{
+    "id": "copy_res",
+    "translation": "Copy Result"
+},
+{
     "id": "",
     "translation": ""
 }

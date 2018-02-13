@@ -88,6 +88,14 @@
     "translation": "Vrednost"
 },
 {
+    "id": "copy_img",
+    "translation": "Kopiraj Sliko"
+},
+{
+    "id": "copy_res",
+    "translation": "Kopiraj Rezultat"
+},
+{
     "id": "",
     "translation": ""
 }

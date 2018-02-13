@@ -80,6 +80,9 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	ui->tabWidget->removeTab(2); // comment out tab i don't need right now
 
+	ui->clipBtnEq->setText(Muf::translation("copy_img"));
+	ui->clipBtnRes->setText(Muf::translation("copy_res"));
+
 	// sybol view init
 	mVarList   = new SymbolListView_w({Muf::translation("name"), Muf::translation("value")},
 	                                  this);
