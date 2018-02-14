@@ -209,90 +209,6 @@
         <string>Page</string>
        </attribute>
       </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
-        <string>Tab 2</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="1" column="3">
-         <spacer name="horizontalSpacer_8">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="1">
-         <spacer name="horizontalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="0">
-         <layout class="QVBoxLayout" name="varName">
-          <item>
-           <widget class="QLabel" name="varName_l">
-            <property name="text">
-             <string>var_name_l</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="varName_i"/>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="2">
-         <layout class="QVBoxLayout" name="varValue">
-          <item>
-           <widget class="QLabel" name="varValue_l">
-            <property name="text">
-             <string>var_value_l</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="varValue_i"/>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="4">
-         <spacer name="horizontalSpacer_7">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="5" alignment="Qt::AlignBottom">
-         <widget class="QPushButton" name="addVar_b">
-          <property name="text">
-           <string>Add Variable</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" colspan="6">
-         <widget class="QTableView" name="varList"/>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="varList_t">
        <attribute name="title">
         <string>Page</string>
@@ -319,7 +235,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_8">
         <item row="0" column="0">
-         <widget class="QListWidget" name="historyList"/>
+         <widget class="QListWidget" name="history_ls"/>
         </item>
        </layout>
       </widget>
