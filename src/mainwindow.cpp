@@ -8,6 +8,9 @@
 #include "klfbackend.h"
 
 
+using Muf::translation;
+
+
 MainWindow::MainWindow(QWidget* parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow)
@@ -38,26 +41,36 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	qDebug() << Muf::translation("language_code");
 
-	// make connections
+	// update equation in exprtl on return
 	connect(ui->eqnInput, &QLineEdit::returnPressed,
 	        this, &MainWindow::updateExprtkInput,
 	        Qt::QueuedConnection);
+	// update history on return
+	connect(ui->eqnInput, &QLineEdit::returnPressed,
+	        this, &MainWindow::updateHistory,
+	        Qt::QueuedConnection);
+	// store result from exprtk
 	connect(mExprtk, &MufExprtkBackend::resultAvailable,
 	        this, &MainWindow::getResult,
 	        Qt::QueuedConnection);
+	// update variables when computation ends
 	connect(this, &MainWindow::resultAvailable,
 	        this, &MainWindow::updateVariableDisplay,
 	        Qt::QueuedConnection);
+	// start rendering result
 	connect(this, &MainWindow::resultAvailable,
 	        this, &MainWindow::updatePreviewBuilderThreadInput,
 	        Qt::QueuedConnection);
+	// handle exprtk errors
 	connect(mExprtk, &MufExprtkBackend::error,
 	        this, &MainWindow::handleExprtkError,
 	        Qt::QueuedConnection);
+	// display updated expression image
 	connect(mPreviewBuilderThread,
 	        &KLFPreviewBuilderThread::previewAvailable,
 	        this, &MainWindow::showRealTimePreview,
 	        Qt::QueuedConnection);
+	// copy to clipboard
 	connect(ui->clipBtnEq, &QAbstractButton::clicked,
 	        this, &MainWindow::copyEqToClipboard);
 	connect(ui->clipBtnRes, &QAbstractButton::clicked,
@@ -71,14 +84,24 @@ MainWindow::MainWindow(QWidget* parent) :
 	menu->addAction(act);
 //	toolBar->addAction(act);
 
-	// rename tabs
-	ui->tabWidget->setTabText(0, Muf::translation("calc"));
-	ui->tabWidget->setTabText(1, Muf::translation("calc_adv"));
-	ui->tabWidget->setTabText(3, Muf::translation("vars"));
-	ui->tabWidget->setTabText(4, Muf::translation("consts"));
-	ui->tabWidget->setTabText(5, Muf::translation("history"));
+	header.clear();
+	header.append({
+	        Muf::translation("calc"),
+	        Muf::translation("calc_adv"),
+	        Muf::translation("vars"),
+	        Muf::translation("consts"),
+	        Muf::translation("history")
+	});
 
-	ui->tabWidget->removeTab(2); // comment out tab i don't need right now
+	// rename tabs
+	REP(i, header.size()) {
+		ui->tabWidget->setTabText(i, header.at(i));
+	}
+//	ui->tabWidget->setTabText(0, Muf::translation("calc"));
+//	ui->tabWidget->setTabText(1, Muf::translation("calc_adv"));
+//	ui->tabWidget->setTabText(3, Muf::translation("vars"));
+//	ui->tabWidget->setTabText(4, Muf::translation("consts"));
+//	ui->tabWidget->setTabText(5, Muf::translation("history"));
 
 	ui->clipBtnEq->setText(Muf::translation("copy_img"));
 	ui->clipBtnRes->setText(Muf::translation("copy_res"));
@@ -215,6 +238,15 @@ MainWindow::updateExprtkInput()
 		ui->statusBar->showMessage(Muf::translation("calculating"));
 		mExprtk->start();
 	}
+}
+
+void MainWindow::updateHistory()
+{
+	if (ui->eqnInput->text().isEmpty()) {
+		return;
+	}
+	ui->history_ls->addItem(ui->eqnInput->text());
+	ui->history_ls->scrollToBottom();
 }
 
 void

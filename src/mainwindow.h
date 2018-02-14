@@ -34,6 +34,7 @@ private slots:
 //	void            updatePreviewBuilderThreadInput(const double &res);
 	void            updatePreviewBuilderThreadInput();
 	void            updateExprtkInput();
+	void            updateHistory();
 	void            showRealTimePreview(const QImage& preview, bool latexerror);
 	void            copyEqToClipboard();
 	void            copyResToClipboard();
@@ -64,15 +65,10 @@ private:
 	double          rawValue;
 	QString         roundValue;
 
-//	MufTranslator     translation;
+	QStringList     header;
 
-//	QStandardItemModel* model;
 	SymbolListView_w* mVarList;
 	SymbolListView_w* mConstList;
-
-//	int             prec = 12;
-
-//	bool            compute();
 };
 
 #endif // MAINWINDOW_H
