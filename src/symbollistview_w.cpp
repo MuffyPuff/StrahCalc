@@ -8,6 +8,7 @@
  * TODO: add dynamic columns
  */
 
+
 SymbolListView_w::SymbolListView_w(QStringList header, QWidget* parent) :
         QWidget(parent),
         ui(new Ui::SymbolListView_w)
@@ -117,14 +118,15 @@ SymbolListView_w::moveItem(const int& row, SymbolListView_w::Direction d)
 }
 
 bool
-SymbolListView_w::setList(const QList<QPair<std::string, double*>>& list)
+SymbolListView_w::setList(const QList<MufExprtkBackend::symbol_t<double>>& list)
 {
 //	mModel->clear(); works but clears header
+//	qDebug() << list.size();
 	mModel->removeRows(0, mModel->rowCount());
 	foreach (auto el, list) {
 		mModel->appendRow({
-		        new QStandardItem(QString::fromStdString(el.first)),
-		        new QStandardItem(Muf::roundFloat(*el.second))
+		        new QStandardItem(QString::fromStdString(el.name)),
+		        new QStandardItem(Muf::roundFloat(*el.value))
 		});
 	}
 	return true;

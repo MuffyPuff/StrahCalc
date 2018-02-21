@@ -217,13 +217,16 @@ MainWindow::updatePreviewBuilderThreadInput()
 	 * TODO: some assignment stuff
 	 **/
 
+
 	input.latex = ui->eqnInput->text() +
 	              " = " +
 	              roundValue;
 	if (mPreviewBuilderThread->inputChanged(input)) {
 		qDebug() << "input changed. Render...";
 		ui->statusBar->showMessage(Muf::translation("rendering"));
+//		qDebug() << "input changed. displayed message";
 		mPreviewBuilderThread->start();
+//		qDebug() << "input changed. started";
 	} else {
 		ui->statusBar->showMessage(Muf::translation("done"));
 	}

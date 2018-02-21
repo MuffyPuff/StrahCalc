@@ -34,6 +34,19 @@ roundFloat(const double& value, int count = 0)
 	}
 }
 
+typedef double                                  num_t;
+typedef std::string                             str_t;
+typedef std::vector<num_t>                      vec_t;
+
+template<typename T>
+struct symbol_t {
+	symbol_t(str_t n, const T& v)
+	        : name(n), value(new T(v)) {}
+	str_t           name;
+	T*              value;
+};
+
+
 }
 
 
