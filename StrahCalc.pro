@@ -69,5 +69,6 @@ include(../MufTranslate/MufTranslate.pri)
 
 DISTFILES += \
           $$PWD/lang/en-GB.json \
-          $$PWD/lang/sl-SI.json
+          $$PWD/lang/sl-SI.json \
+    lang/functions
 

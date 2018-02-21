@@ -1,0 +1,18 @@
+function file definition format
+
+exports "name"; // call function with name
+// name2 has no export so no shorthand like "name2"
+
+function name(){}; // actual internal name is "_folder_file_name"
+function name2(){}; // actual internal name is "_folder_file_name2"
+
+/**
+ * name conflicts should be resolved by:
+ *  1. adding a namespace
+ *       "_folder_file1_name" --> "file1_name"
+ *       "_folder_file2_name" --> "file2_name"
+ *       "_folder1_file_name" --> "folder1_file_name"
+ *       "_folder2_file_name" --> "folder2_file_name"
+ *  2. error because function redefined in same file
+ *       will look into overloading
+ **/
