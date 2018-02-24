@@ -76,9 +76,7 @@ MufFunctions::loadFile(
 	qDebug() << fileInfo << fileBody;
 
 	loadFunctions(fileInfo, fileBody);
-
-
-
+	// TODO: manage conflicts
 	return true;
 }
 

@@ -96,6 +96,14 @@
     "translation": "Copy Result"
 },
 {
+    "id": "add",
+    "translation": "Add"
+},
+{
+    "id": "remove",
+    "translation": "Remove"
+},
+{
     "id": "",
     "translation": ""
 }

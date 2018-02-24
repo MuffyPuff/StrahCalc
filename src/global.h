@@ -14,7 +14,8 @@
 namespace Muf
 {
 
-static MufTranslate translation("en-GB");
+//static MufTranslate translation("en-GB");
+static MufTranslate translation("sl-SI");
 
 static int prec = 12;
 

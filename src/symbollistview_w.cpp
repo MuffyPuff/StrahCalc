@@ -32,6 +32,12 @@ SymbolListView_w::SymbolListView_w(QStringList header, QWidget* parent) :
 		mModel->setHeaderData(i, Qt::Horizontal, header.at(i));
 	}
 	mModel->removeRow(0);
+
+	// rename labels and buttons
+	ui->add_b->setText(Muf::translation("add"));
+	ui->remove_b->setText(Muf::translation("remove"));
+	ui->name_l->setText(Muf::translation("name"));
+	ui->value_l->setText(Muf::translation("value"));
 }
 
 SymbolListView_w::~SymbolListView_w()
