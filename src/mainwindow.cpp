@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include <QDebug>
+#include <QStandardPaths>
 
 #include "klfbackend.h"
 
@@ -125,6 +126,11 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(mConstList, SIGNAL(remSym(const QString&)),
 	        this, SLOT(removeConstant(const QString&)));
 
+	fnDirList.append(QDir::cleanPath(
+	                         QDir::current().absolutePath() +
+	                         "/../StrahCalc/functions/"));
+
+	mFnLoader = new MufFunctions(fnDirList, mExprtk, this);
 
 	ui->eqnInput->setFocus();
 	ui->statusBar->showMessage(Muf::translation("wait"));
@@ -188,6 +194,7 @@ MainWindow::~MainWindow()
 {
 	delete mPreviewBuilderThread;
 	delete mExprtk;
+	delete mFnLoader;
 	delete ui;
 }
 
@@ -196,6 +203,9 @@ MainWindow::handleExprtkError()
 {
 	// TODO: halt render
 //	QList<exprtk::parser_error::type> errors = mExprtk->error_list;
+//	foreach (exprtk::parser_error::type err, errors) {
+//		qDebug() << "line:" << err.line_no << err.diagnostic;
+//	}
 	ui->statusBar->showMessage(Muf::translation("calc_err_general"));
 }
 

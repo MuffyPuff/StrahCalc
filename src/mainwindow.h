@@ -10,6 +10,7 @@
 #include "mufexprtkbackend.h"
 
 #include "symbollistview_w.h"
+#include "muffunctions.h"
 #include "global.h"
 
 namespace Ui
@@ -64,7 +65,9 @@ private:
 	QPixmap         pixmap;
 	double          rawValue;
 	QString         roundValue;
+	MufFunctions*   mFnLoader;
 
+	QList<QString>  fnDirList;
 	QStringList     header;
 
 	SymbolListView_w* mVarList;
