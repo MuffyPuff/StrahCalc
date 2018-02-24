@@ -73,7 +73,7 @@ MufFunctions::loadFile(
         const QFileInfo& fileInfo,
         const QStringList& fileBody)
 {
-	qDebug() << fileInfo << fileBody;
+//	qDebug() << fileInfo << fileBody;
 
 	loadFunctions(fileInfo, fileBody);
 	// TODO: manage conflicts
@@ -85,50 +85,33 @@ MufFunctions::loadFunctions(
         const QFileInfo& fileInfo,
         const QStringList& fileBody)
 {
-//	qint16 index = 0;
-//	while ((index = body.indexOf(fnToken, index + 1)) > -1) {
-////            qDebug() << index;
-//		QString line = body;
-//		line.remove(0, index);
-//		line = line.section('\n', 0, 0);
-//		qDebug() << line;
-//		line.remove(0, 4);
-//		QString fname = line;
-//		fname.truncate(fname.indexOf("("));
-//		QString args = line;
-//		args.remove(0, args.indexOf("(") + 1);
-//		args.chop(2);
-//		qDebug() << "hopefully the fn name:" << fname;
-//		qDebug() << "with args:" << args;
-//	}
-
 	muf_function_t* fn;
 	foreach (QString line, fileBody) {
 		if (line.startsWith(fnToken)) {
-			qDebug() << line;
+//			qDebug() << line;
 			line.remove(0, 4);
 			QStringList def = line.split('(');
 			QString fname = def.at(0);
 			QString arg = def.at(1);
 			arg.chop(2);
 			QStringList args = arg.split(", ");
-			qDebug() << "hopefully the fn name:" << fname;
-			qDebug() << "with args:" << args;
+//			qDebug() << "hopefully the fn name:" << fname;
+//			qDebug() << "with args:" << args;
 			fn = new muf_function_t();
 			fnList.append(fn);
 			fn->args = args;
 			fn->name = fname;
 			fn->fileInfo = fileInfo;
 		} else if (line.startsWith('\t')) {
-			qDebug() << line;
+//			qDebug() << line;
 			line.remove(0, 1);
 			fn->body += line;
 		}
 	}
 
 	foreach (muf_function_t* fn, fnList) {
-		qDebug() << fn->fileInfo;
-		qDebug() << fn->name << fn->args << fn->body;
+//		qDebug() << fn->fileInfo;
+//		qDebug() << fn->name << fn->args << fn->body;
 		mExprtk->addFunction(fn->name, fn->body, fn->args);
 	}
 

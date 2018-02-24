@@ -30,6 +30,15 @@ public:
 	explicit MainWindow(QWidget* parent = 0);
 	~MainWindow();
 
+private:
+//	QString         roundFloat(double value, int count = 0);
+	bool            initKLF();
+	bool            initExprtk();
+	bool            initUI();
+	bool            initCalcView();
+	bool            initSymView();
+	bool            initFnView();
+
 private slots:
 	void            handleExprtkError();
 //	void            updatePreviewBuilderThreadInput(const double &res);
@@ -50,9 +59,6 @@ private slots:
 
 signals:
 	void            resultAvailable();
-
-private:
-//	QString         roundFloat(double value, int count = 0);
 
 private:
 	Ui::MainWindow* ui;
