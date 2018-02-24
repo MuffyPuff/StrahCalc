@@ -37,7 +37,6 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(this, &MainWindow::resultAvailable,
 	        this, &MainWindow::updatePreviewBuilderThreadInput,
 	        Qt::QueuedConnection);
-
 }
 
 MainWindow::~MainWindow()
