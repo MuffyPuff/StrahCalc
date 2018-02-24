@@ -14,7 +14,8 @@
 namespace Muf
 {
 
-static MufTranslate translation("en-GB");
+//static MufTranslate translation("en-GB");
+static MufTranslate translation("sl-SI");
 
 static int prec = 12;
 
@@ -33,6 +34,19 @@ roundFloat(const double& value, int count = 0)
 		                       'g', prec);
 	}
 }
+
+typedef double                                  num_t;
+typedef std::string                             str_t;
+typedef std::vector<num_t>                      vec_t;
+
+template<typename T>
+struct symbol_t {
+	symbol_t(str_t n, const T& v)
+	        : name(n), value(new T(v)) {}
+	str_t           name;
+	T*              value;
+};
+
 
 }
 

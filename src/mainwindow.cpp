@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include <QDebug>
+#include <QStandardPaths>
 
 #include "klfbackend.h"
 
@@ -17,6 +18,39 @@ MainWindow::MainWindow(QWidget* parent) :
 {
 	ui->setupUi(this);
 
+	if (initKLF()) {}
+	if (initExprtk()) {}
+
+	if (initUI()) {}
+
+	if (initSymView()) {}
+	if (initFnView()) {}
+	if (initCalcView()) {}
+
+	qDebug() << Muf::translation("language_code");
+
+	// update variables when computation ends
+	connect(this, &MainWindow::resultAvailable,
+	        this, &MainWindow::updateVariableDisplay,
+	        Qt::QueuedConnection);
+	// start rendering result
+	connect(this, &MainWindow::resultAvailable,
+	        this, &MainWindow::updatePreviewBuilderThreadInput,
+	        Qt::QueuedConnection);
+
+}
+
+MainWindow::~MainWindow()
+{
+	delete mPreviewBuilderThread;
+	delete mExprtk;
+	delete mFnLoader;
+	delete ui;
+}
+
+bool
+MainWindow::initKLF()
+{
 	input.mathmode = "\\[ ... \\]";
 //	input.bypassTemplate = true;
 
@@ -24,10 +58,9 @@ MainWindow::MainWindow(QWidget* parent) :
 	ui->label->setMinimumHeight(input.dpi / 2);
 
 //	input.bg_color = qRgba(225, 225, 225, 225);
-//	input.bg_color = qRgba(0x33, 0x33, 0x33, 255);
-//	input.fg_color = qRgba(255, 255, 255, 255 * 0.70);
-	input.preamble =
-	        QString("\\usepackage{amssymb,amsmath,mathrsfs}");
+	input.bg_color = qRgba(0x44, 0x44, 0x44, 255);
+	input.fg_color = qRgba(255, 255, 255, 255 * 0.70);
+	input.preamble = QString("\\usepackage{amssymb,amsmath,mathrsfs}");
 
 	if (!KLFBackend::detectSettings(&settings, "./texlive")) {
 		qDebug() << "unable to find LaTeX in default directories.";
@@ -37,47 +70,36 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	// setup variables:
 	mPreviewBuilderThread = new KLFPreviewBuilderThread(this, input, settings);
-	mExprtk = new MufExprtkBackend(this, input.latex);
 
-	qDebug() << Muf::translation("language_code");
-
-	// update equation in exprtl on return
-	connect(ui->eqnInput, &QLineEdit::returnPressed,
-	        this, &MainWindow::updateExprtkInput,
-	        Qt::QueuedConnection);
-	// update history on return
-	connect(ui->eqnInput, &QLineEdit::returnPressed,
-	        this, &MainWindow::updateHistory,
-	        Qt::QueuedConnection);
-	// store result from exprtk
-	connect(mExprtk, &MufExprtkBackend::resultAvailable,
-	        this, &MainWindow::getResult,
-	        Qt::QueuedConnection);
-	// update variables when computation ends
-	connect(this, &MainWindow::resultAvailable,
-	        this, &MainWindow::updateVariableDisplay,
-	        Qt::QueuedConnection);
-	// start rendering result
-	connect(this, &MainWindow::resultAvailable,
-	        this, &MainWindow::updatePreviewBuilderThreadInput,
-	        Qt::QueuedConnection);
-	// handle exprtk errors
-	connect(mExprtk, &MufExprtkBackend::error,
-	        this, &MainWindow::handleExprtkError,
-	        Qt::QueuedConnection);
 	// display updated expression image
 	connect(mPreviewBuilderThread,
 	        &KLFPreviewBuilderThread::previewAvailable,
 	        this, &MainWindow::showRealTimePreview,
 	        Qt::QueuedConnection);
-	// copy to clipboard
-	connect(ui->clipBtnEq, &QAbstractButton::clicked,
-	        this, &MainWindow::copyEqToClipboard);
-	connect(ui->clipBtnRes, &QAbstractButton::clicked,
-	        this, &MainWindow::copyResToClipboard);
-//	connect(ui->, SIGNAL(clicked()),
-//	        this, SLOT());
 
+	return true;
+}
+
+bool
+MainWindow::initExprtk()
+{
+	mExprtk = new MufExprtkBackend(this, input.latex);
+
+	// store result from exprtk
+	connect(mExprtk, &MufExprtkBackend::resultAvailable,
+	        this, &MainWindow::getResult,
+	        Qt::QueuedConnection);
+	// handle exprtk errors
+	connect(mExprtk, &MufExprtkBackend::error,
+	        this, &MainWindow::handleExprtkError,
+	        Qt::QueuedConnection);
+
+	return true;
+}
+
+bool
+MainWindow::initUI()
+{
 	QMenu* menu = ui->menuBar->addMenu(Muf::translation("tools"));
 //	QToolBar *toolBar = addToolBar(Muf::translation("tools"));
 	QAction* act = new QAction(Muf::translation("options"), this);
@@ -97,16 +119,41 @@ MainWindow::MainWindow(QWidget* parent) :
 	REP(i, header.size()) {
 		ui->tabWidget->setTabText(i, header.at(i));
 	}
-//	ui->tabWidget->setTabText(0, Muf::translation("calc"));
-//	ui->tabWidget->setTabText(1, Muf::translation("calc_adv"));
-//	ui->tabWidget->setTabText(3, Muf::translation("vars"));
-//	ui->tabWidget->setTabText(4, Muf::translation("consts"));
-//	ui->tabWidget->setTabText(5, Muf::translation("history"));
+
+	return true;
+}
+
+bool
+MainWindow::initCalcView()
+{
+	// update equation in exprtk on return
+	connect(ui->eqnInput, &QLineEdit::returnPressed,
+	        this, &MainWindow::updateExprtkInput,
+	        Qt::QueuedConnection);
+	// update history on return
+	connect(ui->eqnInput, &QLineEdit::returnPressed,
+	        this, &MainWindow::updateHistory,
+	        Qt::QueuedConnection);
+
+	// copy to clipboard
+	connect(ui->clipBtnEq, &QAbstractButton::clicked,
+	        this, &MainWindow::copyEqToClipboard);
+	connect(ui->clipBtnRes, &QAbstractButton::clicked,
+	        this, &MainWindow::copyResToClipboard);
 
 	ui->clipBtnEq->setText(Muf::translation("copy_img"));
 	ui->clipBtnRes->setText(Muf::translation("copy_res"));
 
-	// sybol view init
+	ui->eqnInput->setFocus();
+	ui->statusBar->showMessage(Muf::translation("wait"));
+
+	return true;
+}
+
+bool
+MainWindow::initSymView()
+{
+	// var init
 	mVarList   = new SymbolListView_w({Muf::translation("name"), Muf::translation("value")},
 	                                  this);
 	mConstList = new SymbolListView_w({Muf::translation("name"), Muf::translation("value")},
@@ -125,9 +172,20 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(mConstList, SIGNAL(remSym(const QString&)),
 	        this, SLOT(removeConstant(const QString&)));
 
+	return true;
+}
 
-	ui->eqnInput->setFocus();
-	ui->statusBar->showMessage(Muf::translation("wait"));
+// TODO: convert functions to view
+bool
+MainWindow::initFnView()
+{
+	fnDirList.append(QDir::cleanPath(
+	                         QDir::current().absolutePath() +
+	                         "/../StrahCalc/functions/"));
+
+	mFnLoader = new MufFunctions(fnDirList, mExprtk, this);
+
+	return true;
 }
 
 void
@@ -184,18 +242,14 @@ MainWindow::copyResToClipboard()
 	ui->statusBar->showMessage(Muf::translation("res_copied"));
 }
 
-MainWindow::~MainWindow()
-{
-	delete mPreviewBuilderThread;
-	delete mExprtk;
-	delete ui;
-}
-
 void
 MainWindow::handleExprtkError()
 {
 	// TODO: halt render
 //	QList<exprtk::parser_error::type> errors = mExprtk->error_list;
+//	foreach (exprtk::parser_error::type err, errors) {
+//		qDebug() << "line:" << err.line_no << err.diagnostic;
+//	}
 	ui->statusBar->showMessage(Muf::translation("calc_err_general"));
 }
 
@@ -217,13 +271,16 @@ MainWindow::updatePreviewBuilderThreadInput()
 	 * TODO: some assignment stuff
 	 **/
 
+
 	input.latex = ui->eqnInput->text() +
 	              " = " +
 	              roundValue;
 	if (mPreviewBuilderThread->inputChanged(input)) {
 		qDebug() << "input changed. Render...";
 		ui->statusBar->showMessage(Muf::translation("rendering"));
+//		qDebug() << "input changed. displayed message";
 		mPreviewBuilderThread->start();
+//		qDebug() << "input changed. started";
 	} else {
 		ui->statusBar->showMessage(Muf::translation("done"));
 	}

@@ -10,6 +10,7 @@
 #include "mufexprtkbackend.h"
 
 #include "symbollistview_w.h"
+#include "muffunctions.h"
 #include "global.h"
 
 namespace Ui
@@ -28,6 +29,15 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget* parent = 0);
 	~MainWindow();
+
+private:
+//	QString         roundFloat(double value, int count = 0);
+	bool            initKLF();
+	bool            initExprtk();
+	bool            initUI();
+	bool            initCalcView();
+	bool            initSymView();
+	bool            initFnView();
 
 private slots:
 	void            handleExprtkError();
@@ -51,9 +61,6 @@ signals:
 	void            resultAvailable();
 
 private:
-//	QString         roundFloat(double value, int count = 0);
-
-private:
 	Ui::MainWindow* ui;
 	KLFPreviewBuilderThread* mPreviewBuilderThread;
 	KLFInput        input;
@@ -64,7 +71,9 @@ private:
 	QPixmap         pixmap;
 	double          rawValue;
 	QString         roundValue;
+	MufFunctions*   mFnLoader;
 
+	QList<QString>  fnDirList;
 	QStringList     header;
 
 	SymbolListView_w* mVarList;

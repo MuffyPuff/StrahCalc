@@ -17,7 +17,7 @@
 },
 {
     "id": "res_copied",
-    "translation": "Rezultat je bil skopirana v clipboard."
+    "translation": "Rezultat je bil skopiran` v clipboard."
 },
 {
     "id": "rendering",
@@ -94,6 +94,14 @@
 {
     "id": "copy_res",
     "translation": "Kopiraj Rezultat"
+},
+{
+    "id": "add",
+    "translation": "Dodaj"
+},
+{
+    "id": "remove",
+    "translation": "Odstrani"
 },
 {
     "id": "",

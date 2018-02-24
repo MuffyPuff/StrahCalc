@@ -8,6 +8,8 @@
 #include <string>
 
 #include "global.h"
+// TODO: REMOVE!!!!!!
+#include "mufexprtkbackend.h" // TEMP!!!!
 
 namespace Ui
 {
@@ -18,7 +20,17 @@ class SymbolListView_w : public QWidget
 {
 	Q_OBJECT
 
-	typedef QPair<std::string, double*>        symbol_t;
+//	typedef QPair<std::string, double*>        symbol_t;
+//	//definition from MufExprtkBackend
+//	template<typename T>
+//	struct symbol_t {
+//		symbol_t(str_t n, const T& v)
+//		        : name(n), value(new T(v)) {}
+//		str_t           name;
+//		T*              value;
+//	};
+	// TEMPPPP!!!!!!!!!
+	// TODO: REMOVE
 
 public:
 	explicit SymbolListView_w(QStringList header, QWidget* parent = 0);
@@ -27,7 +39,7 @@ public:
 	enum class Direction {UP, DOWN, LEFT, RIGHT};
 	Q_ENUM(Direction)
 
-	bool            setList(const QList<QPair<std::string, double*>>& list);
+	bool            setList(const QList<MufExprtkBackend::symbol_t<double>>& list);
 
 //	bool            setHeaderText(const int &index, const Qstring &text);
 //	QStringList     header;
@@ -37,7 +49,6 @@ public slots:
 	bool            removeItem();
 
 signals:
-
 	void            addSym(const QString&, const double&);
 	void            remSym(const QString&);
 

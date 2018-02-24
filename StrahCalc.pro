@@ -17,12 +17,14 @@ TEMPLATE = app
 SOURCES += \
         src/main.cpp\
         src/mainwindow.cpp \
-        src/symbollistview_w.cpp
+        src/symbollistview_w.cpp \
+        src/muffunctions.cpp
 
 HEADERS  += \
         src/mainwindow.h \
         src/symbollistview_w.h \
-        src/global.h
+        src/global.h \
+        src/muffunctions.h
 
 FORMS    += \
         src/mainwindow.ui \
@@ -69,5 +71,6 @@ include(../MufTranslate/MufTranslate.pri)
 
 DISTFILES += \
           $$PWD/lang/en-GB.json \
-          $$PWD/lang/sl-SI.json
+          $$PWD/lang/sl-SI.json \
+    lang/functions
 
