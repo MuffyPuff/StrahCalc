@@ -43,7 +43,7 @@ MufFunctions::loadDir(const QDir& dir)
 //	foreach (QString s, dir.entryList()) {
 //		loadFile(QDir(dir.absoluteFilePath(s)));
 //	}
-	qDebug() << dir.absolutePath();
+//	qDebug() << dir.absolutePath();
 	foreach (QFileInfo fn, dir.entryInfoList()) {
 		if (fn.isFile()) {
 			QFile func(fn.absoluteFilePath());
