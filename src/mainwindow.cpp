@@ -37,6 +37,8 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(this, &MainWindow::resultAvailable,
 	        this, &MainWindow::updatePreviewBuilderThreadInput,
 	        Qt::QueuedConnection);
+
+	mExprtk->start();
 }
 
 MainWindow::~MainWindow()
@@ -301,7 +303,7 @@ MainWindow::updateExprtkInput()
 	if (mExprtk->inputChanged(input)) {
 		qDebug() << "input changed. Calculate...";
 		ui->statusBar->showMessage(Muf::translation("calculating"));
-		mExprtk->start();
+//		mExprtk->start();
 	}
 }
 
