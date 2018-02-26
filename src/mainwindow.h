@@ -51,6 +51,7 @@ private slots:
 //	void            addNewVariable();
 	void            getResult(double value);
 	void            updateVariableDisplay();
+	void            updateConstantDisplay();
 
 	void            addVariable(const QString& name, const double& value);
 	void            removeVariable(const QString& name);

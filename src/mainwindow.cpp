@@ -161,6 +161,9 @@ MainWindow::initSymView()
 	ui->varList_t->layout()->addWidget(mVarList);
 	ui->constList_t->layout()->addWidget(mConstList);
 
+	updateVariableDisplay();
+	updateConstantDisplay();
+
 	// add symbols from view to exprtk
 	connect(mVarList, SIGNAL(addSym(const QString&, const double&)),
 	        this, SLOT(addVariable(const QString&, const double&)));
@@ -199,6 +202,12 @@ void
 MainWindow::updateVariableDisplay()
 {
 	mVarList->setList(mExprtk->getVariables());
+}
+
+void
+MainWindow::updateConstantDisplay()
+{
+	mConstList->setList(mExprtk->getConstants());
 }
 
 void
