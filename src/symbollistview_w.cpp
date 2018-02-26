@@ -43,8 +43,9 @@ SymbolListView_w::SymbolListView_w(QStringList header, QWidget* parent) :
 SymbolListView_w::~SymbolListView_w()
 {
 	for (int row = 0; row < mModel->rowCount(); ++row) {
-		foreach (QStandardItem* i, mModel->takeRow(row)) {
+		for (auto& i : mModel->takeRow(row)) {
 			delete i;
+			i = nullptr;
 		}
 	}
 	mModel->clear();
@@ -91,8 +92,9 @@ SymbolListView_w::removeItem()
 bool
 SymbolListView_w::removeItem(const int& row)
 {
-	foreach (QStandardItem* i, mModel->takeRow(row)) {
+	for (auto& i : mModel->takeRow(row)) {
 		delete i;
+		i = nullptr;
 	}
 	mModel->removeRow(row);
 	return true;
@@ -129,7 +131,7 @@ SymbolListView_w::setList(const QList<MufExprtkBackend::symbol_t<double>>& list)
 //	mModel->clear(); works but clears header
 //	qDebug() << list.size();
 	mModel->removeRows(0, mModel->rowCount());
-	foreach (auto el, list) {
+	for (auto& el : list) {
 		mModel->appendRow({
 		        new QStandardItem(QString::fromStdString(el.name)),
 		        new QStandardItem(Muf::roundFloat(*el.value))
