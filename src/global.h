@@ -29,9 +29,10 @@ roundFloat(const double& value, int count = 0)
 	if (qFuzzyCompare(1 + whole, 1 + value)) {
 		return QString::number(whole, 'g', prec);
 	} else {
-		return QString::number(roundFloat(value * 10,
-		                                  count + 1).toDouble() * 0.1,
-		                       'g', prec);
+		return QString::number(
+		               roundFloat(value * 10,
+		                          count + 1).toDouble() * 0.1,
+		               'g', prec);
 	}
 }
 
@@ -39,13 +40,13 @@ typedef double                                  num_t;
 typedef std::string                             str_t;
 typedef std::vector<num_t>                      vec_t;
 
-template<typename T>
-struct symbol_t {
-	symbol_t(str_t n, const T& v)
-	        : name(n), value(new T(v)) {}
-	str_t           name;
-	T*              value;
-};
+//template<typename T>
+//struct symbol_t {
+//	symbol_t(str_t n, const T& v)
+//	        : name(n), value(new T(v)) {}
+//	str_t           name;
+//	T               value;
+//};
 
 
 }
