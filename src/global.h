@@ -1,6 +1,8 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#include <QSettings>
+
 #include "muftranslate.h"
 
 #include <cmath>
@@ -16,6 +18,8 @@ namespace Muf
 
 //static MufTranslate translation("en-GB");
 static MufTranslate translation("sl-SI");
+
+static QSettings settings;
 
 static int prec = 12;
 
