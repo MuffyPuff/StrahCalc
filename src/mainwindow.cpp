@@ -257,7 +257,7 @@ MainWindow::handleExprtkError()
 {
 	// TODO: halt render
 //	QList<exprtk::parser_error::type> errors = mExprtk->error_list;
-//	foreach (exprtk::parser_error::type err, errors) {
+//	for (exprtk::parser_error::type err : errors) {
 //		qDebug() << "line:" << err.line_no << err.diagnostic;
 //	}
 	ui->statusBar->showMessage(Muf::translation("calc_err_general"));

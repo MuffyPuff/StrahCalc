@@ -22,7 +22,7 @@ MufFunctions::MufFunctions(
         : QObject(parent)
 {
 	mExprtk = exprtk;
-	foreach (QString s, dirList) {
+	for (const auto& s : dirList) {
 		fnDirList.append(QDir(s));
 		loadDir(fnDirList.back());
 	}
@@ -30,7 +30,7 @@ MufFunctions::MufFunctions(
 
 MufFunctions::~MufFunctions()
 {
-	foreach (muf_function_t* fn, fnList) {
+	for (auto& fn : fnList) {
 		delete fn;
 		fn = nullptr;
 	}
@@ -40,11 +40,11 @@ MufFunctions::~MufFunctions()
 bool
 MufFunctions::loadDir(const QDir& dir)
 {
-//	foreach (QString s, dir.entryList()) {
+//	for (QString s : dir.entryList()) {
 //		loadFile(QDir(dir.absoluteFilePath(s)));
 //	}
 //	qDebug() << dir.absolutePath();
-	foreach (QFileInfo fn, dir.entryInfoList()) {
+	for (auto& fn : dir.entryInfoList()) {
 		if (fn.isFile()) {
 			QFile func(fn.absoluteFilePath());
 			func.open(QIODevice::ReadOnly);
@@ -86,7 +86,7 @@ MufFunctions::loadFunctions(
         const QStringList& fileBody)
 {
 	muf_function_t* fn;
-	foreach (QString line, fileBody) {
+	for (QString line : fileBody) {
 		if (line.startsWith(fnToken)) {
 //			qDebug() << line;
 			line.remove(0, 4);
@@ -109,7 +109,7 @@ MufFunctions::loadFunctions(
 		}
 	}
 
-	foreach (muf_function_t* fn, fnList) {
+	for (auto& fn : fnList) {
 //		qDebug() << fn->fileInfo;
 //		qDebug() << fn->name << fn->args << fn->body;
 		mExprtk->addFunction(fn->name, fn->body, fn->args);
@@ -117,37 +117,3 @@ MufFunctions::loadFunctions(
 
 	return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
