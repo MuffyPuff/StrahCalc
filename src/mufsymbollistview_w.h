@@ -1,5 +1,5 @@
-#ifndef SYMBOLLISTVIEW_W_H
-#define SYMBOLLISTVIEW_W_H
+#ifndef MUFSYMBOLLISTVIEW_W_H
+#define MUFSYMBOLLISTVIEW_W_H
 
 #include <QWidget>
 #include <QStandardItemModel>
@@ -13,16 +13,16 @@
 
 namespace Ui
 {
-class SymbolListView_w;
+class MufSymbolListView_w;
 }
 
-class SymbolListView_w : public QWidget
+class MufSymbolListView_w : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit SymbolListView_w(QStringList header, QWidget* parent = 0);
-	~SymbolListView_w();
+	explicit MufSymbolListView_w(QStringList header, QWidget* parent = 0);
+	~MufSymbolListView_w();
 
 	enum class Direction {UP, DOWN, LEFT, RIGHT};
 	Q_ENUM(Direction)
@@ -50,8 +50,8 @@ protected:
 
 
 protected:
-	Ui::SymbolListView_w* ui;
+	Ui::MufSymbolListView_w* ui;
 	QStandardItemModel* mModel;
 };
 
-#endif // SYMBOLLISTVIEW_W_H
+#endif // MUFSYMBOLLISTVIEW_W_H

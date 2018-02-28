@@ -9,7 +9,7 @@
 
 #include "mufexprtkbackend.h"
 
-#include "symbollistview_w.h"
+#include "mufsymbollistview_w.h"
 #include "mufsettings_w.h"
 #include "muffunctions.h"
 #include "mufmenu.h"
@@ -85,8 +85,8 @@ private:
 	QList<QString>  fnDirList;
 	QStringList     header;
 
-	SymbolListView_w* mVarList;
-	SymbolListView_w* mConstList;
+	MufSymbolListView_w* mVarList;
+	MufSymbolListView_w* mConstList;
 
 	MufSettings_w*  mSettings;
 };

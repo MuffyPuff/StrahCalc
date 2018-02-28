@@ -1,5 +1,5 @@
-#include "symbollistview_w.h"
-#include "ui_symbollistview_w.h"
+#include "mufsymbollistview_w.h"
+#include "ui_mufsymbollistview_w.h"
 
 #include <QDebug>
 
@@ -9,9 +9,9 @@
  */
 
 
-SymbolListView_w::SymbolListView_w(QStringList header, QWidget* parent) :
+MufSymbolListView_w::MufSymbolListView_w(QStringList header, QWidget* parent) :
         QWidget(parent),
-        ui(new Ui::SymbolListView_w)
+        ui(new Ui::MufSymbolListView_w)
 {
 	ui->setupUi(this);
 
@@ -40,7 +40,7 @@ SymbolListView_w::SymbolListView_w(QStringList header, QWidget* parent) :
 	ui->value_l->setText(Muf::translation("value"));
 }
 
-SymbolListView_w::~SymbolListView_w()
+MufSymbolListView_w::~MufSymbolListView_w()
 {
 	for (int row = 0; row < mModel->rowCount(); ++row) {
 		for (auto& i : mModel->takeRow(row)) {
@@ -53,7 +53,7 @@ SymbolListView_w::~SymbolListView_w()
 }
 
 bool
-SymbolListView_w::addItem()
+MufSymbolListView_w::addItem()
 {
 	QString name  = ui->name_i->text();
 	QString value = ui->value_i->text();
@@ -64,21 +64,21 @@ SymbolListView_w::addItem()
 }
 
 bool
-SymbolListView_w::addItem(QList<QStandardItem*> item)
+MufSymbolListView_w::addItem(QList<QStandardItem*> item)
 {
 	mModel->appendRow(item);
 	return true;
 }
 
 bool
-SymbolListView_w::addItem(const int& row, QList<QStandardItem*> item)
+MufSymbolListView_w::addItem(const int& row, QList<QStandardItem*> item)
 {
 	mModel->insertRow(row, item);
 	return true;
 }
 
 bool
-SymbolListView_w::removeItem()
+MufSymbolListView_w::removeItem()
 {
 	QModelIndex index = ui->list->selectionModel()->currentIndex();
 	if (index.data().toString() == "") {
@@ -90,7 +90,7 @@ SymbolListView_w::removeItem()
 }
 
 bool
-SymbolListView_w::removeItem(const int& row)
+MufSymbolListView_w::removeItem(const int& row)
 {
 	for (auto& i : mModel->takeRow(row)) {
 		delete i;
@@ -101,7 +101,7 @@ SymbolListView_w::removeItem(const int& row)
 }
 
 bool
-SymbolListView_w::editItem(const int& row, QList<QStandardItem*> item)
+MufSymbolListView_w::editItem(const int& row, QList<QStandardItem*> item)
 {
 	for (int i = 0; i < item.size(); ++i) {
 		mModel->setItem(row, i, item.at(i));
@@ -110,14 +110,15 @@ SymbolListView_w::editItem(const int& row, QList<QStandardItem*> item)
 }
 
 bool
-SymbolListView_w::editItem(const int& row, const int& col, QStandardItem* item)
+MufSymbolListView_w::editItem(const int& row, const int& col,
+                              QStandardItem* item)
 {
 	mModel->setItem(row, col, item);
 	return true;
 }
 
 bool
-SymbolListView_w::moveItem(const int& row, SymbolListView_w::Direction d)
+MufSymbolListView_w::moveItem(const int& row, MufSymbolListView_w::Direction d)
 {
 	// TODO: implement moveItem
 	Q_UNUSED(row)
@@ -126,7 +127,8 @@ SymbolListView_w::moveItem(const int& row, SymbolListView_w::Direction d)
 }
 
 bool
-SymbolListView_w::setList(const QList<MufExprtkBackend::symbol_t<double>>& list)
+MufSymbolListView_w::setList(const QList<MufExprtkBackend::symbol_t<double>>&
+                             list)
 {
 //	mModel->clear(); works but clears header
 //	qDebug() << list.size();
