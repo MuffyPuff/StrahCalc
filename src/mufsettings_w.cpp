@@ -1,5 +1,5 @@
 #include "mufsettings_w.h"
-#include "ui_settings_w.h"
+#include "ui_mufsettings_w.h"
 
 MufSettings_w::MufSettings_w(QDialog* parent) :
         QDialog(parent),

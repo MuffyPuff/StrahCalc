@@ -193,10 +193,10 @@ bool
 MainWindow::initSymView()
 {
 	// var init
-	mVarList   = new SymbolListView_w({Muf::translation("name"), Muf::translation("value")},
-	                                  this);
-	mConstList = new SymbolListView_w({Muf::translation("name"), Muf::translation("value")},
-	                                  this);
+	mVarList   = new MufSymbolListView_w({Muf::translation("name"), Muf::translation("value")},
+	                                     this);
+	mConstList = new MufSymbolListView_w({Muf::translation("name"), Muf::translation("value")},
+	                                     this);
 
 	ui->varList_t->layout()->addWidget(mVarList);
 	ui->constList_t->layout()->addWidget(mConstList);
@@ -235,6 +235,8 @@ MainWindow::initSettingsView()
 {
 
 	mSettings = new MufSettings_w();
+
+	return true;
 }
 
 void
