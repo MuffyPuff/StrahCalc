@@ -92,8 +92,16 @@
     "translation": "Copy Image"
 },
 {
+    "id": "copy_img_long",
+    "translation": "Copy image to clipboard"
+},
+{
     "id": "copy_res",
     "translation": "Copy Result"
+},
+{
+    "id": "copy_res_long",
+    "translation": "Copy result to clipboard"
 },
 {
     "id": "add",
@@ -102,6 +110,26 @@
 {
     "id": "remove",
     "translation": "Remove"
+},
+{
+    "id": "clear",
+    "translation": "Clear"
+},
+{
+    "id": "clear_long",
+    "translation": "Clear result"
+},
+{
+    "id": "settings",
+    "translation": "Settings"
+},
+{
+    "id": "settings_long",
+    "translation": "Open settings"
+},
+{
+    "id": "about",
+    "translation": "About"
 },
 {
     "id": "",

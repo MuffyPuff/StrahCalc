@@ -14,24 +14,28 @@ DEFINES += KLF_SRC_BUILD
 TARGET = StrahCalc
 TEMPLATE = app
 
+CONFIG += c++17
+
 SOURCES += \
         src/main.cpp\
         src/mainwindow.cpp \
         src/symbollistview_w.cpp \
         src/muffunctions.cpp \
-    src/settings_w.cpp
+        src/settings_w.cpp \
+        src/mufmenu.cpp
 
 HEADERS  += \
         src/mainwindow.h \
         src/symbollistview_w.h \
         src/global.h \
         src/muffunctions.h \
-    src/settings_w.h
+        src/settings_w.h \
+        src/mufmenu.h
 
 FORMS    += \
         src/mainwindow.ui \
         src/symbollistview_w.ui \
-    src/settings_w.ui
+        src/settings_w.ui
 
 
 # note that in unix(linux) systems library names are case sensitive
@@ -75,5 +79,5 @@ include(../MufTranslate/MufTranslate.pri)
 DISTFILES += \
           $$PWD/lang/en-GB.json \
           $$PWD/lang/sl-SI.json \
-    lang/functions
+          $$PWD/lang/functions
 

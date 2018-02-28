@@ -17,7 +17,7 @@
 },
 {
     "id": "res_copied",
-    "translation": "Rezultat je bil skopiran` v clipboard."
+    "translation": "Rezultat je bil skopiran v clipboard."
 },
 {
     "id": "rendering",
@@ -92,8 +92,16 @@
     "translation": "Kopiraj Sliko"
 },
 {
+    "id": "copy_img_long",
+    "translation": "Kopiraj sliko v clipboard"
+},
+{
     "id": "copy_res",
     "translation": "Kopiraj Rezultat"
+},
+{
+    "id": "copy_res_long",
+    "translation": "Kopiraj rezultat v clipboard"
 },
 {
     "id": "add",
@@ -102,6 +110,26 @@
 {
     "id": "remove",
     "translation": "Odstrani"
+},
+{
+    "id": "clear",
+    "translation": "Počisti"
+},
+{
+    "id": "clear_long",
+    "translation": "Počisti rezultat"
+},
+{
+    "id": "settings",
+    "translation": "Nastavitve"
+},
+{
+    "id": "settings_long",
+    "translation": "Odpri nastavitve"
+},
+{
+    "id": "about",
+    "translation": "O programu"
 },
 {
     "id": "",
