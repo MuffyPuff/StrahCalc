@@ -38,8 +38,6 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(this, &MainWindow::resultAvailable,
 	        this, &MainWindow::updatePreviewBuilderThreadInput,
 	        Qt::QueuedConnection);
-
-	mExprtk->start();
 }
 
 MainWindow::~MainWindow()
@@ -49,6 +47,7 @@ MainWindow::~MainWindow()
 	delete mFnLoader;
 	delete mMenu;
 	delete ui;
+	this->destroy();
 }
 
 bool
@@ -155,9 +154,8 @@ MainWindow::initMenu()
 	});
 	connect(mMenu->mExit, &QAction::triggered,
 	[ = ]() {
-		this->~MainWindow();
+//		this->~MainWindow();
 		exit(0);
-//		quick_exit(0);
 	});
 
 	return true;
@@ -275,6 +273,7 @@ MainWindow::removeVariable(const QString& name)
 {
 	// TODO: implement removal
 	Q_UNUSED(name);
+	Q_UNIMPLEMENTED();
 }
 
 void
@@ -357,7 +356,7 @@ MainWindow::updateExprtkInput()
 	if (mExprtk->inputChanged(input)) {
 		qDebug() << "input changed. Calculate...";
 		ui->statusBar->showMessage(Muf::translation("calculating"));
-//		mExprtk->start();
+		mExprtk->start();
 	}
 }
 
