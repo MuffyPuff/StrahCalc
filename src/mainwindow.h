@@ -10,6 +10,7 @@
 #include "mufexprtkbackend.h"
 
 #include "symbollistview_w.h"
+#include "mufsettings_w.h"
 #include "muffunctions.h"
 #include "mufmenu.h"
 #include "global.h"
@@ -40,6 +41,7 @@ private:
 	bool            initCalcView();
 	bool            initSymView();
 	bool            initFnView();
+	bool            initSettingsView();
 
 private slots:
 	void            handleExprtkError();
@@ -79,11 +81,14 @@ private:
 	MufFunctions*   mFnLoader;
 	MufMenu*        mMenu;
 
+
 	QList<QString>  fnDirList;
 	QStringList     header;
 
 	SymbolListView_w* mVarList;
 	SymbolListView_w* mConstList;
+
+	MufSettings_w*  mSettings;
 };
 
 #endif // MAINWINDOW_H

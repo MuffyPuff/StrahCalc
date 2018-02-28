@@ -54,3 +54,6 @@ CMakeLists.txt.user*
 
 # local old files i want to keep
 *.bck
+*.old
+src/mufsettings_d.ui
+src/mufsettings_f.ui

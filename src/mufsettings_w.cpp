@@ -1,4 +1,4 @@
-#include "settings_w.h"
+#include "mufsettings_w.h"
 #include "ui_settings_w.h"
 
 settings_w::settings_w(QWidget *parent) :

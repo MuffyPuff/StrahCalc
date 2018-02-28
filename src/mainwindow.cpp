@@ -45,6 +45,7 @@ MainWindow::~MainWindow()
 	delete mPreviewBuilderThread;
 	delete mExprtk;
 	delete mFnLoader;
+	delete mSettings;
 	delete mMenu;
 	delete ui;
 	this->destroy();
@@ -229,6 +230,13 @@ MainWindow::initFnView()
 	return true;
 }
 
+bool
+MainWindow::initSettingsView()
+{
+
+	mSettings = new MufSettings_w();
+}
+
 void
 MainWindow::getResult(double value)
 {
@@ -259,7 +267,7 @@ MainWindow::updateConstantDisplay()
 void
 MainWindow::openSettings()
 {
-	Q_UNIMPLEMENTED();
+	mSettings->show();
 }
 
 void
