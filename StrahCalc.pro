@@ -14,17 +14,21 @@ DEFINES += KLF_SRC_BUILD
 TARGET = StrahCalc
 TEMPLATE = app
 
+CONFIG += c++17
+
 SOURCES += \
         src/main.cpp\
         src/mainwindow.cpp \
         src/symbollistview_w.cpp \
-        src/muffunctions.cpp
+        src/muffunctions.cpp \
+        src/mufmenu.cpp
 
 HEADERS  += \
         src/mainwindow.h \
         src/symbollistview_w.h \
         src/global.h \
-        src/muffunctions.h
+        src/muffunctions.h \
+        src/mufmenu.h
 
 FORMS    += \
         src/mainwindow.ui \

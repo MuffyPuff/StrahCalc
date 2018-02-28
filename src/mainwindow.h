@@ -11,6 +11,7 @@
 
 #include "symbollistview_w.h"
 #include "muffunctions.h"
+#include "mufmenu.h"
 #include "global.h"
 
 namespace Ui
@@ -35,6 +36,7 @@ private:
 	bool            initKLF();
 	bool            initExprtk();
 	bool            initUI();
+	bool            initMenu();
 	bool            initCalcView();
 	bool            initSymView();
 	bool            initFnView();
@@ -50,8 +52,10 @@ private slots:
 	void            copyResToClipboard();
 //	void            addNewVariable();
 	void            getResult(double value);
+	void            clear();
 	void            updateVariableDisplay();
 	void            updateConstantDisplay();
+	void            openSettings();
 
 	void            addVariable(const QString& name, const double& value);
 	void            removeVariable(const QString& name);
@@ -73,6 +77,7 @@ private:
 	double          rawValue;
 	QString         roundValue;
 	MufFunctions*   mFnLoader;
+	MufMenu*        mMenu;
 
 	QList<QString>  fnDirList;
 	QStringList     header;
