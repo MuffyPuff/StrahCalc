@@ -132,6 +132,10 @@
     "translation": "About"
 },
 {
+    "id": "exit",
+    "translation": "Exit"
+},
+{
     "id": "",
     "translation": ""
 }
