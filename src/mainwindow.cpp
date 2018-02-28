@@ -45,6 +45,7 @@ MainWindow::~MainWindow()
 	delete mPreviewBuilderThread;
 	delete mExprtk;
 	delete mFnLoader;
+	delete mSettings;
 	delete mMenu;
 	delete ui;
 	this->destroy();
@@ -192,10 +193,10 @@ bool
 MainWindow::initSymView()
 {
 	// var init
-	mVarList   = new SymbolListView_w({Muf::translation("name"), Muf::translation("value")},
-	                                  this);
-	mConstList = new SymbolListView_w({Muf::translation("name"), Muf::translation("value")},
-	                                  this);
+	mVarList   = new MufSymbolListView_w({Muf::translation("name"), Muf::translation("value")},
+	                                     this);
+	mConstList = new MufSymbolListView_w({Muf::translation("name"), Muf::translation("value")},
+	                                     this);
 
 	ui->varList_t->layout()->addWidget(mVarList);
 	ui->constList_t->layout()->addWidget(mConstList);
@@ -225,6 +226,15 @@ MainWindow::initFnView()
 	                         "/../StrahCalc/functions/"));
 
 	mFnLoader = new MufFunctions(fnDirList, mExprtk, this);
+
+	return true;
+}
+
+bool
+MainWindow::initSettingsView()
+{
+
+	mSettings = new MufSettings_w();
 
 	return true;
 }
@@ -259,7 +269,7 @@ MainWindow::updateConstantDisplay()
 void
 MainWindow::openSettings()
 {
-	Q_UNIMPLEMENTED();
+	mSettings->show();
 }
 
 void

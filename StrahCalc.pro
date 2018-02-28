@@ -18,24 +18,24 @@ CONFIG += c++17
 
 SOURCES += \
         src/main.cpp\
+        src/mufmenu.cpp \
         src/mainwindow.cpp \
-        src/symbollistview_w.cpp \
         src/muffunctions.cpp \
-        src/settings_w.cpp \
-        src/mufmenu.cpp
+        src/mufsettings_w.cpp \
+        src/mufsymbollistview_w.cpp
 
 HEADERS  += \
-        src/mainwindow.h \
-        src/symbollistview_w.h \
         src/global.h \
+        src/mufmenu.h \
+        src/mainwindow.h \
         src/muffunctions.h \
-        src/settings_w.h \
-        src/mufmenu.h
+        src/mufsettings_w.h \
+        src/mufsymbollistview_w.h
 
 FORMS    += \
         src/mainwindow.ui \
-        src/symbollistview_w.ui \
-        src/settings_w.ui
+        src/mufsettings_w.ui \
+        src/mufsymbollistview_w.ui
 
 
 # note that in unix(linux) systems library names are case sensitive
@@ -79,5 +79,5 @@ include(../MufTranslate/MufTranslate.pri)
 DISTFILES += \
           $$PWD/lang/en-GB.json \
           $$PWD/lang/sl-SI.json \
-          $$PWD/lang/functions
+          $$PWD/functions/functions
 
