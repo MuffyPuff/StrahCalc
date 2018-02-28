@@ -1,14 +1,14 @@
 #include "mufsettings_w.h"
 #include "ui_settings_w.h"
 
-settings_w::settings_w(QDialog* parent) :
+MufSettings_w::MufSettings_w(QDialog* parent) :
         QDialog(parent),
-        ui(new Ui::settings_w)
+        ui(new Ui::MufSettings_w)
 {
 	ui->setupUi(this);
 }
 
-settings_w::~settings_w()
+MufSettings_w::~MufSettings_w()
 {
 	delete ui;
 }

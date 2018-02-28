@@ -1,23 +1,23 @@
-#ifndef SETTINGS_W_H
-#define SETTINGS_W_H
+#ifndef MUFSETTINGS_W_H
+#define MUFSETTINGS_W_H
 
 #include <QDialog>
 
 namespace Ui
 {
-class settings_w;
+class MufSettings_w;
 }
 
-class settings_w : public QDialog
+class MufSettings_w : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit settings_w(QDialog* parent = 0);
-	~settings_w();
+	explicit MufSettings_w(QDialog* parent = 0);
+	~MufSettings_w();
 
 private:
-	Ui::settings_w* ui;
+	Ui::MufSettings_w* ui;
 };
 
-#endif // SETTINGS_W_H
+#endif // MUFSETTINGS_W_H
