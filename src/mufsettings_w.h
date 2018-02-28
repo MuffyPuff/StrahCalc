@@ -1,22 +1,23 @@
 #ifndef SETTINGS_W_H
 #define SETTINGS_W_H
 
-#include <QWidget>
+#include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 class settings_w;
 }
 
-class settings_w : public QWidget
+class settings_w : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit settings_w(QWidget *parent = 0);
+	explicit settings_w(QDialog* parent = 0);
 	~settings_w();
 
 private:
-	Ui::settings_w *ui;
+	Ui::settings_w* ui;
 };
 
 #endif // SETTINGS_W_H
