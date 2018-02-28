@@ -5,6 +5,7 @@
 
 #include <QDebug>
 #include <QStandardPaths>
+#include <QMessageBox>
 
 #include "klfbackend.h"
 
@@ -46,6 +47,7 @@ MainWindow::~MainWindow()
 	delete mPreviewBuilderThread;
 	delete mExprtk;
 	delete mFnLoader;
+	delete mMenu;
 	delete ui;
 }
 
@@ -101,11 +103,13 @@ MainWindow::initExprtk()
 bool
 MainWindow::initUI()
 {
-	QMenu* menu = ui->menuBar->addMenu(Muf::translation("tools"));
-//	QToolBar *toolBar = addToolBar(Muf::translation("tools"));
-	QAction* act = new QAction(Muf::translation("options"), this);
-	menu->addAction(act);
-//	toolBar->addAction(act);
+//	QMenu* menu = ui->menuBar->addMenu(Muf::translation("tools"));
+////    QToolBar *toolBar = addToolBar(Muf::translation("tools"));
+//	QAction* act = new QAction(Muf::translation("options"), this);
+//	menu->addAction(act);
+////    toolBar->addAction(act);
+
+	initMenu();
 
 	header.clear();
 	header.append({
@@ -120,6 +124,41 @@ MainWindow::initUI()
 	REP(i, header.size()) {
 		ui->tabWidget->setTabText(i, header.at(i));
 	}
+
+	return true;
+}
+
+bool
+MainWindow::initMenu()
+{
+	mMenu = new MufMenu(ui->menuBar, this);
+
+	connect(mMenu->mClear, &QAction::triggered,
+	        this, &MainWindow::clear,
+	        Qt::QueuedConnection);
+	connect(mMenu->mCopyImg, &QAction::triggered,
+	        this, &MainWindow::copyEqToClipboard,
+	        Qt::QueuedConnection);
+	connect(mMenu->mCopyRes, &QAction::triggered,
+	        this, &MainWindow::copyResToClipboard,
+	        Qt::QueuedConnection);
+	connect(mMenu->mSettings, &QAction::triggered,
+	        this, &MainWindow::openSettings,
+	        Qt::QueuedConnection);
+	connect(mMenu->mAbout, &QAction::triggered,
+	[ = ]() {
+		QMessageBox::about(
+		        this,
+		        translation("about"),
+		        "<a href=https://github.com/MuffyPuff/StrahCalc/ >"
+		        "Rok Strah, Vegova, Matura 2018</a>");
+	});
+	connect(mMenu->mExit, &QAction::triggered,
+	[ = ]() {
+		this->~MainWindow();
+		exit(0);
+//		quick_exit(0);
+	});
 
 	return true;
 }
@@ -201,6 +240,13 @@ MainWindow::getResult(double value)
 }
 
 void
+MainWindow::clear()
+{
+	ui->eqnInput->clear();
+	ui->label->clear();
+}
+
+void
 MainWindow::updateVariableDisplay()
 {
 	mVarList->setList(mExprtk->getVariables());
@@ -210,6 +256,12 @@ void
 MainWindow::updateConstantDisplay()
 {
 	mConstList->setList(mExprtk->getConstants());
+}
+
+void
+MainWindow::openSettings()
+{
+	Q_UNIMPLEMENTED();
 }
 
 void
@@ -236,6 +288,7 @@ MainWindow::removeConstant(const QString& name)
 {
 	// TODO: implement removal
 	Q_UNUSED(name);
+	Q_UNIMPLEMENTED();
 }
 
 void
@@ -261,6 +314,7 @@ MainWindow::handleExprtkError()
 //		qDebug() << "line:" << err.line_no << err.diagnostic;
 //	}
 	ui->statusBar->showMessage(Muf::translation("calc_err_general"));
+	Q_UNIMPLEMENTED();
 }
 
 void
