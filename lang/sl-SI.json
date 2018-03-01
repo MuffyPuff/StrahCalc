@@ -136,6 +136,18 @@
     "translation": "Izhod"
 },
 {
+    "id": "timeout",
+    "translation": "Časovni zamik"
+},
+{
+    "id": "languages",
+    "translation": "Jeziki"
+},
+{
+    "id": "general",
+    "translation": "Splošno"
+},
+{
     "id": "",
     "translation": ""
 }

@@ -136,6 +136,18 @@
     "translation": "Exit"
 },
 {
+    "id": "timeout",
+    "translation": "Timeout"
+},
+{
+    "id": "languages",
+    "translation": "Languages"
+},
+{
+    "id": "general",
+    "translation": "General"
+},
+{
     "id": "",
     "translation": ""
 }
