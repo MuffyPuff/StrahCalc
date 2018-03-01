@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	if (initSymView()) {}
 	if (initFnView()) {}
 	if (initCalcView()) {}
+	if (initSettingsView()) {}
 
 	qDebug() << Muf::translation("language_code");
 
