@@ -77,7 +77,8 @@ include(../MufTranslate/MufTranslate.pri)
 
 
 DISTFILES += \
+          $$PWD/functions/functions \
           $$PWD/lang/en-GB.json \
           $$PWD/lang/sl-SI.json \
-          $$PWD/functions/functions
+          $$PWD/lang/ja-JP.json
 

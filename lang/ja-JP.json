@@ -1,0 +1,154 @@
+[
+{
+    "id": "language_code",
+    "translation": "ja-JP"
+},
+{
+    "id": "language_name",
+    "translation": "日本語"
+},
+{
+    "id": "wait",
+    "translation": "入力を待っています..."
+},
+{
+    "id": "img_copied",
+    "translation": "イメージはクリップボードにコピーされています。"
+},
+{
+    "id": "res_copied",
+    "translation": "結果はクリップボードにコピーされています。"
+},
+{
+    "id": "rendering",
+    "translation": "新しい表現を描く..."
+},
+{
+    "id": "calculating",
+    "translation": "新しい結果を計算中..."
+},
+{
+    "id": "done",
+    "translation": "完了！"
+},
+{
+    "id": "calc_err_general",
+    "translation": "無効な式が入力されました。"
+},
+{
+    "id": "render_err_general",
+    "translation": "申し訳ありませんが、方程式を表示できません。"
+},
+{
+    "id": "calc",
+    "translation": "電卓"
+},
+{
+    "id": "calc_adv",
+    "translation": "高度な電卓"
+},
+{
+    "id": "vars",
+    "translation": "変数"
+},
+{
+    "id": "consts",
+    "translation": "定数"
+},
+{
+    "id": "history",
+    "translation": "歴史"
+},
+{
+    "id": "tools",
+    "translation": "道具"
+},
+{
+    "id": "options",
+    "translation": "設定"
+},
+{
+    "id": "var_name",
+    "translation": "変数名"
+},
+{
+    "id": "var_value",
+    "translation": "変数値"
+},
+{
+    "id": "add_var",
+    "translation": "変数を追加する"
+},
+{
+    "id": "name",
+    "translation": "名"
+},
+{
+    "id": "value",
+    "translation": "値"
+},
+{
+    "id": "copy_img",
+    "translation": "Copy Image"
+},
+{
+    "id": "copy_img_long",
+    "translation": "Copy image to clipboard"
+},
+{
+    "id": "copy_res",
+    "translation": "Copy Result"
+},
+{
+    "id": "copy_res_long",
+    "translation": "Copy result to clipboard"
+},
+{
+    "id": "add",
+    "translation": "追加する"
+},
+{
+    "id": "remove",
+    "translation": "除去する"
+},
+{
+    "id": "clear",
+    "translation": "クリア"
+},
+{
+    "id": "clear_long",
+    "translation": "明確な結果"
+},
+{
+    "id": "settings",
+    "translation": "設定"
+},
+{
+    "id": "settings_long",
+    "translation": "開いている設定"
+},
+{
+    "id": "about",
+    "translation": "約"
+},
+{
+    "id": "exit",
+    "translation": "終了する"
+},
+{
+    "id": "timeout",
+    "translation": "Timeout"
+},
+{
+    "id": "languages",
+    "translation": "言語"
+},
+{
+    "id": "general",
+    "translation": "一般"
+},
+{
+    "id": "",
+    "translation": ""
+}
+]
