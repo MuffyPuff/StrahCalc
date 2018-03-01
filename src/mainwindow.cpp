@@ -20,6 +20,10 @@ MainWindow::MainWindow(QWidget* parent) :
 {
 	ui->setupUi(this);
 
+	translation.changeLanguage(_lang);
+	statusMessageCode = "wait";
+	status = Status::Waiting;
+
 	if (initKLF()) {}
 	if (initExprtk()) {}
 
@@ -30,7 +34,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	if (initCalcView()) {}
 	if (initSettingsView()) {}
 
-	qDebug() << Muf::translation("language_code");
+//	qDebug() << Muf::translation("language_code");
 
 	// update variables when computation ends
 	connect(this, &MainWindow::resultAvailable,
@@ -40,6 +44,8 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(this, &MainWindow::resultAvailable,
 	        this, &MainWindow::updatePreviewBuilderThreadInput,
 	        Qt::QueuedConnection);
+
+	updateText(_lang);
 }
 
 MainWindow::~MainWindow()
@@ -115,10 +121,10 @@ MainWindow::initUI()
 	        "history"
 	});
 
-	// rename tabs
-	REP(i, header.size()) {
-		ui->tabWidget->setTabText(i, translation(header.at(i)));
-	}
+//	// rename tabs
+//	REP(i, header.size()) {
+//		ui->tabWidget->setTabText(i, translation(header.at(i)));
+//	}
 
 	connect(&translation, &MufTranslate::languageChanged,
 	        this, &MainWindow::updateText,
@@ -182,12 +188,12 @@ MainWindow::initCalcView()
 	connect(ui->clipBtnRes, &QAbstractButton::clicked,
 	        this, &MainWindow::copyResToClipboard);
 
-	ui->clipBtnEq->setText(Muf::translation("copy_img"));
-	ui->clipBtnRes->setText(Muf::translation("copy_res"));
+//	ui->clipBtnEq->setText(Muf::translation("copy_img"));
+//	ui->clipBtnRes->setText(Muf::translation("copy_res"));
 
 	ui->eqnInput->setFocus();
 //	ui->statusBar->showMessage(Muf::translation("wait"));
-	setStatusMessage("wait");
+//	setStatusMessage("wait");
 
 	return true;
 }
@@ -196,10 +202,8 @@ bool
 MainWindow::initSymView()
 {
 	// var init
-	mVarList   = new MufSymbolListView_w({Muf::translation("name"), Muf::translation("value")},
-	                                     this);
-	mConstList = new MufSymbolListView_w({Muf::translation("name"), Muf::translation("value")},
-	                                     this);
+	mVarList   = new MufSymbolListView_w({"name", "value"}, this);
+	mConstList = new MufSymbolListView_w({"name", "value"}, this);
 
 	ui->varList_t->layout()->addWidget(mVarList);
 	ui->constList_t->layout()->addWidget(mConstList);
@@ -301,13 +305,15 @@ MainWindow::updateText(const QString& lang)
 		ui->tabWidget->setTabText(i, translation(header.at(i)));
 	}
 
-	mMenu->renameActions();
-
 	ui->clipBtnEq->setText(Muf::translation("copy_img"));
 	ui->clipBtnRes->setText(Muf::translation("copy_res"));
 
-	mVarList->renameText(lang);
-	mConstList->renameText(lang);
+	setStatusMessage(statusMessageCode);
+
+	mVarList->updateText(lang);
+	mConstList->updateText(lang);
+	mSettings->updateText(lang);
+	mMenu->updateText(lang);
 }
 
 void
@@ -322,7 +328,7 @@ MainWindow::setStatusMessage(const QString& code, const bool& timeout)
 	} else {
 		statusMessageCode = code;
 	}
-	ui->statusBar->showMessage(Muf::translation(code));
+	ui->statusBar->showMessage(translation(code));
 }
 
 void

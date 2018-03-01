@@ -11,7 +11,8 @@
 
 MufSymbolListView_w::MufSymbolListView_w(QStringList header, QWidget* parent) :
         QWidget(parent),
-        ui(new Ui::MufSymbolListView_w)
+        ui(new Ui::MufSymbolListView_w),
+        _header(header)
 {
 	ui->setupUi(this);
 
@@ -26,18 +27,7 @@ MufSymbolListView_w::MufSymbolListView_w(QStringList header, QWidget* parent) :
 	connect(ui->remove_b, SIGNAL(clicked()),
 	        this, SLOT(removeItem()));
 
-	// rename list header
-	for (int i = 0; i < header.size(); ++i) {
-		mModel->appendColumn({new QStandardItem("tmp")});
-		mModel->setHeaderData(i, Qt::Horizontal, header.at(i));
-	}
-	mModel->removeRow(0);
-
-	// rename labels and buttons
-	ui->add_b->setText(Muf::translation("add"));
-	ui->remove_b->setText(Muf::translation("remove"));
-	ui->name_l->setText(Muf::translation("name"));
-	ui->value_l->setText(Muf::translation("value"));
+	updateText();
 }
 
 MufSymbolListView_w::~MufSymbolListView_w()
@@ -143,7 +133,7 @@ MufSymbolListView_w::setList(const QList<MufExprtkBackend::symbol_t<double>>&
 }
 
 void
-MufSymbolListView_w::renameText(const QString& lang)
+MufSymbolListView_w::updateText(const QString& lang)
 {
 	Q_UNUSED(lang);
 	// rename labels and buttons
@@ -152,7 +142,15 @@ MufSymbolListView_w::renameText(const QString& lang)
 	ui->name_l->setText(Muf::translation("name"));
 	ui->value_l->setText(Muf::translation("value"));
 
-	// TODO: generalize
-	mModel->setHeaderData(0, Qt::Horizontal, Muf::translation("name"));
-	mModel->setHeaderData(1, Qt::Horizontal, Muf::translation("value"));
+	bool b = false;
+	for (int i = 0; i < _header.size(); ++i) {
+		if (mModel->columnCount() <= i) {
+			b = true;
+			mModel->appendColumn({new QStandardItem("tmp")});
+		}
+		mModel->setHeaderData(i, Qt::Horizontal, Muf::translation(_header.at(i)));
+	}
+	if (b) {
+		mModel->removeRow(0);
+	}
 }

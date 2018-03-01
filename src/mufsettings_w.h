@@ -4,6 +4,7 @@
 #include <QDialog>
 
 #include <QComboBox>
+#include <QSpinBox>
 
 #include "global.h"
 
@@ -21,6 +22,10 @@ public:
 	~MufSettings_w();
 
 	QComboBox*      languages;
+	QSpinBox*       timeout;
+
+public slots:
+	void            updateText(const QString& lang = "");
 
 private:
 	Ui::MufSettings_w* ui;

@@ -15,7 +15,7 @@ class MufMenu : public QObject
 	Q_OBJECT
 public:
 	explicit MufMenu(QMenuBar* menu, QObject* parent = nullptr);
-	void            renameActions();
+	void            updateText(const QString& lang = "");
 
 private:
 	void            createActions();

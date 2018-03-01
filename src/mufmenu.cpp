@@ -9,12 +9,14 @@ MufMenu::MufMenu(QMenuBar* menu, QObject* parent) : QObject(parent)
 
 	createActions();
 	createMenus();
-	renameActions();
+	updateText();
 }
 
 void
-MufMenu::renameActions()
+MufMenu::updateText(const QString& lang)
 {
+	Q_UNUSED(lang);
+
 	mToolsMenu->setTitle(translation("tools"));
 
 	mClear->setText(translation("clear"));

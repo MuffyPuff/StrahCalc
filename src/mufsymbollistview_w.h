@@ -28,13 +28,13 @@ public:
 	Q_ENUM(Direction)
 
 	bool            setList(const QList<MufExprtkBackend::symbol_t<double>>& list);
-	void            renameText(const QString& lang);
 //	bool            setHeaderText(const int &index, const Qstring &text);
 //	QStringList     header;
 
 public slots:
 	bool            addItem();
 	bool            removeItem();
+	void            updateText(const QString& lang = "");
 
 signals:
 	void            addSym(const QString&, const double&);
@@ -52,6 +52,8 @@ protected:
 protected:
 	Ui::MufSymbolListView_w* ui;
 	QStandardItemModel* mModel;
+
+	QStringList     _header;
 };
 
 #endif // MUFSYMBOLLISTVIEW_W_H
