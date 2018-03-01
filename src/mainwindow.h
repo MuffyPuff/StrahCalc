@@ -70,6 +70,9 @@ private slots:
 	void            updateText(const QString& lang);
 	void            setStatusMessage(const QString& code,
 	                                 const bool& timeout = false);
+	void            openSettings();
+	void            loadSettings();
+	void            saveSettings();
 
 	void            addVariable(const QString& name, const double& value);
 	void            removeVariable(const QString& name);
@@ -103,6 +106,8 @@ private:
 	MufSymbolListView_w* mConstList;
 
 	MufSettings_w*  mSettings;
+	QString         _lang;
+	int             _timeout;
 };
 
 #endif // MAINWINDOW_H

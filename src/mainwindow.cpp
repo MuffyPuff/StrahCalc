@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget* parent) :
 {
 	ui->setupUi(this);
 
+	loadSettings();
 	translation.changeLanguage(_lang);
 	statusMessageCode = "wait";
 	status = Status::Waiting;
@@ -50,6 +51,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 MainWindow::~MainWindow()
 {
+	saveSettings();
 	delete mPreviewBuilderThread;
 	delete mExprtk;
 	delete mFnLoader;
@@ -148,11 +150,8 @@ MainWindow::initMenu()
 	        this, &MainWindow::copyResToClipboard,
 	        Qt::QueuedConnection);
 	connect(mMenu->mSettings, &QAction::triggered,
-	[ = ]() {
-		mSettings->show();
-		mSettings->raise();
-		mSettings->activateWindow();
-	});
+	        this, &MainWindow::openSettings,
+	        Qt::QueuedConnection);
 	connect(mMenu->mAbout, &QAction::triggered,
 	[ = ]() {
 		QMessageBox::about(
@@ -274,6 +273,7 @@ MainWindow::clear()
 {
 	ui->eqnInput->clear();
 	ui->label->clear();
+	ui->history_ls->clear();
 }
 
 void
@@ -291,10 +291,11 @@ MainWindow::updateConstantDisplay()
 void
 MainWindow::applySettings()
 {
-	QString lang = mSettings->languages->currentText();
-	lang = MufTranslate::_languageList.key(lang);
-	qDebug() << lang;
-	translation.changeLanguage(lang);
+	_lang = MufTranslate::_languageList.key(
+	                mSettings->languages->currentText());
+	translation.changeLanguage(_lang);
+
+	_timeout = mSettings->timeout->value();
 }
 
 void
@@ -320,8 +321,7 @@ void
 MainWindow::setStatusMessage(const QString& code, const bool& timeout)
 {
 	if (timeout == true) {
-		QTimer::singleShot(Muf::settings.value("ui/message_timeout", 3000).toInt(),
-		                   this,
+		QTimer::singleShot(_timeout, this,
 		[ = ]() {
 			setStatusMessage(statusMessageCode);
 		});
@@ -329,6 +329,34 @@ MainWindow::setStatusMessage(const QString& code, const bool& timeout)
 		statusMessageCode = code;
 	}
 	ui->statusBar->showMessage(translation(code));
+}
+
+void
+MainWindow::openSettings()
+{
+	mSettings->languages->setCurrentText(translation("language_name"));
+	mSettings->timeout->setValue(_timeout);
+
+	mSettings->show();
+	mSettings->raise();
+	mSettings->activateWindow();
+}
+
+void
+MainWindow::loadSettings()
+{
+	QSettings settings;
+	_lang           = settings.value("ui/language_code",    "sl-SI").toString();
+	_timeout        = settings.value("ui/message_timeout",  3000).toInt();
+}
+
+void
+MainWindow::saveSettings()
+{
+	QSettings settings;
+	settings.setValue("ui/language_code",           _lang);
+	settings.setValue("ui/message_timeout",         _timeout);
+
 }
 
 void
