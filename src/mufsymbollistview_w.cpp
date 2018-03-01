@@ -141,3 +141,18 @@ MufSymbolListView_w::setList(const QList<MufExprtkBackend::symbol_t<double>>&
 	}
 	return true;
 }
+
+void
+MufSymbolListView_w::renameText(const QString& lang)
+{
+	Q_UNUSED(lang);
+	// rename labels and buttons
+	ui->add_b->setText(Muf::translation("add"));
+	ui->remove_b->setText(Muf::translation("remove"));
+	ui->name_l->setText(Muf::translation("name"));
+	ui->value_l->setText(Muf::translation("value"));
+
+	// TODO: generalize
+	mModel->setHeaderData(0, Qt::Horizontal, Muf::translation("name"));
+	mModel->setHeaderData(1, Qt::Horizontal, Muf::translation("value"));
+}

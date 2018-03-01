@@ -29,6 +29,15 @@ class MainWindow : public QMainWindow
 	typedef KLFBackend::klfInput       KLFInput;
 
 public:
+	enum class Status {
+		Calculating,
+		Rendering,
+		Error,
+		Waiting,
+		Done
+	};
+	Q_ENUM(Status)
+
 	explicit MainWindow(QWidget* parent = 0);
 	~MainWindow();
 
@@ -57,7 +66,10 @@ private slots:
 	void            clear();
 	void            updateVariableDisplay();
 	void            updateConstantDisplay();
-	void            openSettings();
+	void            applySettings();
+	void            updateText(const QString& lang);
+	void            setStatusMessage(const QString& code,
+	                                 const bool& timeout = false);
 
 	void            addVariable(const QString& name, const double& value);
 	void            removeVariable(const QString& name);
@@ -80,6 +92,8 @@ private:
 	QString         roundValue;
 	MufFunctions*   mFnLoader;
 	MufMenu*        mMenu;
+	Status          status;
+	QString         statusMessageCode;
 
 
 	QList<QString>  fnDirList;

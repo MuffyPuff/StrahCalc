@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QStandardPaths>
 #include <QMessageBox>
+#include <QTimer>
 
 #include "klfbackend.h"
 
@@ -75,8 +76,7 @@ MainWindow::initKLF()
 	mPreviewBuilderThread = new KLFPreviewBuilderThread(this, input, settings);
 
 	// display updated expression image
-	connect(mPreviewBuilderThread,
-	        &KLFPreviewBuilderThread::previewAvailable,
+	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
 	        this, &MainWindow::showRealTimePreview,
 	        Qt::QueuedConnection);
 
@@ -103,27 +103,25 @@ MainWindow::initExprtk()
 bool
 MainWindow::initUI()
 {
-//	QMenu* menu = ui->menuBar->addMenu(Muf::translation("tools"));
-////    QToolBar *toolBar = addToolBar(Muf::translation("tools"));
-//	QAction* act = new QAction(Muf::translation("options"), this);
-//	menu->addAction(act);
-////    toolBar->addAction(act);
-
-	initMenu();
+	if (initMenu()) {}
 
 	header.clear();
 	header.append({
-	        Muf::translation("calc"),
-	        Muf::translation("calc_adv"),
-	        Muf::translation("vars"),
-	        Muf::translation("consts"),
-	        Muf::translation("history")
+	        "calc",
+	        "calc_adv",
+	        "vars",
+	        "consts",
+	        "history"
 	});
 
 	// rename tabs
 	REP(i, header.size()) {
-		ui->tabWidget->setTabText(i, header.at(i));
+		ui->tabWidget->setTabText(i, translation(header.at(i)));
 	}
+
+	connect(&translation, &MufTranslate::languageChanged,
+	        this, &MainWindow::updateText,
+	        Qt::QueuedConnection);
 
 	return true;
 }
@@ -143,8 +141,11 @@ MainWindow::initMenu()
 	        this, &MainWindow::copyResToClipboard,
 	        Qt::QueuedConnection);
 	connect(mMenu->mSettings, &QAction::triggered,
-	        this, &MainWindow::openSettings,
-	        Qt::QueuedConnection);
+	[ = ]() {
+		mSettings->show();
+		mSettings->raise();
+		mSettings->activateWindow();
+	});
 	connect(mMenu->mAbout, &QAction::triggered,
 	[ = ]() {
 		QMessageBox::about(
@@ -184,7 +185,8 @@ MainWindow::initCalcView()
 	ui->clipBtnRes->setText(Muf::translation("copy_res"));
 
 	ui->eqnInput->setFocus();
-	ui->statusBar->showMessage(Muf::translation("wait"));
+//	ui->statusBar->showMessage(Muf::translation("wait"));
+	setStatusMessage("wait");
 
 	return true;
 }
@@ -233,8 +235,23 @@ MainWindow::initFnView()
 bool
 MainWindow::initSettingsView()
 {
-
 	mSettings = new MufSettings_w();
+
+	QDir languageDir = QDir::cleanPath(QDir::current().absolutePath() +
+	                                   "/../StrahCalc/lang/");
+//	qDebug() << languageDir.absolutePath();
+	for (auto& fn : languageDir.entryInfoList()) {
+		if (fn.isFile() and fn.suffix() == "json") {
+//			qDebug() << fn.fileName();
+			QString lang = translation("language_name", fn.baseName());
+			mSettings->languages->addItem(lang);
+			MufTranslate::_languageList[fn.baseName()] = lang;
+		}
+	}
+
+	connect(mSettings, &MufSettings_w::accepted,
+	        this, &MainWindow::applySettings,
+	        Qt::QueuedConnection);
 
 	return true;
 }
@@ -267,9 +284,44 @@ MainWindow::updateConstantDisplay()
 }
 
 void
-MainWindow::openSettings()
+MainWindow::applySettings()
 {
-	mSettings->show();
+	QString lang = mSettings->languages->currentText();
+	lang = MufTranslate::_languageList.key(lang);
+	qDebug() << lang;
+	translation.changeLanguage(lang);
+}
+
+void
+MainWindow::updateText(const QString& lang)
+{
+	// rename tabs
+	REP(i, header.size()) {
+		ui->tabWidget->setTabText(i, translation(header.at(i)));
+	}
+
+	mMenu->renameActions();
+
+	ui->clipBtnEq->setText(Muf::translation("copy_img"));
+	ui->clipBtnRes->setText(Muf::translation("copy_res"));
+
+	mVarList->renameText(lang);
+	mConstList->renameText(lang);
+}
+
+void
+MainWindow::setStatusMessage(const QString& code, const bool& timeout)
+{
+	if (timeout == true) {
+		QTimer::singleShot(Muf::settings.value("ui/message_timeout", 3000).toInt(),
+		                   this,
+		[ = ]() {
+			setStatusMessage(statusMessageCode);
+		});
+	} else {
+		statusMessageCode = code;
+	}
+	ui->statusBar->showMessage(Muf::translation(code));
 }
 
 void
@@ -304,14 +356,16 @@ void
 MainWindow::copyEqToClipboard()
 {
 	clipboard->setPixmap(pixmap);
-	ui->statusBar->showMessage(Muf::translation("img_copied"));
+//	ui->statusBar->showMessage(Muf::translation("img_copied"));
+	setStatusMessage("img_copied", true);
 }
 
 void
 MainWindow::copyResToClipboard()
 {
 	clipboard->setText(roundValue);
-	ui->statusBar->showMessage(Muf::translation("res_copied"));
+//	ui->statusBar->showMessage(Muf::translation("res_copied"));
+	setStatusMessage("res_copied", true);
 }
 
 void
@@ -322,7 +376,8 @@ MainWindow::handleExprtkError()
 //	for (exprtk::parser_error::type err : errors) {
 //		qDebug() << "line:" << err.line_no << err.diagnostic;
 //	}
-	ui->statusBar->showMessage(Muf::translation("calc_err_general"));
+//	ui->statusBar->showMessage(Muf::translation("calc_err_general"));
+	setStatusMessage("calc_err_general");
 	Q_UNIMPLEMENTED();
 }
 
@@ -350,12 +405,14 @@ MainWindow::updatePreviewBuilderThreadInput()
 	              roundValue;
 	if (mPreviewBuilderThread->inputChanged(input)) {
 		qDebug() << "input changed. Render...";
-		ui->statusBar->showMessage(Muf::translation("rendering"));
+//		ui->statusBar->showMessage(Muf::translation("rendering"));
+		setStatusMessage("rendering");
 //		qDebug() << "input changed. displayed message";
 		mPreviewBuilderThread->start();
 //		qDebug() << "input changed. started";
 	} else {
-		ui->statusBar->showMessage(Muf::translation("done"));
+//		ui->statusBar->showMessage(Muf::translation("done"));
+		setStatusMessage("done");
 	}
 }
 
@@ -365,7 +422,8 @@ MainWindow::updateExprtkInput()
 	QString input(ui->eqnInput->text());
 	if (mExprtk->inputChanged(input)) {
 		qDebug() << "input changed. Calculate...";
-		ui->statusBar->showMessage(Muf::translation("calculating"));
+//		ui->statusBar->showMessage(Muf::translation("calculating"));
+		setStatusMessage("calculating");
 		mExprtk->start();
 	}
 }
@@ -383,10 +441,11 @@ void
 MainWindow::showRealTimePreview(const QImage& preview, bool latexerror)
 {
 	if (latexerror) {
-		ui->statusBar->showMessage(
-		        Muf::translation("render_err_general"));
+//		ui->statusBar->showMessage(Muf::translation("render_err_general"));
+		setStatusMessage("render_err_general");
 	} else {
-		ui->statusBar->showMessage(Muf::translation("done"));
+//		ui->statusBar->showMessage(Muf::translation("done"));
+		setStatusMessage("done");
 		pixmap = QPixmap::fromImage(preview);
 		ui->label->setPixmap(pixmap);
 		ui->label->adjustSize();

@@ -15,10 +15,11 @@ class MufMenu : public QObject
 	Q_OBJECT
 public:
 	explicit MufMenu(QMenuBar* menu, QObject* parent = nullptr);
+	void            renameActions();
 
 private:
-	void createActions();
-	void createMenus();
+	void            createActions();
+	void            createMenus();
 
 signals:
 

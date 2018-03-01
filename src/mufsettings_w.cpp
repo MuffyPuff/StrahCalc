@@ -6,6 +6,8 @@ MufSettings_w::MufSettings_w(QDialog* parent) :
         ui(new Ui::MufSettings_w)
 {
 	ui->setupUi(this);
+
+	languages = ui->lang_cb;
 }
 
 MufSettings_w::~MufSettings_w()

@@ -28,7 +28,7 @@ public:
 	Q_ENUM(Direction)
 
 	bool            setList(const QList<MufExprtkBackend::symbol_t<double>>& list);
-
+	void            renameText(const QString& lang);
 //	bool            setHeaderText(const int &index, const Qstring &text);
 //	QStringList     header;
 
