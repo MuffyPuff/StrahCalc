@@ -39,9 +39,9 @@ FORMS    += \
 
 
 # note that in unix(linux) systems library names are case sensitive
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib
-else:unix: LIBS += -L$$PWD/lib
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/bin
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/bin
+else:unix: LIBS += -L$$PWD/bin
 
 INCLUDEPATH += $$PWD/src
 #DEPENDPATH += $$PWD/src
@@ -51,29 +51,29 @@ win32:CONFIG(release, debug|release): LIBS += -lKLFBackend
 else:win32:CONFIG(debug, debug|release): LIBS += -lKLFBackend
 else:unix: LIBS += -lKLFBackend
 
-INCLUDEPATH += $$PWD/include/klfbackend
-DEPENDPATH += $$PWD/include/klfbackend
+INCLUDEPATH += $$PWD/lib/klfbackend
+DEPENDPATH += $$PWD/lib/klfbackend
 
 
 win32:CONFIG(release, debug|release): LIBS += -lMufTranslate
 else:win32:CONFIG(debug, debug|release): LIBS += -lMufTranslate
 else:unix: LIBS += -lMufTranslate
 
-INCLUDEPATH += $$PWD/../MufTranslate/src
-DEPENDPATH += $$PWD/../MufTranslate/src
+INCLUDEPATH += $$PWD/lib/MufTranslate/src
+DEPENDPATH += $$PWD/lib/MufTranslate/src
 
 
 win32:CONFIG(release, debug|release): LIBS += -lMufExprtkBackend
 else:win32:CONFIG(debug, debug|release): LIBS += -lMufExprtkBackend
 else:unix: LIBS += -lMufExprtkBackend
 
-INCLUDEPATH += $$PWD/../MufExprtkBackend/src
-DEPENDPATH += $$PWD/../MufExprtkBackend/src
+INCLUDEPATH += $$PWD/lib/MufExprtkBackend/src
+DEPENDPATH += $$PWD/lib/MufExprtkBackend/src
 
 
-include(include/klfbackend/KLFBackend.pri)
-include(../MufExprtkBackend/MufExprtkBackend.pri)
-include(../MufTranslate/MufTranslate.pri)
+include(lib/klfbackend/KLFBackend.pri)
+include(lib/MufExprtkBackend/MufExprtkBackend.pri)
+include(lib/MufTranslate/MufTranslate.pri)
 
 
 DISTFILES += \
