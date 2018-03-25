@@ -57,5 +57,5 @@ CMakeLists.txt.user*
 *.old
 src/mufsettings_d.ui
 src/mufsettings_f.ui
-lib/MufExprtkBackend/*
-lib/MufTranslate/*
+lib/MufExprtkBackend/
+lib/MufTranslate/

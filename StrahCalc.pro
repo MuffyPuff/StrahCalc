@@ -59,16 +59,16 @@ win32:CONFIG(release, debug|release): LIBS += -lMufTranslate
 else:win32:CONFIG(debug, debug|release): LIBS += -lMufTranslate
 else:unix: LIBS += -lMufTranslate
 
-INCLUDEPATH += $$PWD/lib/MufTranslate/src
-DEPENDPATH += $$PWD/lib/MufTranslate/src
+INCLUDEPATH += $$PWD/lib/MufTranslate/include/
+DEPENDPATH += $$PWD/lib/MufTranslate/
 
 
 win32:CONFIG(release, debug|release): LIBS += -lMufExprtkBackend
 else:win32:CONFIG(debug, debug|release): LIBS += -lMufExprtkBackend
 else:unix: LIBS += -lMufExprtkBackend
 
-INCLUDEPATH += $$PWD/lib/MufExprtkBackend/src
-DEPENDPATH += $$PWD/lib/MufExprtkBackend/src
+INCLUDEPATH += $$PWD/lib/MufExprtkBackend/include/
+DEPENDPATH += $$PWD/lib/MufExprtkBackend/
 
 
 include(lib/klfbackend/KLFBackend.pri)
