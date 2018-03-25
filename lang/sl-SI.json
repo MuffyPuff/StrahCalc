@@ -104,6 +104,10 @@
     "translation": "Kopiraj rezultat v clipboard"
 },
 {
+    "id": "compute",
+    "translation": "Izračun"
+},
+{
     "id": "add",
     "translation": "Dodaj"
 },

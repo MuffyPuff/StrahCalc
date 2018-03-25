@@ -104,6 +104,10 @@
     "translation": "Copy result to clipboard"
 },
 {
+    "id": "compute",
+    "translation": "Compute"
+},
+{
     "id": "add",
     "translation": "Add"
 },

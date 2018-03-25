@@ -104,6 +104,10 @@
     "translation": "Copy result to clipboard"
 },
 {
+    "id": "compute",
+    "translation": "計算する"
+},
+{
     "id": "add",
     "translation": "追加する"
 },
