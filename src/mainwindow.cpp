@@ -521,8 +521,7 @@ MainWindow::updatePreviewBuilderThreadInput_adv()
 	prefix = prefix.split("-=").first();
 	prefix = prefix.split("*=").first();
 	prefix = prefix.split("/=").first();
-//	input.latex = prefix +
-	input.latex = ui->eqnInput_adv->toPlainText() +
+	input.latex = prefix +
 	              " = " +
 	              roundValue;
 	if (mPreviewBuilderThread->inputChanged(input)) {
