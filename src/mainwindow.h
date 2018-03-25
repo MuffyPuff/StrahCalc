@@ -71,10 +71,12 @@ private slots:
 	void            clear();
 	void            updateVariableDisplay();
 	void            updateConstantDisplay();
-	void            applySettings();
+
 	void            updateText(const QString& lang);
 	void            setStatusMessage(const QString& code,
 	                                 const bool& timeout = false);
+
+	void            applySettings();
 	void            openSettings();
 	void            loadSettings();
 	void            saveSettings();
