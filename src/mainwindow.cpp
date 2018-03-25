@@ -515,6 +515,13 @@ MainWindow::updatePreviewBuilderThreadInput_adv()
 	 **/
 
 	// TODO add parsing
+	QString prefix = ui->eqnInput_adv->toPlainText().split(';').last();
+	prefix = prefix.split(":=").first();
+	prefix = prefix.split("+=").first();
+	prefix = prefix.split("-=").first();
+	prefix = prefix.split("*=").first();
+	prefix = prefix.split("/=").first();
+//	input.latex = prefix +
 	input.latex = ui->eqnInput_adv->toPlainText() +
 	              " = " +
 	              roundValue;
