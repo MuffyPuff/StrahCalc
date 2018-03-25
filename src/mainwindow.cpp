@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	if (initSymView()) {}
 	if (initFnView()) {}
 	if (initCalcView()) {}
+	if (initAdvCalcView()) {}
 	if (initSettingsView()) {}
 
 //	qDebug() << Muf::translation("language_code");
@@ -41,10 +42,10 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(this, &MainWindow::resultAvailable,
 	        this, &MainWindow::updateVariableDisplay,
 	        Qt::QueuedConnection);
-	// start rendering result
-	connect(this, &MainWindow::resultAvailable,
-	        this, &MainWindow::updatePreviewBuilderThreadInput,
-	        Qt::QueuedConnection);
+//	// start rendering result
+//	connect(this, &MainWindow::resultAvailable,
+//	        this, &MainWindow::updatePreviewBuilderThreadInput,
+//	        Qt::QueuedConnection);
 
 	updateText(_lang);
 }
@@ -84,10 +85,10 @@ MainWindow::initKLF()
 	// setup variables:
 	mPreviewBuilderThread = new KLFPreviewBuilderThread(this, input, settings);
 
-	// display updated expression image
-	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	        this, &MainWindow::showRealTimePreview,
-	        Qt::QueuedConnection);
+//	// display updated expression image
+//	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+//	        this, &MainWindow::showRealTimePreview,
+//	        Qt::QueuedConnection);
 
 	return true;
 }
@@ -174,18 +175,57 @@ MainWindow::initCalcView()
 {
 	// update equation in exprtk on return
 	connect(ui->eqnInput, &QLineEdit::returnPressed,
-	        this, &MainWindow::updateExprtkInput,
+	        this, &MainWindow::compute,
 	        Qt::QueuedConnection);
-	// update history on return
-	connect(ui->eqnInput, &QLineEdit::returnPressed,
-	        this, &MainWindow::updateHistory,
+//	// update history on return
+//	connect(ui->eqnInput, &QLineEdit::returnPressed,
+//	        this, &MainWindow::updateHistory,
+//	        Qt::QueuedConnection);
+
+	// compute
+	connect(ui->compute, &QAbstractButton::clicked,
+	        this, &MainWindow::compute,
 	        Qt::QueuedConnection);
+//	// update history on compute
+//	connect(ui->compute, &QAbstractButton::clicked,
+//	        this, &MainWindow::updateHistory,
+//	        Qt::QueuedConnection);
 
 	// copy to clipboard
 	connect(ui->clipBtnEq, &QAbstractButton::clicked,
 	        this, &MainWindow::copyEqToClipboard);
 	connect(ui->clipBtnRes, &QAbstractButton::clicked,
 	        this, &MainWindow::copyResToClipboard);
+
+
+//	ui->clipBtnEq->setText(Muf::translation("copy_img"));
+//	ui->clipBtnRes->setText(Muf::translation("copy_res"));
+
+	ui->eqnInput->setFocus();
+//	ui->statusBar->showMessage(Muf::translation("wait"));
+//	setStatusMessage("wait");
+
+	return true;
+}
+
+bool
+MainWindow::initAdvCalcView()
+{
+	// compute
+	connect(ui->compute_adv, &QAbstractButton::clicked,
+	        this, &MainWindow::compute_adv,
+	        Qt::QueuedConnection);
+//	// update history on compute
+//	connect(ui->compute_adv, &QAbstractButton::clicked,
+//	        this, &MainWindow::updateHistory,
+//	        Qt::QueuedConnection);
+
+	// copy to clipboard
+	connect(ui->clipBtnEq_adv, &QAbstractButton::clicked,
+	        this, &MainWindow::copyEqToClipboard);
+	connect(ui->clipBtnRes_adv, &QAbstractButton::clicked,
+	        this, &MainWindow::copyResToClipboard);
+
 
 //	ui->clipBtnEq->setText(Muf::translation("copy_img"));
 //	ui->clipBtnRes->setText(Muf::translation("copy_res"));
@@ -308,6 +348,11 @@ MainWindow::updateText(const QString& lang)
 
 	ui->clipBtnEq->setText(Muf::translation("copy_img"));
 	ui->clipBtnRes->setText(Muf::translation("copy_res"));
+	ui->compute->setText(Muf::translation("compute"));
+
+	ui->clipBtnEq_adv->setText(Muf::translation("copy_img"));
+	ui->clipBtnRes_adv->setText(Muf::translation("copy_res"));
+	ui->compute_adv->setText(Muf::translation("compute"));
 
 	setStatusMessage(statusMessageCode);
 
@@ -452,9 +497,44 @@ MainWindow::updatePreviewBuilderThreadInput()
 }
 
 void
-MainWindow::updateExprtkInput()
+MainWindow::updatePreviewBuilderThreadInput_adv()
 {
-	QString input(ui->eqnInput->text());
+	//      if (!compute()) {
+	//              return;
+	//      }
+	//      this->value = res;
+
+	// in linux, I need to reinstate the preamble when rendering. No idea why.
+	input.preamble =
+	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+
+	/**
+	 * TODO: multiline
+	 * TODO: strip trailing semicolon
+	 * TODO: some assignment stuff
+	 **/
+
+	// TODO add parsing
+	input.latex = ui->eqnInput_adv->toPlainText() +
+	              " = " +
+	              roundValue;
+	if (mPreviewBuilderThread->inputChanged(input)) {
+		qDebug() << "input changed. Render...";
+		//              ui->statusBar->showMessage(Muf::translation("rendering"));
+		setStatusMessage("rendering");
+		//              qDebug() << "input changed. displayed message";
+		mPreviewBuilderThread->start();
+		//              qDebug() << "input changed. started";
+	} else {
+		//              ui->statusBar->showMessage(Muf::translation("done"));
+		setStatusMessage("done");
+	}
+}
+
+void
+MainWindow::updateExprtkInput(const QString& input)
+{
+//	QString input(ui->eqnInput->text());
 	if (mExprtk->inputChanged(input)) {
 		qDebug() << "input changed. Calculate...";
 //		ui->statusBar->showMessage(Muf::translation("calculating"));
@@ -463,12 +543,62 @@ MainWindow::updateExprtkInput()
 	}
 }
 
-void MainWindow::updateHistory()
+void
+MainWindow::compute()
 {
-	if (ui->eqnInput->text().isEmpty()) {
+	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	           this, &MainWindow::showRealTimePreview);
+	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	           this, &MainWindow::showRealTimePreview_adv);
+
+	disconnect(this, &MainWindow::resultAvailable,
+	           this, &MainWindow::updatePreviewBuilderThreadInput);
+	disconnect(this, &MainWindow::resultAvailable,
+	           this, &MainWindow::updatePreviewBuilderThreadInput_adv);
+
+	// display updated expression image
+	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	        this, &MainWindow::showRealTimePreview,
+	        Qt::QueuedConnection);
+	// start rendering result
+	connect(this, &MainWindow::resultAvailable,
+	        this, &MainWindow::updatePreviewBuilderThreadInput,
+	        Qt::QueuedConnection);
+	updateExprtkInput(ui->eqnInput->text());
+	updateHistory(ui->eqnInput->text());
+}
+
+void
+MainWindow::compute_adv()
+{
+	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	           this, &MainWindow::showRealTimePreview);
+	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	           this, &MainWindow::showRealTimePreview_adv);
+
+	disconnect(this, &MainWindow::resultAvailable,
+	           this, &MainWindow::updatePreviewBuilderThreadInput);
+	disconnect(this, &MainWindow::resultAvailable,
+	           this, &MainWindow::updatePreviewBuilderThreadInput_adv);
+
+	// display updated expression image
+	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	        this, &MainWindow::showRealTimePreview_adv,
+	        Qt::QueuedConnection);
+	// start rendering result
+	connect(this, &MainWindow::resultAvailable,
+	        this, &MainWindow::updatePreviewBuilderThreadInput_adv,
+	        Qt::QueuedConnection);
+	updateExprtkInput(ui->eqnInput_adv->toPlainText());
+	updateHistory(ui->eqnInput_adv->toPlainText());
+}
+
+void MainWindow::updateHistory(const QString& input)
+{
+	if (input.isEmpty()) {
 		return;
 	}
-	ui->history_ls->addItem(ui->eqnInput->text());
+	ui->history_ls->addItem(input);
 	ui->history_ls->scrollToBottom();
 }
 
@@ -484,5 +614,20 @@ MainWindow::showRealTimePreview(const QImage& preview, bool latexerror)
 		pixmap = QPixmap::fromImage(preview);
 		ui->label->setPixmap(pixmap);
 		ui->label->adjustSize();
+	}
+}
+
+void
+MainWindow::showRealTimePreview_adv(const QImage& preview, bool latexerror)
+{
+	if (latexerror) {
+		//              ui->statusBar->showMessage(Muf::translation("render_err_general"));
+		setStatusMessage("render_err_general");
+	} else {
+		//              ui->statusBar->showMessage(Muf::translation("done"));
+		setStatusMessage("done");
+		pixmap = QPixmap::fromImage(preview);
+		ui->label_adv->setPixmap(pixmap);
+		ui->label_adv->adjustSize();
 	}
 }

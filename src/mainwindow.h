@@ -48,6 +48,7 @@ private:
 	bool            initUI();
 	bool            initMenu();
 	bool            initCalcView();
+	bool            initAdvCalcView();
 	bool            initSymView();
 	bool            initFnView();
 	bool            initSettingsView();
@@ -56,9 +57,13 @@ private slots:
 	void            handleExprtkError();
 //	void            updatePreviewBuilderThreadInput(const double &res);
 	void            updatePreviewBuilderThreadInput();
-	void            updateExprtkInput();
-	void            updateHistory();
+	void            updatePreviewBuilderThreadInput_adv();
+	void            updateExprtkInput(const QString& input);
+	void            compute();
+	void            compute_adv();
+	void            updateHistory(const QString& input);
 	void            showRealTimePreview(const QImage& preview, bool latexerror);
+	void            showRealTimePreview_adv(const QImage& preview, bool latexerror);
 	void            copyEqToClipboard();
 	void            copyResToClipboard();
 //	void            addNewVariable();
