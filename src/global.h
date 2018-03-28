@@ -4,6 +4,7 @@
 #include <QSettings>
 
 #include "muftranslate.h"
+#include "muflatex.h"
 
 #include <cmath>
 
@@ -18,6 +19,7 @@ namespace Muf
 
 //static MufTranslate translation("en-GB");
 static MufTranslate translation("sl-SI");
+static MufLatex toLatex;
 
 static int prec = 12;
 
