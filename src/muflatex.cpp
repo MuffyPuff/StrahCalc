@@ -16,6 +16,7 @@ MufLatex::operator()(QString input)
 	input = assignment(input);
 	input = power(input);
 	input = operators(input);
+	input = braces(input);
 	qDebug() << input ;
 
 	return input;
@@ -106,6 +107,15 @@ MufLatex::operators(QString input)
 	input.replace("*", "\\cdot");
 	input.replace("/", "\\div");
 	input.replace("%", "\\%");
+
+	return input;
+}
+
+QString
+MufLatex::braces(QString input)
+{
+	input.replace("(", " \\left(");
+	input.replace(")", " \\right)");
 
 	return input;
 }

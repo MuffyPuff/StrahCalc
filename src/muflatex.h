@@ -18,6 +18,7 @@ private:
 	QString         assignment(QString input);
 	QString         power(QString input);
 	QString         operators(QString input);
+	QString         braces(QString input);
 
 signals:
 
