@@ -112,9 +112,16 @@ private:
 	MufSymbolListView_w* mVarList;
 	MufSymbolListView_w* mConstList;
 
+	// SETTINGS
+	enum class MathMode {
+		DEFAULT
+	};
+
 	MufSettings_w*  mSettings;
 	QString         _lang;
 	int             _timeout;
+	int             _dpi;
+	MathMode        _mathmode;
 };
 
 #endif // MAINWINDOW_H

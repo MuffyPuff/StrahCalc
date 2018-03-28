@@ -61,20 +61,23 @@ MainWindow::~MainWindow()
 	delete ui;
 	this->destroy();
 }
+//2^(1+((x+1)^(x+2))%3)+1
 
 bool
 MainWindow::initKLF()
 {
 	input.mathmode = "\\[ ... \\]";
+//	input.mathmode = "";
 //	input.bypassTemplate = true;
 
-	input.dpi = 150;
+	input.dpi = 200;
 	ui->label->setMinimumHeight(input.dpi / 2);
 
 //	input.bg_color = qRgba(225, 225, 225, 225);
 	input.bg_color = qRgba(0x44, 0x44, 0x44, 255);
 	input.fg_color = qRgba(255, 255, 255, 255 * 0.70);
-	input.preamble = QString("\\usepackage{amssymb,amsmath,mathrsfs}");
+//	input.preamble = QString("\\usepackage{amssymb,amsmath,mathrsfs}");
+	input.preamble = QString("\\usepackage{amssymb,mathtools,mathrsfs}");
 
 	if (!KLFBackend::detectSettings(&settings, "./texlive")) {
 		qDebug() << "unable to find LaTeX in default directories.";
@@ -331,8 +334,7 @@ MainWindow::updateConstantDisplay()
 void
 MainWindow::applySettings()
 {
-	_lang = MufTranslate::_languageList.key(
-	                mSettings->languages->currentText());
+	_lang = MufTranslate::_languageList.key(mSettings->languages->currentText());
 	translation.changeLanguage(_lang);
 
 	_timeout = mSettings->timeout->value();
@@ -471,14 +473,14 @@ MainWindow::updatePreviewBuilderThreadInput()
 
 	// in linux, I need to reinstate the preamble when rendering. No idea why.
 	input.preamble =
-	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+//	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
 	/**
 	 * TODO: multiline
 	 * TODO: strip trailing semicolon
 	 * TODO: some assignment stuff
 	 **/
-
 
 	input.latex = ui->eqnInput->text() +
 	              " = " +
@@ -506,7 +508,8 @@ MainWindow::updatePreviewBuilderThreadInput_adv()
 
 	// in linux, I need to reinstate the preamble when rendering. No idea why.
 	input.preamble =
-	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+//	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
 	/**
 	 * TODO: multiline
