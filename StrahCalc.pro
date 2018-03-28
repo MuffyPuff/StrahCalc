@@ -22,7 +22,8 @@ SOURCES += \
         src/mainwindow.cpp \
         src/muffunctions.cpp \
         src/mufsettings_w.cpp \
-        src/mufsymbollistview_w.cpp
+        src/mufsymbollistview_w.cpp \
+        src/muflatex.cpp
 
 HEADERS  += \
         src/global.h \
@@ -30,7 +31,8 @@ HEADERS  += \
         src/mainwindow.h \
         src/muffunctions.h \
         src/mufsettings_w.h \
-        src/mufsymbollistview_w.h
+        src/mufsymbollistview_w.h \
+        src/muflatex.h
 
 FORMS    += \
         src/mainwindow.ui \
