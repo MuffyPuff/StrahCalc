@@ -16,6 +16,7 @@ public:
 
 private:
 	QString         assignment(QString input);
+	QString         power(QString input);
 	QString         operators(QString input);
 
 signals:
