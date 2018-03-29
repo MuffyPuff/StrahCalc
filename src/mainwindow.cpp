@@ -21,7 +21,8 @@ MainWindow::MainWindow(QWidget* parent) :
 	ui->setupUi(this);
 
 	loadSettings();
-	translation.changeLanguage(_lang);
+	applySettings();
+//	translation.changeLanguage(_lang);
 	statusMessageCode = "wait";
 	status = Status::Waiting;
 
@@ -70,8 +71,8 @@ MainWindow::initKLF()
 //	input.mathmode = "";
 //	input.bypassTemplate = true;
 
-	input.dpi = 200;
-	ui->label->setMinimumHeight(input.dpi / 2);
+//	input.dpi = 200;
+//	ui->label->setMinimumHeight(input.dpi / 2);
 
 //	input.bg_color = qRgba(225, 225, 225, 225);
 	input.bg_color = qRgba(0x44, 0x44, 0x44, 255);
@@ -297,7 +298,7 @@ MainWindow::initSettingsView()
 	}
 
 	connect(mSettings, &MufSettings_w::accepted,
-	        this, &MainWindow::applySettings,
+	        this, &MainWindow::saveSettings,
 	        Qt::QueuedConnection);
 
 	return true;
@@ -334,10 +335,9 @@ MainWindow::updateConstantDisplay()
 void
 MainWindow::applySettings()
 {
-	_lang = MufTranslate::_languageList.key(mSettings->languages->currentText());
 	translation.changeLanguage(_lang);
-
-	_timeout = mSettings->timeout->value();
+	input.dpi = _dpi;
+	ui->label->setMinimumHeight(_dpi / 2);
 }
 
 void
@@ -383,6 +383,7 @@ MainWindow::openSettings()
 {
 	mSettings->languages->setCurrentText(translation("language_name"));
 	mSettings->timeout->setValue(_timeout);
+	mSettings->dpi->setValue(_dpi);
 
 	mSettings->show();
 	mSettings->raise();
@@ -395,15 +396,22 @@ MainWindow::loadSettings()
 	QSettings settings;
 	_lang           = settings.value("ui/language_code",    "sl-SI").toString();
 	_timeout        = settings.value("ui/message_timeout",  3000).toInt();
+	_dpi            = settings.value("ui/dpi",              200).toInt();
 }
 
 void
 MainWindow::saveSettings()
 {
+	_lang = MufTranslate::_languageList.key(mSettings->languages->currentText());
+	_timeout = mSettings->timeout->value();
+	_dpi = mSettings->dpi->value();
+
 	QSettings settings;
 	settings.setValue("ui/language_code",           _lang);
 	settings.setValue("ui/message_timeout",         _timeout);
+	settings.setValue("ui/dpi",                     _dpi);
 
+	applySettings();
 }
 
 void

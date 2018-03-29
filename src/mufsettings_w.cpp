@@ -7,8 +7,9 @@ MufSettings_w::MufSettings_w(QDialog* parent) :
 {
 	ui->setupUi(this);
 
-	languages = ui->lang_v;
-	timeout = ui->timeout_v;
+	languages =     ui->lang_v;
+	timeout =       ui->timeout_v;
+	dpi =           ui->dpi_v;
 
 	updateText();
 }
@@ -26,6 +27,7 @@ MufSettings_w::updateText(const QString& lang)
 	ui->tabWidget->setTabText(0, Muf::translation("general"));
 	ui->lang_l->setText(Muf::translation("languages"));
 	ui->timeout_l->setText(Muf::translation("timeout"));
+	ui->dpi_l->setText(Muf::translation("dpi"));
 }
 
 

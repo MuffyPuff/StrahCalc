@@ -23,6 +23,7 @@ public:
 
 	QComboBox*      languages;
 	QSpinBox*       timeout;
+	QSpinBox*       dpi;
 
 public slots:
 	void            updateText(const QString& lang = "");

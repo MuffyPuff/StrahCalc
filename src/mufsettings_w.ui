@@ -52,7 +52,7 @@
          <item row="0" column="1" colspan="2">
           <widget class="QComboBox" name="lang_v"/>
          </item>
-         <item row="3" column="2">
+         <item row="5" column="2">
           <spacer name="horizontalSpacer_4">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -65,7 +65,7 @@
            </property>
           </spacer>
          </item>
-         <item row="3" column="0">
+         <item row="5" column="0">
           <spacer name="horizontalSpacer_3">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -78,7 +78,7 @@
            </property>
           </spacer>
          </item>
-         <item row="3" column="1">
+         <item row="5" column="1">
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -101,7 +101,7 @@
          <item row="1" column="2">
           <widget class="QSpinBox" name="timeout_v">
            <property name="suffix">
-            <string>ms</string>
+            <string> ms</string>
            </property>
            <property name="minimum">
             <number>0</number>
@@ -111,6 +111,32 @@
            </property>
            <property name="singleStep">
             <number>100</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="color_l">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QSpinBox" name="dpi_v">
+           <property name="suffix">
+            <string> dpi</string>
+           </property>
+           <property name="prefix">
+            <string/>
+           </property>
+           <property name="minimum">
+            <number>10</number>
+           </property>
+           <property name="maximum">
+            <number>100000000</number>
+           </property>
+           <property name="singleStep">
+            <number>10</number>
            </property>
           </widget>
          </item>
@@ -128,8 +154,29 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="2">
-          <widget class="QSpinBox" name="dpi_v"/>
+         <item row="4" column="0">
+          <widget class="QLabel" name="bg_color_l">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLineEdit" name="color_v">
+           <property name="inputMask">
+            <string>\#HHHhhhhh</string>
+           </property>
+           <property name="placeholderText">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QLineEdit" name="bg_color_v">
+           <property name="inputMask">
+            <string>\#HHHhhhhh</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>

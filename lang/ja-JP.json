@@ -152,6 +152,10 @@
     "translation": "一般"
 },
 {
+    "id": "dpi",
+    "translation": "Dots per inch (dpi)"
+},
+{
     "id": "",
     "translation": ""
 }

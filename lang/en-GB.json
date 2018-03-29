@@ -152,7 +152,11 @@
     "translation": "General"
 },
 {
+    "id": "dpi",
+    "translation": "Dots per inch (dpi)"
+},
+{
     "id": "",
-    "translation": ""
+            "translation": ""
 }
 ]
