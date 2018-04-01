@@ -26,6 +26,7 @@ public:
 		b, // brace
 		U, // unary
 		v, // value
+		x, // variable
 		NONE
 	};
 	Q_ENUM(TokenType)
@@ -33,6 +34,8 @@ public:
 		QString         s;
 		Assoc           assoc;
 		int             prec;
+		int             rightPrec;
+		int             nextPrec;
 		TokenType       type;
 		friend bool operator>(const str_tok_t& lhs, const str_tok_t& rhs);
 		friend bool operator<(const str_tok_t& lhs, const str_tok_t& rhs);
@@ -46,6 +49,8 @@ public:
 		TokenType       type;
 		Assoc           assoc;
 		int             prec;
+		int             rightPrec;
+		int             nextPrec;
 		QRegularExpression re;
 	};
 
@@ -86,19 +91,49 @@ public:
 //				qDebug() << _op.s << _op.type;
 			}
 		}
+		ExprTree(str_tok_t _op, ExprTree* _operand)
+		{
+			if (_op.assoc == Assoc::PREFIX) {
+				op = _op;
+				left = nullptr;
+				right = _operand;
+			} else if (_op.assoc == Assoc::POSTFIX) {
+				op = _op;
+				left = _operand;
+				right = nullptr;
+			} else {
+				qDebug("ExprTree construct error");
+//				qDebug() << _op.s << _op.type;
+			}
+		}
 		ExprTree(str_tok_t _op, ExprTree _left, ExprTree _right)
 		        : left(new ExprTree(_left)), right(new ExprTree(_right))
+		{
+			op = _op;
+		}
+		ExprTree(str_tok_t _op, ExprTree* _left, ExprTree* _right)
+		        : left(_left), right(_right)
 		{
 			op = _op;
 		}
 
 		~ExprTree()
 		{
+			op = op_sent;
 			if (left != nullptr) {
 				delete left;
 			}
 			if (right != nullptr) {
 				delete right;
+			}
+		}
+
+		double value()
+		{
+			if (op.type == TokenType::v) {
+				return op.s.toDouble();
+			} else {
+				return 0;
 			}
 		}
 
@@ -125,6 +160,74 @@ public:
 			return t;
 		}
 
+		void reduce()
+		{
+			if (left != nullptr) {
+				left->reduce();
+			}
+			if (right != nullptr) {
+				right->reduce();
+			}
+			if (op.type == TokenType::B) {
+				/*
+				if (left->op.type  == TokenType::U and
+				    left->op.assoc == Assoc::PREFIX and
+				    right->op.type  == TokenType::U and
+				    right->op.assoc == Assoc::PREFIX) {
+					ExprTree* t = left;
+					left = left->right;
+					t->right = nullptr;
+					delete t;
+					t = right;
+					right = right->right;
+					t->right = nullptr;
+					delete t;
+				} else */
+				if (left->op.type  == TokenType::v and
+				    right->op.type  == TokenType::v) {
+					if (op.s == "*") {
+						op = left->op;
+						op.s = left->value() * right->value();
+					} else if (op.s == "/") {
+						op = left->op;
+						op.s = left->value() / right->value();
+					} else if (op.s == "%") {
+						op = left->op;
+						op.s = (int)left->value() % (int)right->value();
+					} else if (op.s == "+") {
+						op = left->op;
+						op.s = left->value() + right->value();
+					} else if (op.s == "-") {
+						op = left->op;
+						op.s = left->value() - right->value();
+					}
+				}
+			} else if (op.type  == TokenType::U and
+			           op.assoc == Assoc::PREFIX and
+			           right->op.type  == TokenType::U and
+			           right->op.assoc == Assoc::PREFIX) {
+				ExprTree* t = right;
+				op = right->right->op;
+				left  = right->right->left;
+				right = right->right->right;
+				t->right->left  = nullptr;
+				t->right->right = nullptr;
+				delete t;
+			} else if (op.type  == TokenType::U and
+			           op.assoc == Assoc::PREFIX and
+			           right->op.type  == TokenType::B and
+			           right->op.s == "-") {
+				ExprTree* t = right;
+				op = right->op;
+				op.s = "+";
+				left  = right->left;
+				right = right->right;
+				t->left  = nullptr;
+				t->right = nullptr;
+				delete t;
+			}
+		}
+
 		str_tok_t       op;    // can be any operator or value
 		ExprTree*       left;  // can be null
 		ExprTree*       right; // can be null
@@ -132,6 +235,12 @@ public:
 
 public:
 	explicit MufExprParser(QObject* parent = nullptr);
+	~MufExprParser()
+	{
+		if (tree != nullptr) {
+			delete tree;
+		}
+	}
 
 private:
 	int             init();
@@ -148,11 +257,16 @@ private:
 	        QList<pat_t> p,
 	        str_tok_t* t,
 	        QString* e);
-	bool            expr();
-	bool            p();
+
+	ExprTree*       exprTD(int p);
+	ExprTree*       pTD();
 	void            pushOperator(const str_tok_t& op);
 	void            popOperator();
 
+	ExprTree*       exprRD(int p);
+	ExprTree*       pRD();
+	bool            exprSY();
+	bool            pSY();
 	bool            exprR();
 	bool            pR();
 
@@ -162,7 +276,9 @@ signals:
 public slots:
 
 	bool            exprRecognise(QString input);
-	QString exprParse(QString input);
+	QString         exprParseSY(QString input);
+	QString         exprParseRD(QString input);
+	QString         exprParseTD(QString input);
 
 private:
 	static str_tok_t tok_end; // end token
@@ -178,7 +294,7 @@ private:
 
 public:
 //	QQueue<str_tok_t> queue;
-//	ExprTree        tree;
+	ExprTree*       tree;
 
 	friend bool operator>(const str_tok_t& lhs, const str_tok_t& rhs);
 };

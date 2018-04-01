@@ -15,29 +15,39 @@ MufExprParser::MufExprParser(QObject* parent) : QObject(parent)
         #pragma clang diagnostic ignored "-Wmissing-field-initializers"
 #endif
 
-MufExprParser::str_tok_t MufExprParser::tok_end = {"end", Assoc::NONE, 0, TokenType::NONE};
-MufExprParser::str_tok_t MufExprParser::op_sent = {"sentinel", Assoc::NONE, 0, TokenType::NONE};
+MufExprParser::str_tok_t MufExprParser::tok_end = {
+        "end",
+        MufExprParser::Assoc::NONE,
+        0, 0, 0,
+        MufExprParser::TokenType::NONE
+};
+MufExprParser::str_tok_t MufExprParser::op_sent = {
+        "sentinel",
+        MufExprParser::Assoc::NONE,
+        0, 0, 0,
+        MufExprParser::TokenType::NONE
+};
 
 int MufExprParser::init()
 {
 	pat_eos = {""};
 	pat_ops = {
-	        {"^[)}\\]]", TokenType::b, Assoc::RIGHT,  -1},
-	        {"^\\^",     TokenType::B, Assoc::RIGHT,   7},
-	        {"^\\*",     TokenType::B, Assoc::LEFT,    6},
-	        {"^\\/",     TokenType::B, Assoc::LEFT,    6},
-	        {"^\\%",     TokenType::B, Assoc::LEFT,    6},
-	        {"^\\!",     TokenType::B, Assoc::POSTFIX, 5},
-	        {"^\\+",     TokenType::B, Assoc::LEFT,    4},
-	        {"^\\-",     TokenType::B, Assoc::LEFT,    4},
-	        {"^\\=",     TokenType::B, Assoc::LEFT,    3},
-	        {"^\\&\\&",  TokenType::B, Assoc::LEFT,    2},
-	        {"^\\|\\|",  TokenType::B, Assoc::LEFT,    1}
+	        {"^[)}\\]]", TokenType::b, Assoc::RIGHT,  -1, 0, -2},
+	        {"^\\^",     TokenType::B, Assoc::RIGHT,   7, 7, 6},
+	        {"^\\!",     TokenType::B, Assoc::POSTFIX, 6, 0, 7},
+	        {"^\\*",     TokenType::B, Assoc::LEFT,    5, 6, 5},
+	        {"^\\/",     TokenType::B, Assoc::LEFT,    5, 6, 5},
+	        {"^\\%",     TokenType::B, Assoc::LEFT,    5, 6, 5},
+	        {"^\\+",     TokenType::B, Assoc::LEFT,    4, 5, 4},
+	        {"^\\-",     TokenType::B, Assoc::LEFT,    4, 5, 4},
+	        {"^\\=",     TokenType::B, Assoc::LEFT,    3, 4, 2},
+	        {"^\\&\\&",  TokenType::B, Assoc::LEFT,    2, 3, 2},
+	        {"^\\|\\|",  TokenType::B, Assoc::LEFT,    1, 2, 1}
 	};
 	pat_arg = {
-	        {"^[-+]", TokenType::U, Assoc::PREFIX, 4},
+	        {"^[-+]", TokenType::U, Assoc::PREFIX, 6, 0, 0},
 	        {"^[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?", TokenType::v, Assoc::NONE, 0},
-	        {"^[a-zA-Z_][a-zA-Z_0-9]*", TokenType::v, Assoc::NONE, 0},
+	        {"^[a-zA-Z_][a-zA-Z_0-9]*", TokenType::x, Assoc::NONE, 0},
 	        {"^[({\\[]", TokenType::b, Assoc::LEFT, -1}
 	};
 
@@ -58,6 +68,7 @@ int MufExprParser::init()
 	}
 
 	mOperators.push(op_sent);
+	tree = nullptr;
 
 	return 1;
 }
@@ -138,17 +149,68 @@ MufExprParser::exprRecognise(QString input)
 }
 
 QString
-MufExprParser::exprParse(QString input)
+MufExprParser::exprParseSY(QString input)
 {
 	mOperands.clear();
 	mOperators.clear();
 	mOperators.push(op_sent);
-	tokens.empty();
+	tokens.clear();
 	if (tokenize(input)) {
-		if (expr() and expect(tok_end)) {
+		if (exprSY() and expect(tok_end)) {
 			qDebug() << "tree:" << input;
 			return mOperands.top().print();
 		}
+	}
+	qDebug() << "tokens:" << input;
+	for (auto el : tokens) {
+		qDebug() << el.s << el.type;
+	}
+	return "not valid";
+}
+
+QString MufExprParser::exprParseRD(QString input)
+{
+	if (tree != nullptr) {
+		delete tree;
+		tree = nullptr;
+	}
+	ExprTree* t;
+	tokens.clear();
+	if (tokenize(input)) {
+		t = exprRD(0);
+		if (t != nullptr and expect(tok_end)) {
+			tree = t;
+			qDebug() << "tree:" << input;
+			return tree->print();
+		}
+	}
+	qDebug() << "tokens:" << input;
+	for (auto el : tokens) {
+		qDebug() << el.s << el.type;
+	}
+	return "not valid";
+}
+
+QString
+MufExprParser::exprParseTD(QString input)
+{
+	if (tree != nullptr) {
+		delete tree;
+		tree = nullptr;
+	}
+	ExprTree* t;
+	tokens.clear();
+	if (tokenize(input)) {
+		t = exprTD(0);
+		if (t != nullptr and expect(tok_end)) {
+			tree = t;
+			qDebug() << "tree:" << input;
+//			qDebug() << tree->print();
+//			tree->reduce();
+//			qDebug() << "reduced tree:";
+			return tree->print();
+		}
+//		qDebug() << "expr or expect" << tokens.size();
 	}
 	qDebug() << "tokens:" << input;
 	for (auto el : tokens) {
@@ -241,19 +303,133 @@ MufExprParser::match(
 			continue;
 		}
 		t->s = m.captured(0);
-		t->type = el.type;
-		t->assoc = el.assoc;
-		t->prec = el.prec;
+		t->type         = el.type;
+		t->assoc        = el.assoc;
+		t->prec         = el.prec;
+		t->rightPrec    = el.rightPrec;
+		t->nextPrec     = el.nextPrec;
 		*e = s.mid(m.capturedLength(0));
 		return &el;
 	}
 	return 0;
 }
 
-bool
-MufExprParser::expr()
+MufExprParser::ExprTree*
+MufExprParser::exprTD(int p)
 {
-	if (!p()) {
+	ExprTree* t = pTD();
+	if (t == nullptr) {
+		qDebug() << "first p";
+		return nullptr;
+	}
+	qint8 r = 7;
+	while ((next().type == TokenType::B or
+	        next().assoc == Assoc::POSTFIX) and
+	       next().prec >= p and
+	       next().prec <= r) {
+		str_tok_t op = next();
+		consume();
+		if (op.type == TokenType::B) {
+			ExprTree* t1 = exprTD(op.rightPrec);
+			t = new ExprTree(op, t, t1);
+		} else {
+			t = new ExprTree(op, t);
+		}
+		r = op.nextPrec;
+	}
+	return t;
+}
+
+MufExprParser::ExprTree*
+MufExprParser::pTD()
+{
+	if (next().type == TokenType::v or
+	    next().type == TokenType::x) {
+		ExprTree* t = new ExprTree(next());
+		consume();
+		return t;
+	} else if (next().type == TokenType::b and next().assoc == Assoc::LEFT) {
+		QChar b = next().s.at(0); // we know it is length 1
+		consume();
+		ExprTree* t = exprTD(0);
+		b = b.toLatin1() + 1 + (b != '('); // add 1 and 1 more for { and [
+		if (!expect(b)) {
+			qDebug() << "expected" << b << "found:" << tokens.first().s;
+			return nullptr;
+		}
+		return t;
+	} else if (next().type == TokenType::U and next().assoc == Assoc::PREFIX) {
+		str_tok_t op = next();
+		consume();
+		qint8 q = op.prec;
+		ExprTree* t = exprTD(5); // for "/[*/%]/"? idk
+		return new ExprTree(op, t);
+	} else {
+		qDebug() << "unexpected state";
+		return nullptr;
+	}
+	Q_UNREACHABLE();
+}
+
+MufExprParser::ExprTree*
+MufExprParser::exprRD(int p)
+{
+	ExprTree* t = pRD();
+	if (t == nullptr) {
+		qDebug() << "first p";
+		return nullptr;
+	}
+	while (next().type == TokenType::B and
+	       next().prec >= p) {
+		str_tok_t op = next();
+		consume();
+		qint8 q = 0;
+		if (op.assoc == Assoc::RIGHT) {
+			q = op.prec;
+		} else if (op.assoc == Assoc::LEFT) {
+			q = 1 + op.prec;
+		}
+		ExprTree* t1 = exprRD(q);
+		t = new ExprTree(op, t, t1);
+	}
+	return t;
+}
+
+MufExprParser::ExprTree*
+MufExprParser::pRD()
+{
+	if (next().type == TokenType::v or
+	    next().type == TokenType::x) {
+		ExprTree* t = new ExprTree(next());
+		consume();
+		return t;
+	} else if (next().type == TokenType::b and next().assoc == Assoc::LEFT) {
+		QChar b = next().s.at(0); // we know it is length 1
+		consume();
+		ExprTree* t = exprRD(0);
+		b = b.toLatin1() + 1 + (b != '('); // add 1 and 1 more for { and [
+		if (!expect(b)) {
+			qDebug() << "expected" << b << "found:" << tokens.first().s;
+			return nullptr;
+		}
+		return t;
+	} else if (next().type == TokenType::U and next().assoc == Assoc::PREFIX) {
+		str_tok_t op = next();
+		consume();
+		qint8 q = op.prec;
+		ExprTree* t = exprRD(q);
+		return new ExprTree(op, t);
+	} else {
+		qDebug() << "unexpected state";
+		return nullptr;
+	}
+	Q_UNREACHABLE();
+}
+
+bool
+MufExprParser::exprSY()
+{
+	if (!pSY()) {
 		qDebug() << "first p";
 		return false;
 	}
@@ -261,7 +437,7 @@ MufExprParser::expr()
 //		Q_UNIMPLEMENTED(); // push next
 		pushOperator(next());
 		consume();
-		if (!p()) {
+		if (!pSY()) {
 			qDebug() << "second p";
 			return false;
 		}
@@ -274,10 +450,11 @@ MufExprParser::expr()
 }
 
 bool
-MufExprParser::p()
+MufExprParser::pSY()
 {
 //	qDebug() << "j";
-	if (next().type == TokenType::v) {
+	if (next().type == TokenType::v or
+	    next().type == TokenType::x) {
 //		qDebug() << "val";
 		mOperands.push(ExprTree(next()));
 //		qDebug() << "push?";
@@ -287,7 +464,7 @@ MufExprParser::p()
 		QChar b = next().s.at(0); // we know it is length 1
 		consume();
 		mOperators.push(op_sent);
-		if (!expr()) {
+		if (!exprSY()) {
 			return false;
 		}
 		b = b.toLatin1() + 1 + (b != '('); // add 1 and 1 more for { and [
@@ -301,7 +478,7 @@ MufExprParser::p()
 //		Q_UNIMPLEMENTED(); // push next
 		pushOperator(next());
 		consume();
-		if (!p()) {
+		if (!pSY()) {
 			qDebug() << "expected value";
 			return false;
 		}
@@ -340,13 +517,13 @@ MufExprParser::popOperator()
 bool
 MufExprParser::exprR()
 {
-	if (!p()) {
+	if (!pR()) {
 		qDebug() << "first p";
 		return false;
 	}
 	while (next().type == TokenType::B) {
 		consume();
-		if (!p()) {
+		if (!pR()) {
 			qDebug() << "second p";
 			return false;
 		}
@@ -357,7 +534,8 @@ MufExprParser::exprR()
 bool
 MufExprParser::pR()
 {
-	if (next().type == TokenType::v) {
+	if (next().type == TokenType::v or
+	    next().type == TokenType::x) {
 		consume();
 	} else if (next().type == TokenType::b and next().assoc == Assoc::LEFT) {
 		QChar b = next().s.at(0); // we know it is length 1
