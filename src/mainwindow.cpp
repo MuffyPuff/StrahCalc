@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	if (initFnView()) {}
 	if (initCalcView()) {}
 	if (initAdvCalcView()) {}
+	if (initSymCalcView()) {}
 	if (initSettingsView()) {}
 
 //	qDebug() << Muf::translation("language_code");
@@ -53,7 +54,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 MainWindow::~MainWindow()
 {
-	saveSettings();
+//	saveSettings();
 	delete mPreviewBuilderThread;
 	delete mExprtk;
 	delete mFnLoader;
@@ -123,6 +124,7 @@ MainWindow::initUI()
 	header.append({
 	        "calc",
 	        "calc_adv",
+	        "calc_sym",
 	        "vars",
 	        "consts",
 	        "history"
@@ -242,6 +244,35 @@ MainWindow::initAdvCalcView()
 }
 
 bool
+MainWindow::initSymCalcView()
+{
+	// compute
+	connect(ui->compute_sym, &QAbstractButton::clicked,
+	        this, &MainWindow::compute_sym,
+	        Qt::QueuedConnection);
+//	// update history on compute
+//	connect(ui->compute_adv, &QAbstractButton::clicked,
+//	        this, &MainWindow::updateHistory,
+//	        Qt::QueuedConnection);
+
+	// copy to clipboard
+	connect(ui->clipBtnEq_sym, &QAbstractButton::clicked,
+	        this, &MainWindow::copyEqToClipboard);
+	connect(ui->clipBtnRes_sym, &QAbstractButton::clicked,
+	        this, &MainWindow::copyResToClipboard);
+
+
+//	ui->clipBtnEq->setText(Muf::translation("copy_img"));
+//	ui->clipBtnRes->setText(Muf::translation("copy_res"));
+
+	ui->eqnInput->setFocus();
+//	ui->statusBar->showMessage(Muf::translation("wait"));
+//	setStatusMessage("wait");
+
+	return true;
+}
+
+bool
 MainWindow::initSymView()
 {
 	// var init
@@ -297,6 +328,13 @@ MainWindow::initSettingsView()
 		}
 	}
 
+//	// init values
+//	mSettings->languages->setCurrentText(translation("language_name"));
+//	mSettings->timeout->setValue(_timeout);
+//	mSettings->dpi->setValue(_dpi);
+//	mSettings->color->setText(_color.name());
+//	mSettings->bg_color->setText(_bg_color.name());
+
 	connect(mSettings, &MufSettings_w::accepted,
 	        this, &MainWindow::saveSettings,
 	        Qt::QueuedConnection);
@@ -333,14 +371,6 @@ MainWindow::updateConstantDisplay()
 }
 
 void
-MainWindow::applySettings()
-{
-	translation.changeLanguage(_lang);
-	input.dpi = _dpi;
-	ui->label->setMinimumHeight(_dpi / 2);
-}
-
-void
 MainWindow::updateText(const QString& lang)
 {
 	// rename tabs
@@ -355,6 +385,10 @@ MainWindow::updateText(const QString& lang)
 	ui->clipBtnEq_adv->setText(Muf::translation("copy_img"));
 	ui->clipBtnRes_adv->setText(Muf::translation("copy_res"));
 	ui->compute_adv->setText(Muf::translation("compute"));
+
+	ui->clipBtnEq_sym->setText(Muf::translation("copy_img"));
+	ui->clipBtnRes_sym->setText(Muf::translation("copy_res"));
+	ui->compute_sym->setText(Muf::translation("compute"));
 
 	setStatusMessage(statusMessageCode);
 
@@ -379,15 +413,29 @@ MainWindow::setStatusMessage(const QString& code, const bool& timeout)
 }
 
 void
+MainWindow::applySettings()
+{
+	translation.changeLanguage(_lang);
+	input.dpi = _dpi;
+	ui->label->setMinimumHeight(_dpi / 2);
+//	input.bg_color = _color.rgba();
+//	input.fg_color = _bg_color.rgba();
+	qDebug() << "applied settings";
+}
+
+void
 MainWindow::openSettings()
 {
 	mSettings->languages->setCurrentText(translation("language_name"));
 	mSettings->timeout->setValue(_timeout);
 	mSettings->dpi->setValue(_dpi);
+	mSettings->color->setText(_color.name());
+	mSettings->bg_color->setText(_bg_color.name());
 
 	mSettings->show();
 	mSettings->raise();
 	mSettings->activateWindow();
+	qDebug() << "opened settings";
 }
 
 void
@@ -397,6 +445,12 @@ MainWindow::loadSettings()
 	_lang           = settings.value("ui/language_code",    "sl-SI").toString();
 	_timeout        = settings.value("ui/message_timeout",  3000).toInt();
 	_dpi            = settings.value("ui/dpi",              200).toInt();
+//	_color          = settings.value("ui/color",
+//	                                 qRgba(0xff, 0xff, 0xff, 255 * 0.70)).toUInt();
+//	_bg_color       = settings.value("ui/bg_color",
+//	                                 qRgba(0x44, 0x44, 0x44, 255)).toUInt();
+
+	qDebug() << "loaded settings";
 }
 
 void
@@ -405,12 +459,17 @@ MainWindow::saveSettings()
 	_lang = MufTranslate::_languageList.key(mSettings->languages->currentText());
 	_timeout = mSettings->timeout->value();
 	_dpi = mSettings->dpi->value();
+	_color.setNamedColor(mSettings->color->text());
+	_bg_color.setNamedColor(mSettings->bg_color->text());
 
 	QSettings settings;
 	settings.setValue("ui/language_code",           _lang);
 	settings.setValue("ui/message_timeout",         _timeout);
 	settings.setValue("ui/dpi",                     _dpi);
+	settings.setValue("ui/color",                   _color);
+	settings.setValue("ui/bg_color",                _bg_color);
 
+	qDebug() << "saved settings";
 	applySettings();
 }
 
@@ -542,6 +601,44 @@ MainWindow::updatePreviewBuilderThreadInput_adv()
 }
 
 void
+MainWindow::updatePreviewBuilderThreadInput_sym()
+{
+	//      if (!compute()) {
+	//              return;
+	//      }
+	//      this->value = res;
+
+	// in linux, I need to reinstate the preamble when rendering. No idea why.
+	input.preamble =
+	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+//	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+
+	/**
+	 * TODO: multiline
+	 * TODO: strip trailing semicolon
+	 * TODO: some assignment stuff
+	 **/
+
+	input.latex = Muf::toLatex(ui->eqnInput_sym->toPlainText()) +
+	              " \\to \\text{\\detokenize{";
+	for (auto el : mSym.queue) {
+		input.latex.append(el.s);
+	}
+	input.latex.append("}}");
+	if (mPreviewBuilderThread->inputChanged(input)) {
+		qDebug() << "input changed. Render...";
+		//              ui->statusBar->showMessage(Muf::translation("rendering"));
+		setStatusMessage("rendering");
+		//              qDebug() << "input changed. displayed message";
+		mPreviewBuilderThread->start();
+		//              qDebug() << "input changed. started";
+	} else {
+		//              ui->statusBar->showMessage(Muf::translation("done"));
+		setStatusMessage("done");
+	}
+}
+
+void
 MainWindow::updateExprtkInput(const QString& input)
 {
 //	QString input(ui->eqnInput->text());
@@ -560,11 +657,15 @@ MainWindow::compute()
 	           this, &MainWindow::showRealTimePreview);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
 	           this, &MainWindow::showRealTimePreview_adv);
+	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	           this, &MainWindow::showRealTimePreview_sym);
 
 	disconnect(this, &MainWindow::resultAvailable,
 	           this, &MainWindow::updatePreviewBuilderThreadInput);
 	disconnect(this, &MainWindow::resultAvailable,
 	           this, &MainWindow::updatePreviewBuilderThreadInput_adv);
+	disconnect(this, &MainWindow::resultAvailable,
+	           this, &MainWindow::updatePreviewBuilderThreadInput_sym);
 
 	// display updated expression image
 	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
@@ -585,11 +686,15 @@ MainWindow::compute_adv()
 	           this, &MainWindow::showRealTimePreview);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
 	           this, &MainWindow::showRealTimePreview_adv);
+	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	           this, &MainWindow::showRealTimePreview_sym);
 
 	disconnect(this, &MainWindow::resultAvailable,
 	           this, &MainWindow::updatePreviewBuilderThreadInput);
 	disconnect(this, &MainWindow::resultAvailable,
 	           this, &MainWindow::updatePreviewBuilderThreadInput_adv);
+	disconnect(this, &MainWindow::resultAvailable,
+	           this, &MainWindow::updatePreviewBuilderThreadInput_sym);
 
 	// display updated expression image
 	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
@@ -603,7 +708,33 @@ MainWindow::compute_adv()
 	updateHistory(ui->eqnInput_adv->toPlainText());
 }
 
-void MainWindow::updateHistory(const QString& input)
+void
+MainWindow::compute_sym()
+{
+	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	           this, &MainWindow::showRealTimePreview);
+	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	           this, &MainWindow::showRealTimePreview_adv);
+	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	           this, &MainWindow::showRealTimePreview_sym);
+
+	disconnect(this, &MainWindow::resultAvailable,
+	           this, &MainWindow::updatePreviewBuilderThreadInput);
+	disconnect(this, &MainWindow::resultAvailable,
+	           this, &MainWindow::updatePreviewBuilderThreadInput_adv);
+	disconnect(this, &MainWindow::resultAvailable,
+	           this, &MainWindow::updatePreviewBuilderThreadInput_sym);
+
+	// display updated expression image
+	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
+	        this, &MainWindow::showRealTimePreview_sym,
+	        Qt::QueuedConnection);
+	mSym.parse(ui->eqnInput_sym->toPlainText());
+	updatePreviewBuilderThreadInput_sym();
+}
+
+void
+MainWindow::updateHistory(const QString& input)
 {
 	if (input.isEmpty()) {
 		return;
@@ -639,5 +770,20 @@ MainWindow::showRealTimePreview_adv(const QImage& preview, bool latexerror)
 		pixmap = QPixmap::fromImage(preview);
 		ui->label_adv->setPixmap(pixmap);
 		ui->label_adv->adjustSize();
+	}
+}
+
+void
+MainWindow::showRealTimePreview_sym(const QImage& preview, bool latexerror)
+{
+	if (latexerror) {
+		//              ui->statusBar->showMessage(Muf::translation("render_err_general"));
+		setStatusMessage("render_err_general");
+	} else {
+		//              ui->statusBar->showMessage(Muf::translation("done"));
+		setStatusMessage("done");
+		pixmap = QPixmap::fromImage(preview);
+		ui->label_sym->setPixmap(pixmap);
+		ui->label_sym->adjustSize();
 	}
 }

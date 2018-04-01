@@ -23,7 +23,7 @@ static MufLatex toLatex;
 
 static int prec = 12;
 
-static QString
+static inline QString
 roundFloat(const double& value, int count = 0)
 {
 	if (count > 15) {

@@ -59,7 +59,9 @@ MufLatex::power(QString input)
 	auto m = pow.match(input);
 	QString exp = m.captured("exp");
 //	QString res = (exp.indexOf("^") != -1) ? power(exp) : exp;
-	input.replace(m.captured("recurse"), "{" + power(exp) + "}");
+	if (m.hasMatch()) {
+		input.replace(m.captured("recurse"), "{" + power(exp) + "}");
+	}
 //	QStringList words;
 //	auto i = base.globalMatch(input);
 //	while (i.hasNext()) {

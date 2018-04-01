@@ -7,9 +7,11 @@ MufSettings_w::MufSettings_w(QDialog* parent) :
 {
 	ui->setupUi(this);
 
-	languages =     ui->lang_v;
-	timeout =       ui->timeout_v;
-	dpi =           ui->dpi_v;
+	languages       = ui->lang_v;
+	timeout         = ui->timeout_v;
+	dpi             = ui->dpi_v;
+	color           = ui->color_v;
+	bg_color        = ui->bg_color_v;
 
 	updateText();
 }
