@@ -160,73 +160,7 @@ public:
 			return t;
 		}
 
-		void reduce()
-		{
-			if (left != nullptr) {
-				left->reduce();
-			}
-			if (right != nullptr) {
-				right->reduce();
-			}
-			if (op.type == TokenType::B) {
-				/*
-				if (left->op.type  == TokenType::U and
-				    left->op.assoc == Assoc::PREFIX and
-				    right->op.type  == TokenType::U and
-				    right->op.assoc == Assoc::PREFIX) {
-					ExprTree* t = left;
-					left = left->right;
-					t->right = nullptr;
-					delete t;
-					t = right;
-					right = right->right;
-					t->right = nullptr;
-					delete t;
-				} else */
-				if (left->op.type  == TokenType::v and
-				    right->op.type  == TokenType::v) {
-					if (op.s == "*") {
-						op = left->op;
-						op.s = left->value() * right->value();
-					} else if (op.s == "/") {
-						op = left->op;
-						op.s = left->value() / right->value();
-					} else if (op.s == "%") {
-						op = left->op;
-						op.s = (int)left->value() % (int)right->value();
-					} else if (op.s == "+") {
-						op = left->op;
-						op.s = left->value() + right->value();
-					} else if (op.s == "-") {
-						op = left->op;
-						op.s = left->value() - right->value();
-					}
-				}
-			} else if (op.type  == TokenType::U and
-			           op.assoc == Assoc::PREFIX and
-			           right->op.type  == TokenType::U and
-			           right->op.assoc == Assoc::PREFIX) {
-				ExprTree* t = right;
-				op = right->right->op;
-				left  = right->right->left;
-				right = right->right->right;
-				t->right->left  = nullptr;
-				t->right->right = nullptr;
-				delete t;
-			} else if (op.type  == TokenType::U and
-			           op.assoc == Assoc::PREFIX and
-			           right->op.type  == TokenType::B and
-			           right->op.s == "-") {
-				ExprTree* t = right;
-				op = right->op;
-				op.s = "+";
-				left  = right->left;
-				right = right->right;
-				t->left  = nullptr;
-				t->right = nullptr;
-				delete t;
-			}
-		}
+		void reduce();
 
 		str_tok_t       op;    // can be any operator or value
 		ExprTree*       left;  // can be null
