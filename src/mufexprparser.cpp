@@ -155,6 +155,7 @@ MufExprParser::exprParseSY(QString input)
 	mOperators.clear();
 	mOperators.push(op_sent);
 	tokens.clear();
+
 	if (tokenize(input)) {
 		if (exprSY() and expect(tok_end)) {
 			qDebug() << "tree:" << input;
@@ -208,7 +209,8 @@ MufExprParser::exprParseTD(QString input)
 //			qDebug() << tree->print();
 //			tree->reduce();
 //			qDebug() << "reduced tree:";
-			return tree->print();
+//			return tree->print();
+			return tree->toLatex();
 		}
 //		qDebug() << "expr or expect" << tokens.size();
 	}
@@ -361,7 +363,7 @@ MufExprParser::pTD()
 	} else if (next().type == TokenType::U and next().assoc == Assoc::PREFIX) {
 		str_tok_t op = next();
 		consume();
-		qint8 q = op.prec;
+//		qint8 q = op.prec;
 		ExprTree* t = exprTD(5); // for "/[*/%]/"? idk
 		return new ExprTree(op, t);
 	} else {
@@ -443,8 +445,10 @@ MufExprParser::exprSY()
 		}
 	}
 	while (mOperators.top() != op_sent) {
+		qDebug() << "this?";
 //		Q_UNIMPLEMENTED(); // pop
 		popOperator();
+		qDebug() << "this?";
 	}
 	return true;
 }
@@ -507,7 +511,9 @@ MufExprParser::popOperator()
 //		qDebug() << "bin";
 		auto t1 = mOperands.pop();
 		auto t0 = mOperands.pop();
+//		qDebug("this2?");
 		mOperands.push(ExprTree(mOperators.pop(), t0, t1));
+//		qDebug("this3?");
 	} else {
 //		qDebug() << "un";
 		mOperands.push(ExprTree(mOperators.pop(), ExprTree(mOperands.pop())));
@@ -636,72 +642,138 @@ operator!=(
 	return not(lhs == rhs);
 }
 
+QString
+MufExprParser::ExprTree::toLatex()
+{
+	QString t = "";
+	switch (operands.size()) {
+	case 0:
+		if (op.s == "(" or
+		    op.s == "[" or
+		    op.s == "{") {
+			return "\\left(";
+		}
+		if (op.s == ")" or
+		    op.s == "]" or
+		    op.s == "}") {
+			return "\\right)";
+		}
+		return op.s;
+		break;
+	case 1:
+		switch (op.assoc) {
+		case Assoc::PREFIX:
+			return op.s + operands.front()->toLatex();
+			break;
+		case Assoc::POSTFIX:
+			return operands.front()->toLatex() + op.s;
+			break;
+		default: // do nothing
+			Q_UNREACHABLE();
+			break;
+		}
+		Q_UNREACHABLE();
+		break;
+	case 2:
+		if (op.s == "/") {
+			t.append("\\frac{");
+			t.append(operands.front()->toLatex());
+			t.append("}{");
+			t.append(operands.back()->toLatex());
+			t.append("}");
+			return t;
+		} else {
+			t.append("{");
+			t.append(operands.front()->toLatex());
+			t.append(op.s);
+			t.append(operands.back()->toLatex());
+			t.append("}");
+			return t;
+		}
+		Q_UNREACHABLE();
+		break;
+	default: // probably a function
+		t.append("{");
+		t.append(op.s);
+		t.append("\\left(");
+		t.append(operands.front()->toLatex());
+		for (int i = 1; i < operands.size(); ++i) {
+			t.append(", ");
+			t.append(operands.at(i)->toLatex());
+		}
+		t.append("\\right)");
+		t.append("}");
+		return t;
+		break;
+	}
+}
+
 void
 MufExprParser::ExprTree::reduce()
 {
-	if (left != nullptr) {
-		left->reduce();
-	}
-	if (right != nullptr) {
-		right->reduce();
-	}
-	if (op.type == TokenType::B) {
-		/*
-		if (left->op.type  == TokenType::U and
-		    left->op.assoc == Assoc::PREFIX and
-		    right->op.type  == TokenType::U and
-		    right->op.assoc == Assoc::PREFIX) {
-			ExprTree* t = left;
-			left = left->right;
-			t->right = nullptr;
-			delete t;
-			t = right;
-			right = right->right;
-			t->right = nullptr;
-			delete t;
-		} else */
-		if (left->op.type  == TokenType::v and
-		    right->op.type  == TokenType::v) {
-			if (op.s == "*") {
-				op = left->op;
-				op.s = left->value() * right->value();
-			} else if (op.s == "/") {
-				op = left->op;
-				op.s = left->value() / right->value();
-			} else if (op.s == "%") {
-				op = left->op;
-				op.s = (int)left->value() % (int)right->value();
-			} else if (op.s == "+") {
-				op = left->op;
-				op.s = left->value() + right->value();
-			} else if (op.s == "-") {
-				op = left->op;
-				op.s = left->value() - right->value();
-			}
-		}
-	} else if (op.type  == TokenType::U and
-	           op.assoc == Assoc::PREFIX and
-	           right->op.type  == TokenType::U and
-	           right->op.assoc == Assoc::PREFIX) {
-		ExprTree* t = right;
-		op = right->right->op;
-		left  = right->right->left;
-		right = right->right->right;
-		t->right->left  = nullptr;
-		t->right->right = nullptr;
-		delete t;
-	} else if (op.type  == TokenType::U and
-	           op.assoc == Assoc::PREFIX and
-	           right->op.type  == TokenType::B and
-	           right->op.s == "-") {
-		ExprTree* t = right;
-		op = right->op;
-		op.s = "+";
-		left  = right->left;
-		right = right->right;
-		t->left  = nullptr;
-		t->right = nullptr;
-		delete t;
-	}
+//	if (left != nullptr) {
+//		left->reduce();
+//	}
+//	if (right != nullptr) {
+//		right->reduce();
+//	}
+//	if (op.type == TokenType::B) {
+//		/*
+//		if (left->op.type  == TokenType::U and
+//		    left->op.assoc == Assoc::PREFIX and
+//		    right->op.type  == TokenType::U and
+//		    right->op.assoc == Assoc::PREFIX) {
+//			ExprTree* t = left;
+//			left = left->right;
+//			t->right = nullptr;
+//			delete t;
+//			t = right;
+//			right = right->right;
+//			t->right = nullptr;
+//			delete t;
+//		} else */
+//		if (left->op.type  == TokenType::v and
+//		    right->op.type  == TokenType::v) {
+//			if (op.s == "*") {
+//				op = left->op;
+//				op.s = left->value() * right->value();
+//			} else if (op.s == "/") {
+//				op = left->op;
+//				op.s = left->value() / right->value();
+//			} else if (op.s == "%") {
+//				op = left->op;
+//				op.s = (int)left->value() % (int)right->value();
+//			} else if (op.s == "+") {
+//				op = left->op;
+//				op.s = left->value() + right->value();
+//			} else if (op.s == "-") {
+//				op = left->op;
+//				op.s = left->value() - right->value();
+//			}
+//		}
+//	} else if (op.type  == TokenType::U and
+//	           op.assoc == Assoc::PREFIX and
+//	           right->op.type  == TokenType::U and
+//	           right->op.assoc == Assoc::PREFIX) {
+//		ExprTree* t = right;
+//		op = right->right->op;
+//		left  = right->right->left;
+//		right = right->right->right;
+//		t->right->left  = nullptr;
+//		t->right->right = nullptr;
+//		delete t;
+//	} else if (op.type  == TokenType::U and
+//	           op.assoc == Assoc::PREFIX and
+//	           right->op.type  == TokenType::B and
+//	           right->op.s == "-") {
+//		ExprTree* t = right;
+//		op = right->op;
+//		op.s = "+";
+//		left  = right->left;
+//		right = right->right;
+//		t->left  = nullptr;
+//		t->right = nullptr;
+//		delete t;
+//	}
 }
 

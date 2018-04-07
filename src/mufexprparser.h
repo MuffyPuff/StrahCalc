@@ -58,76 +58,121 @@ public:
 	{
 	public:
 		ExprTree()
-		        : left(nullptr), right(nullptr) {}
+		{
+			this->op = op_sent;
+			this->operands.clear();
+		}
+//		        : left(nullptr), right(nullptr) {}
 		ExprTree(const ExprTree& rhs)
 		{
 			this->op = rhs.op;
-			this->left  = nullptr;
-			this->right = nullptr;
-			if (rhs.left != nullptr) {
-				this->left = new ExprTree(*rhs.left);
+			this->operands.clear();
+//			this->operands = rhs.operands;
+			for (int i = 0; i < rhs.operands.size(); ++i) {
+				this->operands.append(rhs.operands.at(i));
 			}
-			if (rhs.right != nullptr) {
-				this->right = new ExprTree(*rhs.right);
-			}
+//			this->left  = nullptr;
+//			this->right = nullptr;
+//			if (rhs.left != nullptr) {
+//				this->left = new ExprTree(*rhs.left);
+//			}
+//			if (rhs.right != nullptr) {
+//				this->right = new ExprTree(*rhs.right);
+//			}
 		}
 		ExprTree(str_tok_t v) // set value as operator
-		        : left(nullptr), right(nullptr)
+//		        : left(nullptr), right(nullptr)
 		{
-			op = v;
+			this->op = v;
+			this->operands.clear();
 		}
 		ExprTree(str_tok_t _op, ExprTree _operand)
 		{
-			if (_op.assoc == Assoc::PREFIX) {
-				op = _op;
-				left = nullptr;
-				right = new ExprTree(_operand);
-			} else if (_op.assoc == Assoc::POSTFIX) {
-				op = _op;
-				left = new ExprTree(_operand);
-				right = nullptr;
-			} else {
-				qDebug("ExprTree construct error");
+			this->op = _op;
+			this->operands.clear();
+			this->operands.push_back(new ExprTree(_operand));
+//			if (_op.assoc == Assoc::PREFIX) {
+//				op = _op;
+//				left = nullptr;
+//				right = new ExprTree(_operand);
+//			} else if (_op.assoc == Assoc::POSTFIX) {
+//				op = _op;
+//				left = new ExprTree(_operand);
+//				right = nullptr;
+//			} else {
+//				qDebug("ExprTree construct error");
 //				qDebug() << _op.s << _op.type;
-			}
+//			}
 		}
 		ExprTree(str_tok_t _op, ExprTree* _operand)
 		{
-			if (_op.assoc == Assoc::PREFIX) {
-				op = _op;
-				left = nullptr;
-				right = _operand;
-			} else if (_op.assoc == Assoc::POSTFIX) {
-				op = _op;
-				left = _operand;
-				right = nullptr;
-			} else {
-				qDebug("ExprTree construct error");
+			this->op = _op;
+			this->operands.clear();
+			this->operands.push_back(_operand);
+//			if (_op.assoc == Assoc::PREFIX) {
+//				op = _op;
+//				left = nullptr;
+//				right = _operand;
+//			} else if (_op.assoc == Assoc::POSTFIX) {
+//				op = _op;
+//				left = _operand;
+//				right = nullptr;
+//			} else {
+//				qDebug("ExprTree construct error");
 //				qDebug() << _op.s << _op.type;
-			}
+//			}
 		}
 		ExprTree(str_tok_t _op, ExprTree _left, ExprTree _right)
-		        : left(new ExprTree(_left)), right(new ExprTree(_right))
+//		        : left(new ExprTree(_left)), right(new ExprTree(_right))
 		{
-			op = _op;
+			this->op = _op;
+			this->operands.clear();
+			this->operands.push_back(new ExprTree(_left));
+			this->operands.push_back(new ExprTree(_right));
 		}
 		ExprTree(str_tok_t _op, ExprTree* _left, ExprTree* _right)
-		        : left(_left), right(_right)
+//		        : left(_left), right(_right)
 		{
-			op = _op;
+			this->op = _op;
+			this->operands.clear();
+			this->operands.push_back(_left);
+			this->operands.push_back(_right);
 		}
 
 		~ExprTree()
 		{
-			op = op_sent;
-			if (left != nullptr) {
-				delete left;
+			this->op = op_sent;
+			for (auto& el : operands) {
+				delete el;
+				el = nullptr;
 			}
-			if (right != nullptr) {
-				delete right;
-			}
+//			if (left != nullptr) {
+//				delete left;
+//			}
+//			if (right != nullptr) {
+//				delete right;
+//			}
 		}
 
+		// check if it can be reduced to a value
+		bool isValue()
+		{
+			if (op.type == TokenType::v) {
+				return true;
+			}
+			if (op.type == TokenType::x) {
+				return false;
+			}
+			if (operands.isEmpty()) { // no operands but not a value
+				return false;
+			}
+			for (auto& el : operands) {
+				if (!el->isValue()) {
+					return false;
+				}
+			}
+			return true; // might be value
+		}
 		double value()
 		{
 			if (op.type == TokenType::v) {
@@ -140,31 +185,44 @@ public:
 		QString print()
 		{
 			QString t = op.s;
-			if (op.type == TokenType::B) {
-				t.append("(");
-				t.append(left->print());
-				t.append(", ");
-				t.append(right->print());
-				t.append(")");
-			} else if (op.type  == TokenType::U and
-			           op.assoc == Assoc::POSTFIX) {
-				t.append("(");
-				t.append(left->print());
-				t.append(")");
-			} else if (op.type  == TokenType::U and
-			           op.assoc == Assoc::PREFIX) {
-				t.append("(");
-				t.append(right->print());
-				t.append(")");
+			if (operands.isEmpty()) {
+				return t; // exit cond
 			}
+			t.append("(");
+			t.append(operands.front()->print());
+			for (int i = 1; i < operands.size(); ++i) {
+				t.append(", ");
+				t.append(operands.at(i)->print());
+			}
+			t.append(")");
+//			if (op.type == TokenType::B) {
+//				t.append("(");
+//				t.append(left->print());
+//				t.append(", ");
+//				t.append(right->print());
+//				t.append(")");
+//			} else if (op.type  == TokenType::U and
+//			           op.assoc == Assoc::POSTFIX) {
+//				t.append("(");
+//				t.append(left->print());
+//				t.append(")");
+//			} else if (op.type  == TokenType::U and
+//			           op.assoc == Assoc::PREFIX) {
+//				t.append("(");
+//				t.append(right->print());
+//				t.append(")");
+//			}
 			return t;
 		}
+
+		QString toLatex();
 
 		void reduce();
 
 		str_tok_t       op;    // can be any operator or value
-		ExprTree*       left;  // can be null
-		ExprTree*       right; // can be null
+//		ExprTree*       left;  // can be null
+//		ExprTree*       right; // can be null
+		QList<ExprTree*> operands;
 	};
 
 public:
@@ -173,6 +231,7 @@ public:
 	{
 		if (tree != nullptr) {
 			delete tree;
+			tree = nullptr;
 		}
 	}
 
