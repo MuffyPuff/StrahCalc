@@ -3,6 +3,9 @@
 #include <QDebug>
 #include <QHash>
 
+#include <algorithm>
+#include <cmath>
+
 MufExprParser::MufExprParser(QObject* parent) : QObject(parent)
 {
 	init();
@@ -195,6 +198,26 @@ QString MufExprParser::exprParseRD(QString input)
 	return "not valid";
 }
 
+/*
+ * TODO: traverse tree
+ * TODO: print all info on node
+ */
+
+void
+traverse(MufExprParser::ExprTree* t)
+{
+	qDebug() << "Text  |" << t->op.s;
+	qDebug() << "Neg?  |" << t->negative();
+	qDebug() << "Val?  |" << t->isValue();
+	qDebug() << "Val   |" << t->value();
+	qDebug() << "Odd?  |" << t->isOdd();
+	qDebug() << "Even? |" << t->isEven();
+	qDebug() << "----------------------------";
+	for (const auto& el : t->operands) {
+		traverse(el);
+	}
+}
+
 QString
 MufExprParser::exprParseTD(QString input)
 {
@@ -213,6 +236,9 @@ MufExprParser::exprParseTD(QString input)
 //			tree->reduce();
 //			qDebug() << "reduced tree:";
 //			return tree->print();
+			traverse(tree); // TODO: remove
+			tree->reduce();
+			traverse(tree);
 			return tree->toLatex();
 		}
 //		qDebug() << "expr or expect" << tokens.size();
@@ -682,56 +708,93 @@ chash(const char* input)
 int
 chash(const QString& input)
 {
-	qDebug("overload for chash");
+//	qDebug("overload for chash");
 	return chash(input.toStdString().c_str());
 }
 
-/*
- * TODO: traverse tree
- * TODO: print all info on node
- */
-
-bool
-MufExprParser::ExprTree::isNegative()
+int
+MufExprParser::ExprTree::negative()
 {
-	if (this->isValue()) {
-		return false;
+	if (op.type == TokenType::v or
+	    op.type == TokenType::x or
+	    operands.isEmpty()) { // no operands but not a value
+		return 1;
 	}
 
 	switch (chash(this->op.s)) {
-	case chash("-"):
+	case chash("-"): {
 		if (this->op.type == TokenType::U) {
-			return !this->operands.front()->isNegative();
+			return -this->operands.first()->negative();
+		} else {
+			int n1 = this->operands.first()->negative();
+			int n2 = this->operands.last()->negative();
+			return n1 - n2;
+//			Q_UNIMPLEMENTED();
+			return 0;
 		}
 		break;
-	case chash("/"):
+	}
+	case chash("+"): {
+		int n1 = this->operands.first()->negative();
+		int n2 = this->operands.last()->negative();
+		return n1 + n2;
+		break;
+	}
+	case chash("/"): {
+		int n1 = this->operands.first()->negative();
+		int n2 = this->operands.last()->negative();
+		return n1 / n2;
+//		if (n1 >= 0 and n2 <  0 or
+//		    n1 <  0 and n2 >= 0) {
+//			return -min(abs(n1), abs(n2));
+//		}
+//		if (n1 <  0 and n2 <  0 or
+//		    n1 >= 0 and n2 >= 0) {
+//			return min(abs(n1), abs(n2));
+//		}
+//		return n1 + n2;
+//		bool b1 = this->operands.first()->negative();
+//		bool b2 = this->operands.last()->negative();
+//		if (b1 ^ b2) {
+//			return true;
+//		} else {
+//			return 0;
+//		}
+		break;
+	}
 	case chash("*"): {
-		bool b1 = this->operands.front()->isNegative();
-		bool b2 = this->operands.back()->isNegative();
-		if (b1 ^ b2) {
-			return true;
-		} else {
-			return false;
-		}
+		int n1 = this->operands.first()->negative();
+		int n2 = this->operands.last()->negative();
+		return n1 * n2;
 		break;
 	}
 	case chash("^"): {
-		bool b1 = this->operands.front()->isNegative();
-		bool b2 = this->operands.back()->isValue();
-		bool b3 = this->operands.back()->isOdd();
-		if (b1 & b2 & b3) {
-			return true;
-		} else {
-			return false;
+		int n = this->operands.first()->negative();
+		if (this->operands.last()->isValue() and
+		    this->operands.last()->isEven()) {
+			return abs(n);
 		}
+		if (this->operands.last()->isValue() and
+		    this->operands.last()->isOdd()) {
+			return n;
+		}
+		return 1; // if exponent is not a value we can't tell parity
+//		bool b1 = this->operands.first()->negative();
+//		bool b2 = this->operands.last()->isValue();
+//		bool b3 = this->operands.last()->isOdd();
+//		if (b1 & b2 & b3) {
+//			return true;
+//		} else {
+//			return 0;
+//		}
 		break;
 	}
 	case chash("%"):
-		return false;
+		return 1;
 		break;
 	default:
 		Q_UNIMPLEMENTED();
-		return false;
+		return 0;
 		break;
 	}
 	Q_UNREACHABLE();
@@ -749,9 +812,9 @@ MufExprParser::ExprTree::isValue()
 	if (operands.isEmpty()) { // no operands but not a value
 		return false;
 	}
-	for (auto& el : operands) {
-		if (!el->isValue()) {
-			return false;
+	for (auto& el : operands) {   // if any operand
+		if (!el->isValue()) { // is not a value
+			return false; // then this is not a value
 		}
 	}
 	return true; // might be value
@@ -763,7 +826,7 @@ MufExprParser::ExprTree::value()
 	if (op.type == TokenType::v) {
 		return op.s.toDouble();
 	}
-	QT_THROW("value check on non-value");
+	qWarning("value check on non-value");
 	return 0;
 }
 
@@ -776,7 +839,7 @@ MufExprParser::ExprTree::isOdd()
 			return static_cast<int>(v) % 2;
 		}
 	}
-	QT_THROW("value check on non-value");
+	qWarning("value check on non-value");
 	return 0;
 }
 
@@ -793,7 +856,7 @@ MufExprParser::ExprTree::print()
 		return t; // exit cond
 	}
 	t.append("(");
-	t.append(operands.front()->print());
+	t.append(operands.first()->print());
 	for (int i = 1; i < operands.size(); ++i) {
 		t.append(", ");
 		t.append(operands.at(i)->print());
@@ -853,11 +916,11 @@ MufExprParser::ExprTree::toLatex()
 	case 1:
 		switch (op.assoc) {
 		case Assoc::PREFIX:
-			return op.s + "\\left(" + operands.front()->toLatex() + "\\right)";
+			return op.s + "\\left(" + operands.first()->toLatex() + "\\right)";
 			break;
 		case Assoc::POSTFIX:
-			return "\\left(" + operands.front()->toLatex() + "\\right)" + op.s;
-//			return operands.front()->toLatex() + op.s;
+			return "\\left(" + operands.first()->toLatex() + "\\right)" + op.s;
+//			return operands.first()->toLatex() + op.s;
 			break;
 		default: // do nothing
 			Q_UNREACHABLE();
@@ -870,17 +933,17 @@ MufExprParser::ExprTree::toLatex()
 		switch (chash(op.s)) {
 		case chash("/"):
 			t.append("\\frac{");
-			t.append(operands.front()->toLatex());
+			t.append(operands.first()->toLatex());
 			t.append("}{");
-			t.append(operands.back()->toLatex());
+			t.append(operands.last()->toLatex());
 			t.append("}");
 			return t;
 			break;
 		default:
 			t.append("{");
-			t.append(operands.front()->toLatex());
+			t.append(operands.first()->toLatex());
 			t.append(op.s);
-			t.append(operands.back()->toLatex());
+			t.append(operands.last()->toLatex());
 			t.append("}");
 			return t;
 			break;
@@ -894,7 +957,7 @@ MufExprParser::ExprTree::toLatex()
 		t.append("{");
 		t.append(op.s);
 		t.append("\\left(");
-		t.append(operands.front()->toLatex());
+		t.append(operands.first()->toLatex());
 		for (int i = 1; i < operands.size(); ++i) {
 			t.append(", ");
 			t.append(operands.at(i)->toLatex());
@@ -909,13 +972,103 @@ MufExprParser::ExprTree::toLatex()
 void
 MufExprParser::ExprTree::reduce()
 {
+	if (op.type == TokenType::v or
+	    op.type == TokenType::x or
+	    operands.isEmpty()) { // no operands but not a value
+		// nothing to do
+		// tabun
+		return;
+	}
+
 	switch (chash(op.s)) {
 	case chash("/"):
-
+	case chash("*"): {
+		int n1 = this->operands.first()->negative();
+		int n2 = this->operands.last()->negative();
+		if (n1 <  0 and n2 <  0) {
+			this->operands.first()->negate();
+			this->operands.last()->negate();
+		}
 		break;
+	}
+	case chash("-"): {
+		if (this->op.type == TokenType::U) {
+			int n1 = this->operands.first()->negative();
+			if (n1 < 0) {
+				this->operands.first()->negate();
+			}
+		} else {
+			int n1 = this->operands.first()->negative();
+			int n2 = this->operands.last()->negative();
+			if (n1 <  0 and n2 <  0) {
+				// -x - -y = -x + y = y - x
+				std::swap(this->operands.first(),
+				          this->operands.last());
+				this->operands.first()->negate();
+				this->operands.last()->negate();
+			}
+			if (n1 <  0 and n2 >= 0) {
+				Q_UNIMPLEMENTED();
+				// message to parent?
+				// -x + -y = -(x + y)
+			}
+			if (n1 >= 0 and n2 <  0) {
+				// x - -y = x + y
+				op.s = "+";
+				this->operands.last()->negate();
+			}
+			if (n1 >= 0 and n2 >= 0) {
+				// x - y
+				// do nothing
+			}
+//			if (n2 < 0) {
+//				if (n1 < 0) {
+//					this->operands.first()->negate();
+//					this->operands.last()->negate();
+//					swap(this->operands.first(),
+//					     this->operands.last());
+//				} else {
+//					op.s = "+";
+//					this->operands.last()->negate();
+//				}
+//			}
+		}
+	}
+	// -x + -y = -(x + y)
+	// -x + y = y - x
+	case chash("+"): {
+		int n1 = this->operands.first()->negative();
+		int n2 = this->operands.last()->negative();
+		if (n1 <  0 and n2 <  0) {
+			Q_UNIMPLEMENTED();
+			// message to parent?
+			// -x + -y = -(x + y)
+		}
+		if (n1 <  0 and n2 >= 0) {
+			// -x + y = y - x
+			op.s = "-";
+			this->operands.first()->negate();
+			std::swap(this->operands.first(),
+			          this->operands.last());
+		}
+		if (n1 >= 0 and n2 <  0) {
+			// x + -y = x - y
+			op.s = "-";
+			this->operands.first()->negate();
+		}
+		if (n1 >= 0 and n2 >= 0) {
+			// x + y
+			// do nothing
+		}
+	}
 	default:
 		break;
 	}
+	qDebug("nani");
+	for (auto& el : operands) {
+		el->reduce();
+	}
+
 //	if (left != nullptr) {
 //		left->reduce();
 //	}
@@ -979,6 +1132,101 @@ MufExprParser::ExprTree::reduce()
 //		t->left  = nullptr;
 //		t->right = nullptr;
 //		delete t;
-//	}
+//      }
+}
+
+void
+MufExprParser::ExprTree::negate()
+{
+	// god i dont wanna think about this orz
+	if (op.type == TokenType::v or
+	    op.type == TokenType::x or
+	    operands.isEmpty()) { // no operands but not a value
+		// nothing to do
+		return;
+	}
+
+	switch (chash(this->op.s)) {
+	case chash("-"): {
+		if (this->op.type == TokenType::U) {
+			// neg(-x) = x
+			auto tmp = *this;
+			*this = *tmp.operands.first();
+			delete tmp.operands.first();
+			tmp.operands.removeFirst();
+		} else {
+			// neg(x - y) = y - x
+			std::swap(this->operands.first(),
+			          this->operands.last());
+		}
+		break;
+	}
+	case chash("+"): {
+		// neg(x + y) = -x + -y
+		// neg(x + y) = -x - y
+		// neg(x + y) = -y - x
+		int n1 = this->operands.first()->negative();
+		int n2 = this->operands.last()->negative();
+		if (n1 <  0 and n2 <  0) {
+			// neg(x + y) = -x + -y
+			this->operands.first()->negate();
+			this->operands.last()->negate();
+		}
+		if (n1 <  0 and n2 >= 0) {
+			// neg(-x + -y) = x - y
+			op.s = "-";
+			this->operands.first()->negate();
+		}
+		if (n1 >= 0 and n2 <  0) {
+			// neg(x + -y) = y - x
+			op.s = "-";
+			std::swap(this->operands.first(),
+			          this->operands.last());
+			this->operands.first()->negate();
+		}
+		if (n1 >= 0 and n2 >= 0) {
+			// neg(x + y) = -(x + y)
+			// TODO: place in Un-
+			Q_UNIMPLEMENTED();
+		}
+		break;
+	}
+	case chash("*"):
+	case chash("/"): {
+		int n1 = this->operands.first()->negative();
+		int n2 = this->operands.last()->negative();
+		if (n1 < n2) {
+			this->operands.first()->negate();
+		} else {
+			this->operands.last()->negate();
+		}
+		break;
+	}
+	case chash("^"): {
+		// TODO: place in Un-
+		str_tok_t ttok;
+		ttok.s         = "-";
+		ttok.type      = TokenType::U;
+		ttok.assoc     = Assoc::PREFIX;
+		ttok.prec      = 6; // raw assoc TODO: enum
+		ttok.rightPrec = 0;
+		ttok.nextPrec  = 0;
+
+		*this = *new ExprTree(ttok, *this);
+
+		break;
+	}
+	case chash("%"):
+		// i dont wanna bother
+		Q_UNIMPLEMENTED();
+		return;
+		break;
+	default:
+		Q_UNIMPLEMENTED();
+		return;
+		break;
+	}
+	return;
+//	Q_UNREACHABLE();
 }
 

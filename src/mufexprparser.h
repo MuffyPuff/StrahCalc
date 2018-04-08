@@ -153,7 +153,7 @@ public:
 //			}
 		}
 		// check if it's worth to convert
-		bool isNegative();
+		int negative();
 		// check if it can be reduced to a value
 		bool isValue();
 		double value();
@@ -162,6 +162,7 @@ public:
 		QString print();
 		QString toLatex();
 		void reduce();
+		void negate();
 
 		str_tok_t       op;    // can be any operator or value
 //		ExprTree*       left;  // can be null
