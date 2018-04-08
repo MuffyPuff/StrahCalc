@@ -3,6 +3,7 @@
 
 #include <QSettings>
 
+#include "mufexprparser.h"
 #include "muftranslate.h"
 #include "muflatex.h"
 
@@ -20,6 +21,7 @@ namespace Muf
 //static MufTranslate translation("en-GB");
 static MufTranslate translation("sl-SI");
 static MufLatex toLatex;
+static MufExprParser mPar;
 
 static int prec = 12;
 

@@ -30,7 +30,7 @@ SOURCES += \
         src/mufexprparser.cpp \
         src/mufsymbollistview_w.cpp
 
-HEADERS  += src/stable.h\
+HEADERS  += \
         src/global.h \
         src/mufmenu.h \
         src/muflatex.h \
@@ -40,8 +40,6 @@ HEADERS  += src/stable.h\
         src/mufsettings_w.h \
         src/mufexprparser.h \
         src/mufsymbollistview_w.h
-
-#    src/stable.h
 
 FORMS    += \
         src/mainwindow.ui \

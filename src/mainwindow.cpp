@@ -618,13 +618,14 @@ MainWindow::updatePreviewBuilderThreadInput_sym()
 	 * TODO: strip trailing semicolon
 	 * TODO: some assignment stuff
 	 **/
-
-	input.latex = Muf::toLatex(ui->eqnInput_sym->toPlainText()) +
-	              " \\to \\text{\\detokenize{";
-	for (auto el : mSym.queue) {
-		input.latex.append(el.s);
-	}
-	input.latex.append("}}");
+//	input.latex = Muf::toLatex(ui->eqnInput_sym->toPlainText()) +
+//	              " \\to \\text{\\detokenize{";
+//	for (auto el : mSym.queue) {
+//		input.latex.append(el.s);
+//	}
+//	input.latex.append("}}");
+	Muf::mPar.exprParseTD(ui->eqnInput_sym->toPlainText());
+	input.latex = Muf::mPar.tree->toLatex();
 	if (mPreviewBuilderThread->inputChanged(input)) {
 		qDebug() << "input changed. Render...";
 		//              ui->statusBar->showMessage(Muf::translation("rendering"));

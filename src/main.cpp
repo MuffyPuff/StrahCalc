@@ -13,7 +13,7 @@ main(int argc, char* argv[])
 	QCoreApplication::setOrganizationName("rstrah");
 	QCoreApplication::setOrganizationDomain("rokstrah.com");
 
-	MufExprParser mPar;
+//	MufExprParser mPar;
 //	qDebug() << mPar.exprParseSY("2-3");
 //	qDebug() << mPar.exprParseSY("-[-x -x]");
 //	qDebug() << mPar.exprParseSY("2^x");
@@ -25,11 +25,11 @@ main(int argc, char* argv[])
 //	qDebug() << mPar.exprParseRD("x^(2+7*x)-(-7*x)");
 //	qDebug() << mPar.exprParseRD("x^(2+7*x)-(-x/-7)");
 //	qDebug() << mPar.exprParseRD("");
-	qDebug() << mPar.exprParseTD("-[-x -x]");
-	qDebug() << mPar.exprParseTD("2^x");
-	qDebug() << mPar.exprParseTD("x^(2+7*x)-(-7*x)");
-	qDebug() << mPar.exprParseTD("x^(2+7*x)-(-x/-7)");
-	qDebug() << mPar.exprParseTD("");
+//	qDebug() << mPar.exprParseTD("-[-x -x]");
+//	qDebug() << mPar.exprParseTD("2^x");
+//	qDebug() << mPar.exprParseTD("x^(2+7*x)-(-7*x)");
+//	qDebug() << mPar.exprParseTD("x^(2+7*x)-(-x/-7)");
+//	qDebug() << mPar.exprParseTD("");
 
 	MainWindow w;
 	w.setWindowTitle("StrahCalc");
