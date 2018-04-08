@@ -138,7 +138,6 @@ public:
 			this->operands.push_back(_left);
 			this->operands.push_back(_right);
 		}
-
 		~ExprTree()
 		{
 			this->op = op_sent;
@@ -153,70 +152,15 @@ public:
 //				delete right;
 //			}
 		}
-
+		// check if it's worth to convert
+		bool isNegative();
 		// check if it can be reduced to a value
-		bool isValue()
-		{
-			if (op.type == TokenType::v) {
-				return true;
-			}
-			if (op.type == TokenType::x) {
-				return false;
-			}
-			if (operands.isEmpty()) { // no operands but not a value
-				return false;
-			}
-			for (auto& el : operands) {
-				if (!el->isValue()) {
-					return false;
-				}
-			}
-			return true; // might be value
-		}
-		double value()
-		{
-			if (op.type == TokenType::v) {
-				return op.s.toDouble();
-			} else {
-				return 0;
-			}
-		}
-
-		QString print()
-		{
-			QString t = op.s;
-			if (operands.isEmpty()) {
-				return t; // exit cond
-			}
-			t.append("(");
-			t.append(operands.front()->print());
-			for (int i = 1; i < operands.size(); ++i) {
-				t.append(", ");
-				t.append(operands.at(i)->print());
-			}
-			t.append(")");
-//			if (op.type == TokenType::B) {
-//				t.append("(");
-//				t.append(left->print());
-//				t.append(", ");
-//				t.append(right->print());
-//				t.append(")");
-//			} else if (op.type  == TokenType::U and
-//			           op.assoc == Assoc::POSTFIX) {
-//				t.append("(");
-//				t.append(left->print());
-//				t.append(")");
-//			} else if (op.type  == TokenType::U and
-//			           op.assoc == Assoc::PREFIX) {
-//				t.append("(");
-//				t.append(right->print());
-//				t.append(")");
-//			}
-			return t;
-		}
-
+		bool isValue();
+		double value();
+		bool isOdd();
+		bool isEven();
+		QString print();
 		QString toLatex();
-
 		void reduce();
 
 		str_tok_t       op;    // can be any operator or value
@@ -272,6 +216,8 @@ public slots:
 	QString         exprParseSY(QString input);
 	QString         exprParseRD(QString input);
 	QString         exprParseTD(QString input);
+public:
+	bool            operator()(QString input);
 
 private:
 	static str_tok_t tok_end; // end token

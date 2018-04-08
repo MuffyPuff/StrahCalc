@@ -1,6 +1,7 @@
 #include "mufexprparser.h"
 
 #include <QDebug>
+#include <QHash>
 
 MufExprParser::MufExprParser(QObject* parent) : QObject(parent)
 {
@@ -67,8 +68,10 @@ int MufExprParser::init()
 		}
 	}
 
-	mOperators.push(op_sent);
+//	mOperators.push(op_sent);
 	tree = nullptr;
+
+//	qDebug("init done");
 
 	return 1;
 }
@@ -222,6 +225,30 @@ MufExprParser::exprParseTD(QString input)
 }
 
 bool
+MufExprParser::operator()(QString input)
+{
+	if (tree != nullptr) {
+		delete tree;
+		tree = nullptr;
+	}
+	ExprTree* t;
+	tokens.clear();
+	if (tokenize(input)) {
+		t = exprTD(0);
+		if (t != nullptr and expect(tok_end)) {
+			tree = t;
+//			qDebug() << "tree:" << input;
+			return true;
+		}
+	}
+	qDebug() << "tokens:" << input;
+	for (auto el : tokens) {
+		qDebug() << el.s << el.type;
+	}
+	return false;
+}
+
+bool
 MufExprParser::tokenize(QString input)
 {
 	pat_t* p;
@@ -364,7 +391,7 @@ MufExprParser::pTD()
 		str_tok_t op = next();
 		consume();
 //		qint8 q = op.prec;
-		ExprTree* t = exprTD(5); // for "/[*/%]/"? idk
+		ExprTree* t = exprTD(6); // for "/[*/%]/"? idk
 		return new ExprTree(op, t);
 	} else {
 		qDebug() << "unexpected state";
@@ -642,31 +669,195 @@ operator!=(
 	return not(lhs == rhs);
 }
 
+
+// function from https://stackoverflow.com/a/2112111/1150303
+int constexpr
+chash(const char* input)
+{
+	return *input ?
+	       static_cast<unsigned int>(*input) + 33 * chash(input + 1) :
+	       5381;
+}
+
+int
+chash(const QString& input)
+{
+	qDebug("overload for chash");
+	return chash(input.toStdString().c_str());
+}
+
+/*
+ * TODO: traverse tree
+ * TODO: print all info on node
+ */
+
+bool
+MufExprParser::ExprTree::isNegative()
+{
+	if (this->isValue()) {
+		return false;
+	}
+
+	switch (chash(this->op.s)) {
+	case chash("-"):
+		if (this->op.type == TokenType::U) {
+			return !this->operands.front()->isNegative();
+		}
+		break;
+	case chash("/"):
+	case chash("*"): {
+		bool b1 = this->operands.front()->isNegative();
+		bool b2 = this->operands.back()->isNegative();
+		if (b1 ^ b2) {
+			return true;
+		} else {
+			return false;
+		}
+		break;
+	}
+	case chash("^"): {
+		bool b1 = this->operands.front()->isNegative();
+		bool b2 = this->operands.back()->isValue();
+		bool b3 = this->operands.back()->isOdd();
+		if (b1 & b2 & b3) {
+			return true;
+		} else {
+			return false;
+		}
+		break;
+	}
+	case chash("%"):
+		return false;
+		break;
+	default:
+		Q_UNIMPLEMENTED();
+		return false;
+		break;
+	}
+	Q_UNREACHABLE();
+}
+
+bool
+MufExprParser::ExprTree::isValue()
+{
+	if (op.type == TokenType::v) {
+		return true;
+	}
+	if (op.type == TokenType::x) {
+		return false;
+	}
+	if (operands.isEmpty()) { // no operands but not a value
+		return false;
+	}
+	for (auto& el : operands) {
+		if (!el->isValue()) {
+			return false;
+		}
+	}
+	return true; // might be value
+}
+
+double
+MufExprParser::ExprTree::value()
+{
+	if (op.type == TokenType::v) {
+		return op.s.toDouble();
+	}
+	QT_THROW("value check on non-value");
+	return 0;
+}
+
+bool
+MufExprParser::ExprTree::isOdd()
+{
+	if (this->isValue()) {
+		const double v = this->value();
+		if (v == static_cast<int>(v)) {
+			return static_cast<int>(v) % 2;
+		}
+	}
+	QT_THROW("value check on non-value");
+	return 0;
+}
+
+bool MufExprParser::ExprTree::isEven()
+{
+	return !this->isOdd();
+}
+
+QString
+MufExprParser::ExprTree::print()
+{
+	QString t = op.s;
+	if (operands.isEmpty()) {
+		return t; // exit cond
+	}
+	t.append("(");
+	t.append(operands.front()->print());
+	for (int i = 1; i < operands.size(); ++i) {
+		t.append(", ");
+		t.append(operands.at(i)->print());
+	}
+	t.append(")");
+//			if (op.type == TokenType::B) {
+//				t.append("(");
+//				t.append(left->print());
+//				t.append(", ");
+//				t.append(right->print());
+//				t.append(")");
+//			} else if (op.type  == TokenType::U and
+//			           op.assoc == Assoc::POSTFIX) {
+//				t.append("(");
+//				t.append(left->print());
+//				t.append(")");
+//			} else if (op.type  == TokenType::U and
+//			           op.assoc == Assoc::PREFIX) {
+//				t.append("(");
+//				t.append(right->print());
+//				t.append(")");
+//			}
+	return t;
+}
+
 QString
 MufExprParser::ExprTree::toLatex()
 {
 	QString t = "";
 	switch (operands.size()) {
 	case 0:
-		if (op.s == "(" or
-		    op.s == "[" or
-		    op.s == "{") {
+		switch (chash(op.s)) {
+		case chash("("):
+		case chash("["):
+		case chash("{"):
 			return "\\left(";
-		}
-		if (op.s == ")" or
-		    op.s == "]" or
-		    op.s == "}") {
+			break;
+		case chash(")"):
+		case chash("]"):
+		case chash("}"):
 			return "\\right)";
+			break;
+		default:
+			return op.s;
+			break;
 		}
-		return op.s;
+//		if (op.s == "(" or
+//		    op.s == "[" or
+//		    op.s == "{") {
+//		}
+//		if (op.s == ")" or
+//		    op.s == "]" or
+//		    op.s == "}") {
+//		}
+		Q_UNREACHABLE();
 		break;
 	case 1:
 		switch (op.assoc) {
 		case Assoc::PREFIX:
-			return op.s + operands.front()->toLatex();
+			return op.s + "\\left(" + operands.front()->toLatex() + "\\right)";
 			break;
 		case Assoc::POSTFIX:
-			return operands.front()->toLatex() + op.s;
+			return "\\left(" + operands.front()->toLatex() + "\\right)" + op.s;
+//			return operands.front()->toLatex() + op.s;
 			break;
 		default: // do nothing
 			Q_UNREACHABLE();
@@ -675,21 +866,28 @@ MufExprParser::ExprTree::toLatex()
 		Q_UNREACHABLE();
 		break;
 	case 2:
-		if (op.s == "/") {
+//		switch (const_hash(op.s.toStdString().c_str())) {
+		switch (chash(op.s)) {
+		case chash("/"):
 			t.append("\\frac{");
 			t.append(operands.front()->toLatex());
 			t.append("}{");
 			t.append(operands.back()->toLatex());
 			t.append("}");
 			return t;
-		} else {
+			break;
+		default:
 			t.append("{");
 			t.append(operands.front()->toLatex());
 			t.append(op.s);
 			t.append(operands.back()->toLatex());
 			t.append("}");
 			return t;
+			break;
 		}
+//		if (op.s == "/") {
+//		} else {
+//		}
 		Q_UNREACHABLE();
 		break;
 	default: // probably a function
@@ -711,6 +909,13 @@ MufExprParser::ExprTree::toLatex()
 void
 MufExprParser::ExprTree::reduce()
 {
+	switch (chash(op.s)) {
+	case chash("/"):
+
+		break;
+	default:
+		break;
+	}
 //	if (left != nullptr) {
 //		left->reduce();
 //	}
