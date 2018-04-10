@@ -1226,24 +1226,26 @@ MufExprParser::ExprTree::reduce()
 		}
 		if (v2 and this->operands.last()->value() == 0) {
 			// x-0 = x
-			delete this->operands.last();
-			this->operands.last() = nullptr;
-			this->operands.removeLast();
-			auto tmp = *this;
-			*this = *tmp.operands.first();
-			delete tmp.operands.first();
-			tmp.operands.removeFirst();
+			this->setChild(0);
+//			delete this->operands.last();
+//			this->operands.last() = nullptr;
+//			this->operands.removeLast();
+//			auto tmp = *this;
+//			*this = *tmp.operands.first();
+//			delete tmp.operands.first();
+//			tmp.operands.removeFirst();
 			break;
 		}
 		if (v1 and this->operands.first()->value() == 0) {
 			// 0-x = -x
-			delete this->operands.first();
-			this->operands.first() = nullptr;
-			this->operands.removeFirst();
-			auto tmp = *this;
-			*this = *tmp.operands.last();
-			delete tmp.operands.last();
-			tmp.operands.removeLast();
+			this->setChild(1);
+//			delete this->operands.first();
+//			this->operands.first() = nullptr;
+//			this->operands.removeFirst();
+//			auto tmp = *this;
+//			*this = *tmp.operands.last();
+//			delete tmp.operands.last();
+//			tmp.operands.removeLast();
 			this->negate();
 			break;
 		}
@@ -1304,24 +1306,26 @@ MufExprParser::ExprTree::reduce()
 		}
 		if (v2 and this->operands.last()->value() == 0) {
 			// x+0 = x
-			delete this->operands.last();
-			this->operands.last() = nullptr;
-			this->operands.removeLast();
-			auto tmp = *this;
-			*this = *tmp.operands.first();
-			delete tmp.operands.first();
-			tmp.operands.removeFirst();
+			this->setChild(0);
+//			delete this->operands.last();
+//			this->operands.last() = nullptr;
+//			this->operands.removeLast();
+//			auto tmp = *this;
+//			*this = *tmp.operands.first();
+//			delete tmp.operands.first();
+//			tmp.operands.removeFirst();
 			break;
 		}
 		if (v1 and this->operands.first()->value() == 0) {
 			// 0+x = x
-			delete this->operands.first();
-			this->operands.first() = nullptr;
-			this->operands.removeFirst();
-			auto tmp = *this;
-			*this = *tmp.operands.last();
-			delete tmp.operands.last();
-			tmp.operands.removeLast();
+			this->setChild(1);
+//			delete this->operands.first();
+//			this->operands.first() = nullptr;
+//			this->operands.removeFirst();
+//			auto tmp = *this;
+//			*this = *tmp.operands.last();
+//			delete tmp.operands.last();
+//			tmp.operands.removeLast();
 			break;
 		}
 
@@ -1373,58 +1377,62 @@ MufExprParser::ExprTree::reduce()
 		}
 		if (v1 and this->operands.first()->value() == 0) {
 			// 0^x = 0
-			delete this->operands.first();
-			delete this->operands.last();
-			this->operands.first() = nullptr;
-			this->operands.last() = nullptr;
-			this->operands.clear();
-			this->op.s         = "0";
-			this->op.type      = TokenType::v;
-			this->op.assoc     = Assoc::NONE;
-			this->op.prec      = 0; // raw assoc TODO: enum
-			this->op.rightPrec = 0;
-			this->op.nextPrec  = 0;
+			this->setValue("0");
+//			delete this->operands.first();
+//			delete this->operands.last();
+//			this->operands.first() = nullptr;
+//			this->operands.last() = nullptr;
+//			this->operands.clear();
+//			this->op.s         = "0";
+//			this->op.type      = TokenType::v;
+//			this->op.assoc     = Assoc::NONE;
+//			this->op.prec      = 0; // raw assoc TODO: enum
+//			this->op.rightPrec = 0;
+//			this->op.nextPrec  = 0;
 			break;
 		}
 		if (v1 and this->operands.first()->value() == 1) {
 			// 1^x = 1
-			delete this->operands.first();
-			delete this->operands.last();
-			this->operands.first() = nullptr;
-			this->operands.last() = nullptr;
-			this->operands.clear();
-			this->op.s         = "1";
-			this->op.type      = TokenType::v;
-			this->op.assoc     = Assoc::NONE;
-			this->op.prec      = 0; // raw assoc TODO: enum
-			this->op.rightPrec = 0;
-			this->op.nextPrec  = 0;
+			this->setValue("1");
+//			delete this->operands.first();
+//			delete this->operands.last();
+//			this->operands.first() = nullptr;
+//			this->operands.last() = nullptr;
+//			this->operands.clear();
+//			this->op.s         = "1";
+//			this->op.type      = TokenType::v;
+//			this->op.assoc     = Assoc::NONE;
+//			this->op.prec      = 0; // raw assoc TODO: enum
+//			this->op.rightPrec = 0;
+//			this->op.nextPrec  = 0;
 			break;
 		}
 		if (v2 and this->operands.last()->value() == 0) {
 			// x^0 = 1
-			delete this->operands.first();
-			delete this->operands.last();
-			this->operands.first() = nullptr;
-			this->operands.last() = nullptr;
-			this->operands.clear();
-			this->op.s         = "1";
-			this->op.type      = TokenType::v;
-			this->op.assoc     = Assoc::NONE;
-			this->op.prec      = 0; // raw assoc TODO: enum
-			this->op.rightPrec = 0;
-			this->op.nextPrec  = 0;
+			this->setValue(1);
+//			delete this->operands.first();
+//			delete this->operands.last();
+//			this->operands.first() = nullptr;
+//			this->operands.last() = nullptr;
+//			this->operands.clear();
+//			this->op.s         = "1";
+//			this->op.type      = TokenType::v;
+//			this->op.assoc     = Assoc::NONE;
+//			this->op.prec      = 0; // raw assoc TODO: enum
+//			this->op.rightPrec = 0;
+//			this->op.nextPrec  = 0;
 			break;
 		}
 		if (v2 and this->operands.last()->value() == 1) {
 			// x^1 = x
-			delete this->operands.last();
-			this->operands.last() = nullptr;
-			this->operands.removeLast();
-			auto tmp = *this;
-			*this = *tmp.operands.first();
-			delete tmp.operands.first();
-			tmp.operands.removeFirst();
+			this->setChild(0);
+//			delete this->operands.last();
+//			this->operands.last() = nullptr;
+//			this->operands.removeLast();
+//			auto tmp = *this;
+//			*this = *tmp.operands.first();
+//			delete tmp.operands.first();
+//			tmp.operands.removeFirst();
 			break;
 		}
 
