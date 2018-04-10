@@ -1151,57 +1151,21 @@ MufExprParser::ExprTree::reduce()
 		if (v2 and this->operands.last()->value() == 0) {
 			// x*0 = 0
 			this->setValue(0);
-//			delete this->operands.first();
-//			delete this->operands.last();
-//			this->operands.first() = nullptr;
-//			this->operands.last() = nullptr;
-//			this->operands.clear();
-//			this->op.s         = "0";
-//			this->op.type      = TokenType::v;
-//			this->op.assoc     = Assoc::NONE;
-//			this->op.prec      = 0; // raw assoc TODO: enum
-//			this->op.rightPrec = 0;
-//			this->op.nextPrec  = 0;
 			break;
 		}
 		if (v1 and this->operands.first()->value() == 0) {
 			// 0*x = 0
 			this->setValue(0);
-//			delete this->operands.first();
-//			delete this->operands.last();
-//			this->operands.first() = nullptr;
-//			this->operands.last() = nullptr;
-//			this->operands.clear();
-//			this->op.s         = "0";
-//			this->op.type      = TokenType::v;
-//			this->op.assoc     = Assoc::NONE;
-//			this->op.prec      = 0; // raw assoc TODO: enum
-//			this->op.rightPrec = 0;
-//			this->op.nextPrec  = 0;
 			break;
 		}
 		if (v2 and this->operands.last()->value() == 1) {
 			// x*1 = x
 			this->setChild(0);
-//			delete this->operands.last();
-//			this->operands.last() = nullptr;
-//			this->operands.removeLast();
-//			auto tmp = *this;
-//			*this = *tmp.operands.first();
-//			delete tmp.operands.first();
-//			tmp.operands.removeFirst();
 			break;
 		}
 		if (v1 and this->operands.first()->value() == 1) {
 			// 1*x = x
 			this->setChild(1);
-//			delete this->operands.first();
-//			this->operands.first() = nullptr;
-//			this->operands.removeFirst();
-//			auto tmp = *this;
-//			*this = *tmp.operands.last();
-//			delete tmp.operands.last();
-//			tmp.operands.removeLast();
 			break;
 		}
 
@@ -1227,25 +1191,11 @@ MufExprParser::ExprTree::reduce()
 		if (v2 and this->operands.last()->value() == 0) {
 			// x-0 = x
 			this->setChild(0);
-//			delete this->operands.last();
-//			this->operands.last() = nullptr;
-//			this->operands.removeLast();
-//			auto tmp = *this;
-//			*this = *tmp.operands.first();
-//			delete tmp.operands.first();
-//			tmp.operands.removeFirst();
 			break;
 		}
 		if (v1 and this->operands.first()->value() == 0) {
 			// 0-x = -x
 			this->setChild(1);
-//			delete this->operands.first();
-//			this->operands.first() = nullptr;
-//			this->operands.removeFirst();
-//			auto tmp = *this;
-//			*this = *tmp.operands.last();
-//			delete tmp.operands.last();
-//			tmp.operands.removeLast();
 			this->negate();
 			break;
 		}
@@ -1280,17 +1230,6 @@ MufExprParser::ExprTree::reduce()
 				// x - y
 				// do nothing
 			}
-//			if (n2 < 0) {
-//				if (n1 < 0) {
-//					this->operands.first()->negate();
-//					this->operands.last()->negate();
-//					swap(this->operands.first(),
-//					     this->operands.last());
-//				} else {
-//					op.s = "+";
-//					this->operands.last()->negate();
-//				}
-//			}
 		}
 	}
 	// -x + -y = -(x + y)
@@ -1307,25 +1246,11 @@ MufExprParser::ExprTree::reduce()
 		if (v2 and this->operands.last()->value() == 0) {
 			// x+0 = x
 			this->setChild(0);
-//			delete this->operands.last();
-//			this->operands.last() = nullptr;
-//			this->operands.removeLast();
-//			auto tmp = *this;
-//			*this = *tmp.operands.first();
-//			delete tmp.operands.first();
-//			tmp.operands.removeFirst();
 			break;
 		}
 		if (v1 and this->operands.first()->value() == 0) {
 			// 0+x = x
 			this->setChild(1);
-//			delete this->operands.first();
-//			this->operands.first() = nullptr;
-//			this->operands.removeFirst();
-//			auto tmp = *this;
-//			*this = *tmp.operands.last();
-//			delete tmp.operands.last();
-//			tmp.operands.removeLast();
 			break;
 		}
 
@@ -1337,17 +1262,6 @@ MufExprParser::ExprTree::reduce()
 			this->operands.first()->negate();
 			this->operands.last()->negate();
 			this->prefixUnary();
-//			ExprTree* ttree = new ExprTree(*this);
-
-//			this->op.s         = "-";
-//			this->op.type      = TokenType::U;
-//			this->op.assoc     = Assoc::PREFIX;
-//			this->op.prec      = 6; // raw assoc TODO: enum
-//			this->op.rightPrec = 0;
-//			this->op.nextPrec  = 0;
-
-//			this->operands.clear();
-//			this->operands.append(ttree);
 		}
 		if (n1 <  0 and n2 >= 0) {
 			// -x + y = y - x
@@ -1378,61 +1292,21 @@ MufExprParser::ExprTree::reduce()
 		if (v1 and this->operands.first()->value() == 0) {
 			// 0^x = 0
 			this->setValue("0");
-//			delete this->operands.first();
-//			delete this->operands.last();
-//			this->operands.first() = nullptr;
-//			this->operands.last() = nullptr;
-//			this->operands.clear();
-//			this->op.s         = "0";
-//			this->op.type      = TokenType::v;
-//			this->op.assoc     = Assoc::NONE;
-//			this->op.prec      = 0; // raw assoc TODO: enum
-//			this->op.rightPrec = 0;
-//			this->op.nextPrec  = 0;
 			break;
 		}
 		if (v1 and this->operands.first()->value() == 1) {
 			// 1^x = 1
 			this->setValue("1");
-//			delete this->operands.first();
-//			delete this->operands.last();
-//			this->operands.first() = nullptr;
-//			this->operands.last() = nullptr;
-//			this->operands.clear();
-//			this->op.s         = "1";
-//			this->op.type      = TokenType::v;
-//			this->op.assoc     = Assoc::NONE;
-//			this->op.prec      = 0; // raw assoc TODO: enum
-//			this->op.rightPrec = 0;
-//			this->op.nextPrec  = 0;
 			break;
 		}
 		if (v2 and this->operands.last()->value() == 0) {
 			// x^0 = 1
 			this->setValue(1);
-//			delete this->operands.first();
-//			delete this->operands.last();
-//			this->operands.first() = nullptr;
-//			this->operands.last() = nullptr;
-//			this->operands.clear();
-//			this->op.s         = "1";
-//			this->op.type      = TokenType::v;
-//			this->op.assoc     = Assoc::NONE;
-//			this->op.prec      = 0; // raw assoc TODO: enum
-//			this->op.rightPrec = 0;
-//			this->op.nextPrec  = 0;
 			break;
 		}
 		if (v2 and this->operands.last()->value() == 1) {
 			// x^1 = x
 			this->setChild(0);
-//			delete this->operands.last();
-//			this->operands.last() = nullptr;
-//			this->operands.removeLast();
-//			auto tmp = *this;
-//			*this = *tmp.operands.first();
-//			delete tmp.operands.first();
-//			tmp.operands.removeFirst();
 			break;
 		}
 
@@ -1470,71 +1344,6 @@ MufExprParser::ExprTree::reduce()
 	for (auto& el : operands) {
 		el->reduce();
 	}
-
-//	if (left != nullptr) {
-//		left->reduce();
-//	}
-//	if (right != nullptr) {
-//		right->reduce();
-//	}
-//	if (op.type == TokenType::B) {
-//		/*
-//		if (left->op.type  == TokenType::U and
-//		    left->op.assoc == Assoc::PREFIX and
-//		    right->op.type  == TokenType::U and
-//		    right->op.assoc == Assoc::PREFIX) {
-//			ExprTree* t = left;
-//			left = left->right;
-//			t->right = nullptr;
-//			delete t;
-//			t = right;
-//			right = right->right;
-//			t->right = nullptr;
-//			delete t;
-//		} else */
-//		if (left->op.type  == TokenType::v and
-//		    right->op.type  == TokenType::v) {
-//			if (op.s == "*") {
-//				op = left->op;
-//				op.s = left->value() * right->value();
-//			} else if (op.s == "/") {
-//				op = left->op;
-//				op.s = left->value() / right->value();
-//			} else if (op.s == "%") {
-//				op = left->op;
-//				op.s = (int)left->value() % (int)right->value();
-//			} else if (op.s == "+") {
-//				op = left->op;
-//				op.s = left->value() + right->value();
-//			} else if (op.s == "-") {
-//				op = left->op;
-//				op.s = left->value() - right->value();
-//			}
-//		}
-//	} else if (op.type  == TokenType::U and
-//	           op.assoc == Assoc::PREFIX and
-//	           right->op.type  == TokenType::U and
-//	           right->op.assoc == Assoc::PREFIX) {
-//		ExprTree* t = right;
-//		op = right->right->op;
-//		left  = right->right->left;
-//		right = right->right->right;
-//		t->right->left  = nullptr;
-//		t->right->right = nullptr;
-//		delete t;
-//	} else if (op.type  == TokenType::U and
-//	           op.assoc == Assoc::PREFIX and
-//	           right->op.type  == TokenType::B and
-//	           right->op.s == "-") {
-//		ExprTree* t = right;
-//		op = right->op;
-//		op.s = "+";
-//		left  = right->left;
-//		right = right->right;
-//		t->left  = nullptr;
-//		t->right = nullptr;
-//		delete t;
-//      }
 }
 
 void
@@ -1579,18 +1388,6 @@ MufExprParser::ExprTree::negate()
 				this->op.s = "+";
 				this->operands.last()->negate();
 				this->prefixUnary();
-
-//				ExprTree* ttree = new ExprTree(*this);
-
-//				this->op.s         = "-";
-//				this->op.type      = TokenType::U;
-//				this->op.assoc     = Assoc::PREFIX;
-//				this->op.prec      = 6; // raw assoc TODO: enum
-//				this->op.rightPrec = 0;
-//				this->op.nextPrec  = 0;
-
-//				this->operands.clear();
-//				this->operands.append(ttree);
 			}
 			if (n1 >= 0 and n2 >= 0) {
 				// neg(x - y) = y - x
@@ -1628,18 +1425,6 @@ MufExprParser::ExprTree::negate()
 			// neg(x + y) = -(x + y)
 			// TODO: place in Un-
 			this->prefixUnary();
-//			ExprTree* ttree = new ExprTree(*this);
-
-//			this->op.s         = "-";
-//			this->op.type      = TokenType::U;
-//			this->op.assoc     = Assoc::PREFIX;
-//			this->op.prec      = 6; // raw assoc TODO: enum
-//			this->op.rightPrec = 0;
-//			this->op.nextPrec  = 0;
-
-//			this->operands.clear();
-//			this->operands.append(ttree);
-//			Q_UNIMPLEMENTED();
 		}
 		break;
 	}
@@ -1656,31 +1441,7 @@ MufExprParser::ExprTree::negate()
 	}
 	case chash("^"): {
 		// TODO: place in Un-
-//		str_tok_t ttok;
-//		ttok.s         = "-";
-//		ttok.type      = TokenType::U;
-//		ttok.assoc     = Assoc::PREFIX;
-//		ttok.prec      = 6; // raw assoc TODO: enum
-//		ttok.rightPrec = 0;
-//		ttok.nextPrec  = 0;
-
-//		traverse(this);
-//		ExprTree ttree = ExprTree(this->op, *this);
-
 		this->prefixUnary();
-
-//		ExprTree* ttree = new ExprTree(*this);
-
-//		this->op.s         = "-";
-//		this->op.type      = TokenType::U;
-//		this->op.assoc     = Assoc::PREFIX;
-//		this->op.prec      = 6; // raw assoc TODO: enum
-//		this->op.rightPrec = 0;
-//		this->op.nextPrec  = 0;
-
-//		this->operands.clear();
-//		this->operands.append(ttree);
-
 		break;
 	}
 	case chash("%"):
