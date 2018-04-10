@@ -198,11 +198,6 @@ QString MufExprParser::exprParseRD(QString input)
 	return "not valid";
 }
 
-/*
- * TODO: traverse tree
- * TODO: print all info on node
- */
-
 void
 traverse(MufExprParser::ExprTree* t)
 {
@@ -232,12 +227,13 @@ MufExprParser::exprParseTD(QString input)
 		t = exprTD(0);
 		if (t != nullptr and expect(tok_end)) {
 			tree = t;
+			// TODO: remove qDebugs
 //			qDebug() << "tree:" << input;
 //			qDebug() << tree->print();
 //			tree->reduce();
 //			qDebug() << "reduced tree:";
 //			return tree->print();
-//			traverse(tree); // TODO: remove
+//			traverse(tree);
 			t->numeric = true;
 			// TODO: set numeric to childs
 			tree->reduce();
@@ -1438,7 +1434,6 @@ MufExprParser::ExprTree::negate()
 		break;
 	}
 	case chash("^"): {
-		// TODO: place in Un-
 		this->prefixUnary();
 		break;
 	}
