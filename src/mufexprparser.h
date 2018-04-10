@@ -164,7 +164,10 @@ public:
 		int             negative();
 		// check if it can be reduced to a value
 		bool            isValue();
+		bool            isFrac();
+		void            toFrac();
 		double          value();
+		bool            isInt();
 		bool            isOdd();
 		bool            isEven();
 		QString         print();

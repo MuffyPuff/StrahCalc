@@ -212,6 +212,7 @@ traverse(MufExprParser::ExprTree* t)
 	qDebug() << "Val   |" << t->value();
 	qDebug() << "Odd?  |" << t->isOdd();
 	qDebug() << "Even? |" << t->isEven();
+	qDebug() << "Frac? |" << t->isFrac();
 	qDebug() << "----------------------------";
 	for (const auto& el : t->operands) {
 		traverse(el);
@@ -231,14 +232,17 @@ MufExprParser::exprParseTD(QString input)
 		t = exprTD(0);
 		if (t != nullptr and expect(tok_end)) {
 			tree = t;
-			qDebug() << "tree:" << input;
+//			qDebug() << "tree:" << input;
 //			qDebug() << tree->print();
 //			tree->reduce();
 //			qDebug() << "reduced tree:";
 //			return tree->print();
 //			traverse(tree); // TODO: remove
 			t->numeric = true;
+			// TODO: set numeric to childs
 			tree->reduce();
+//			qDebug() << "isFraction: " << tree->isFrac();
+//			qDebug() << tree->print();
 //			traverse(tree);
 			return tree->toLatex();
 		}
@@ -820,6 +824,36 @@ MufExprParser::ExprTree::isValue()
 	return true; // might be value
 }
 
+bool
+MufExprParser::ExprTree::isFrac()
+{
+	if (op.type == TokenType::v) {
+		return false;
+	}
+	if (op.type == TokenType::x) {
+		return false;
+	}
+	if (operands.isEmpty()) { // no operands
+		return false;
+	}
+	if (op.type == TokenType::B and
+	    op.s == "/") {
+		return true;
+	}
+	for (auto& el : operands) {
+		if (el->isFrac()) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void
+MufExprParser::ExprTree::toFrac()
+{
+
+}
+
 int gcd(int a, int b)
 {
 	if (b == 0) {
@@ -843,6 +877,7 @@ MufExprParser::ExprTree::value()
 	}
 	switch (chash(this->op.s)) {
 	case chash("/"): {
+		Q_UNIMPLEMENTED();
 		return this->operands.first()->value() /
 		       this->operands.last()->value();
 		break;
@@ -863,6 +898,7 @@ MufExprParser::ExprTree::value()
 		break;
 	}
 	case chash("%"): {
+		Q_UNIMPLEMENTED();
 		return (int)this->operands.first()->value() %
 		       (int)this->operands.last()->value();
 		break;
@@ -872,6 +908,12 @@ MufExprParser::ExprTree::value()
 	}
 	qWarning("value check on non-value");
 	return 0;
+}
+
+bool MufExprParser::ExprTree::isInt()
+{
+	Q_UNIMPLEMENTED();
+	return false;
 }
 
 bool
@@ -884,7 +926,7 @@ MufExprParser::ExprTree::isOdd()
 		}
 	}
 	qWarning("value check on non-value");
-	return 0;
+	return false;
 }
 
 bool MufExprParser::ExprTree::isEven()
@@ -944,10 +986,10 @@ MufExprParser::ExprTree::toLatex()
 			return "\\right)";
 			break;
 		case chash("inf"):
-			return "\\infty";
+			return "{\\infty}";
 			break;
 		case chash("NaN"):
-			return "\\text{NaN}";
+			return "{\\text{NaN}}";
 			break;
 		default:
 			return "{" + op.s + "}";
@@ -985,9 +1027,17 @@ MufExprParser::ExprTree::toLatex()
 //		switch (const_hash(op.s.toStdString().c_str())) {
 		switch (chash(op.s)) {
 		case chash("/"):
-			t.append("\\frac{");
+			t.append("{\\frac{");
 			t.append(operands.first()->toLatex());
 			t.append("}{");
+			t.append(operands.last()->toLatex());
+			t.append("}}");
+			return t;
+			break;
+		case chash("*"):
+			t.append("{");
+			t.append(operands.first()->toLatex());
+			t.append("\\cdot");
 			t.append(operands.last()->toLatex());
 			t.append("}");
 			return t;
