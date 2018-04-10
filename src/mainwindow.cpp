@@ -521,6 +521,7 @@ void
 MainWindow::handleExprtkError()
 {
 	// TODO: halt render
+
 //	QList<exprtk::parser_error::type> errors = mExprtk->error_list;
 //	for (exprtk::parser_error::type err : errors) {
 //		qDebug() << "line:" << err.line_no << err.diagnostic;
@@ -542,12 +543,6 @@ MainWindow::updatePreviewBuilderThreadInput()
 	input.preamble =
 	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 //	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
-
-	/**
-	 * TODO: multiline
-	 * TODO: strip trailing semicolon
-	 * TODO: some assignment stuff
-	 **/
 
 	input.latex = ui->eqnInput->text() +
 	              " = " +
@@ -579,12 +574,6 @@ MainWindow::updatePreviewBuilderThreadInput_adv()
 	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 //	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
-	/**
-	 * TODO: multiline
-	 * TODO: strip trailing semicolon
-	 * TODO: some assignment stuff
-	 **/
-
 	input.latex = Muf::toLatex(ui->eqnInput_adv->toPlainText()) +
 	              " = " +
 	              roundValue;
@@ -614,11 +603,6 @@ MainWindow::updatePreviewBuilderThreadInput_sym()
 	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 //	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
-	/**
-	 * TODO: multiline
-	 * TODO: strip trailing semicolon
-	 * TODO: some assignment stuff
-	 **/
 //	input.latex = Muf::toLatex(ui->eqnInput_sym->toPlainText()) +
 //	              " \\to \\text{\\detokenize{";
 //	for (auto el : mSym.queue) {
