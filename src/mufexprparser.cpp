@@ -1379,7 +1379,6 @@ MufExprParser::ExprTree::negate()
 			}
 			if (n1 <  0 and n2 >= 0) {
 				// neg(-x - y) = x + y
-				// TODO: place in Un-
 				this->op.s = "+";
 				this->operands.first()->negate();
 			}
@@ -1423,7 +1422,6 @@ MufExprParser::ExprTree::negate()
 		}
 		if (n1 >= 0 and n2 >= 0) {
 			// neg(x + y) = -(x + y)
-			// TODO: place in Un-
 			this->prefixUnary();
 		}
 		break;
