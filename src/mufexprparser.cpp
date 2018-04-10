@@ -236,9 +236,10 @@ MufExprParser::exprParseTD(QString input)
 //			tree->reduce();
 //			qDebug() << "reduced tree:";
 //			return tree->print();
-			traverse(tree); // TODO: remove
+//			traverse(tree); // TODO: remove
+			t->numeric = true;
 			tree->reduce();
-			traverse(tree);
+//			traverse(tree);
 			return tree->toLatex();
 		}
 //		qDebug() << "expr or expect" << tokens.size();
@@ -695,7 +696,6 @@ operator!=(
 	return not(lhs == rhs);
 }
 
-
 // function from https://stackoverflow.com/a/2112111/1150303
 int constexpr
 chash(const char* input)
@@ -820,11 +820,55 @@ MufExprParser::ExprTree::isValue()
 	return true; // might be value
 }
 
+int gcd(int a, int b)
+{
+	if (b == 0) {
+		return a;
+	} else {
+		return gcd(b, a % b);
+	}
+}
+
 double
 MufExprParser::ExprTree::value()
 {
+	// TODO: improve
 	if (op.type == TokenType::v) {
 		return op.s.toDouble();
+	}
+	if (op.type == TokenType::U and
+	    op.assoc == Assoc::PREFIX and
+	    op.s == "-") {
+		return -this->operands.first()->value();
+	}
+	switch (chash(this->op.s)) {
+	case chash("/"): {
+		return this->operands.first()->value() /
+		       this->operands.last()->value();
+		break;
+	}
+	case chash("*"): {
+		return this->operands.first()->value() *
+		       this->operands.last()->value();
+		break;
+	}
+	case chash("+"): {
+		return this->operands.first()->value() +
+		       this->operands.last()->value();
+		break;
+	}
+	case chash("-"): {
+		return this->operands.first()->value() -
+		       this->operands.last()->value();
+		break;
+	}
+	case chash("%"): {
+		return (int)this->operands.first()->value() %
+		       (int)this->operands.last()->value();
+		break;
+	}
+	default:
+		break;
 	}
 	qWarning("value check on non-value");
 	return 0;
@@ -899,8 +943,14 @@ MufExprParser::ExprTree::toLatex()
 		case chash("}"):
 			return "\\right)";
 			break;
+		case chash("inf"):
+			return "\\infty";
+			break;
+		case chash("NaN"):
+			return "\\text{NaN}";
+			break;
 		default:
-			return op.s;
+			return "{" + op.s + "}";
 			break;
 		}
 //		if (op.s == "(" or
@@ -916,10 +966,13 @@ MufExprParser::ExprTree::toLatex()
 	case 1:
 		switch (op.assoc) {
 		case Assoc::PREFIX:
-			return op.s + "\\left(" + operands.first()->toLatex() + "\\right)";
+			return "{" + op.s +
+			       "\\left(" + operands.first()->toLatex() +
+			       "\\right)}";
 			break;
 		case Assoc::POSTFIX:
-			return "\\left(" + operands.first()->toLatex() + "\\right)" + op.s;
+			return "{\\left(" + operands.first()->toLatex() +
+			       "\\right)" + op.s + "}";
 //			return operands.first()->toLatex() + op.s;
 			break;
 		default: // do nothing
@@ -935,6 +988,14 @@ MufExprParser::ExprTree::toLatex()
 			t.append("\\frac{");
 			t.append(operands.first()->toLatex());
 			t.append("}{");
+			t.append(operands.last()->toLatex());
+			t.append("}");
+			return t;
+			break;
+		case chash("%"):
+			t.append("{");
+			t.append(operands.first()->toLatex());
+			t.append("\\!\\!\\!\\!\\mod");
 			t.append(operands.last()->toLatex());
 			t.append("}");
 			return t;
@@ -981,17 +1042,161 @@ MufExprParser::ExprTree::reduce()
 	}
 
 	switch (chash(op.s)) {
-	case chash("/"):
-	case chash("*"): {
+	case chash("/"): {
+		bool v1 = this->operands.first()->isValue();
+		bool v2 = this->operands.last()->isValue();
+		if (v1 & v2 & numeric) {
+			// compute
+			int g = gcd(this->operands.first()->value(),
+			            this->operands.last()->value());
+			this->operands.first()->setValue(
+			        this->operands.first()->value() / g);
+			this->operands.last()->setValue(
+			        this->operands.last()->value() / g);
+			this->numeric = false;
+			this->reduce();
+			this->numeric = true;
+			break;
+		}
+		if (v2 and this->operands.last()->value() == 0) {
+			// x/0 = inf
+			this->setValue("inf"); //unreasonable?
+			break;
+		}
+		if (v1 and this->operands.first()->value() == 0) {
+			// 0/x = 0
+			this->setValue(0);
+			break;
+		}
+		if (v2 and this->operands.last()->value() == 1) {
+			// x/1 = x
+			this->setChild(0);
+			break;
+		}
+		if (v1 and this->operands.first()->value() == 1) {
+			// 1/x = 1/x
+			// do nothing
+			break;
+		}
+
 		int n1 = this->operands.first()->negative();
 		int n2 = this->operands.last()->negative();
 		if (n1 <  0 and n2 <  0) {
+			// -x * -y = x * y
+			// -x / -y = x / y
+			this->operands.first()->negate();
+			this->operands.last()->negate();
+		}
+		break;
+	}
+	case chash("*"): {
+		bool v1 = this->operands.first()->isValue();
+		bool v2 = this->operands.last()->isValue();
+		if (v1 & v2 & numeric) {
+			// compute
+			this->setValue(this->operands.first()->value() *
+			               this->operands.last()->value());
+			break;
+		}
+		if (v2 and this->operands.last()->value() == 0) {
+			// x*0 = 0
+			this->setValue(0);
+//			delete this->operands.first();
+//			delete this->operands.last();
+//			this->operands.first() = nullptr;
+//			this->operands.last() = nullptr;
+//			this->operands.clear();
+//			this->op.s         = "0";
+//			this->op.type      = TokenType::v;
+//			this->op.assoc     = Assoc::NONE;
+//			this->op.prec      = 0; // raw assoc TODO: enum
+//			this->op.rightPrec = 0;
+//			this->op.nextPrec  = 0;
+			break;
+		}
+		if (v1 and this->operands.first()->value() == 0) {
+			// 0*x = 0
+			this->setValue(0);
+//			delete this->operands.first();
+//			delete this->operands.last();
+//			this->operands.first() = nullptr;
+//			this->operands.last() = nullptr;
+//			this->operands.clear();
+//			this->op.s         = "0";
+//			this->op.type      = TokenType::v;
+//			this->op.assoc     = Assoc::NONE;
+//			this->op.prec      = 0; // raw assoc TODO: enum
+//			this->op.rightPrec = 0;
+//			this->op.nextPrec  = 0;
+			break;
+		}
+		if (v2 and this->operands.last()->value() == 1) {
+			// x*1 = x
+			this->setChild(0);
+//			delete this->operands.last();
+//			this->operands.last() = nullptr;
+//			this->operands.removeLast();
+//			auto tmp = *this;
+//			*this = *tmp.operands.first();
+//			delete tmp.operands.first();
+//			tmp.operands.removeFirst();
+			break;
+		}
+		if (v1 and this->operands.first()->value() == 1) {
+			// 1*x = x
+			this->setChild(1);
+//			delete this->operands.first();
+//			this->operands.first() = nullptr;
+//			this->operands.removeFirst();
+//			auto tmp = *this;
+//			*this = *tmp.operands.last();
+//			delete tmp.operands.last();
+//			tmp.operands.removeLast();
+			break;
+		}
+
+		int n1 = this->operands.first()->negative();
+		int n2 = this->operands.last()->negative();
+		if (n1 <  0 and n2 <  0) {
+			// -x * -y = x * y
+			// -x / -y = x / y
 			this->operands.first()->negate();
 			this->operands.last()->negate();
 		}
 		break;
 	}
 	case chash("-"): {
+		bool v1 = this->operands.first()->isValue();
+		bool v2 = this->operands.last()->isValue();
+		if (v1 & v2 & numeric) {
+			// compute
+			this->setValue(this->operands.first()->value() -
+			               this->operands.last()->value());
+			break;
+		}
+		if (v2 and this->operands.last()->value() == 0) {
+			// x-0 = x
+			delete this->operands.last();
+			this->operands.last() = nullptr;
+			this->operands.removeLast();
+			auto tmp = *this;
+			*this = *tmp.operands.first();
+			delete tmp.operands.first();
+			tmp.operands.removeFirst();
+			break;
+		}
+		if (v1 and this->operands.first()->value() == 0) {
+			// 0-x = -x
+			delete this->operands.first();
+			this->operands.first() = nullptr;
+			this->operands.removeFirst();
+			auto tmp = *this;
+			*this = *tmp.operands.last();
+			delete tmp.operands.last();
+			tmp.operands.removeLast();
+			this->negate();
+			break;
+		}
 		if (this->op.type == TokenType::U) {
 			int n1 = this->operands.first()->negative();
 			if (n1 < 0) {
@@ -1008,9 +1213,11 @@ MufExprParser::ExprTree::reduce()
 				this->operands.last()->negate();
 			}
 			if (n1 <  0 and n2 >= 0) {
-				Q_UNIMPLEMENTED();
-				// message to parent?
-				// -x + -y = -(x + y)
+//				Q_UNIMPLEMENTED();
+				// -x - y = -(x + y)
+				op.s = "+";
+				this->operands.first()->negate();
+				this->prefixUnary();
 			}
 			if (n1 >= 0 and n2 <  0) {
 				// x - -y = x + y
@@ -1037,12 +1244,56 @@ MufExprParser::ExprTree::reduce()
 	// -x + -y = -(x + y)
 	// -x + y = y - x
 	case chash("+"): {
+		bool v1 = this->operands.first()->isValue();
+		bool v2 = this->operands.last()->isValue();
+		if (v1 & v2 & numeric) {
+			// compute
+			this->setValue(this->operands.first()->value() +
+			               this->operands.last()->value());
+			break;
+		}
+		if (v2 and this->operands.last()->value() == 0) {
+			// x+0 = x
+			delete this->operands.last();
+			this->operands.last() = nullptr;
+			this->operands.removeLast();
+			auto tmp = *this;
+			*this = *tmp.operands.first();
+			delete tmp.operands.first();
+			tmp.operands.removeFirst();
+			break;
+		}
+		if (v1 and this->operands.first()->value() == 0) {
+			// 0+x = x
+			delete this->operands.first();
+			this->operands.first() = nullptr;
+			this->operands.removeFirst();
+			auto tmp = *this;
+			*this = *tmp.operands.last();
+			delete tmp.operands.last();
+			tmp.operands.removeLast();
+			break;
+		}
+
 		int n1 = this->operands.first()->negative();
 		int n2 = this->operands.last()->negative();
 		if (n1 <  0 and n2 <  0) {
-			Q_UNIMPLEMENTED();
-			// message to parent?
+//			Q_UNIMPLEMENTED();
 			// -x + -y = -(x + y)
+			this->operands.first()->negate();
+			this->operands.last()->negate();
+			this->prefixUnary();
+//			ExprTree* ttree = new ExprTree(*this);
+
+//			this->op.s         = "-";
+//			this->op.type      = TokenType::U;
+//			this->op.assoc     = Assoc::PREFIX;
+//			this->op.prec      = 6; // raw assoc TODO: enum
+//			this->op.rightPrec = 0;
+//			this->op.nextPrec  = 0;
+
+//			this->operands.clear();
+//			this->operands.append(ttree);
 		}
 		if (n1 <  0 and n2 >= 0) {
 			// -x + y = y - x
@@ -1054,17 +1305,110 @@ MufExprParser::ExprTree::reduce()
 		if (n1 >= 0 and n2 <  0) {
 			// x + -y = x - y
 			op.s = "-";
-			this->operands.first()->negate();
+			this->operands.last()->negate();
 		}
 		if (n1 >= 0 and n2 >= 0) {
 			// x + y
 			// do nothing
 		}
 	}
+	case chash("^"): {
+		bool v1 = this->operands.first()->isValue();
+		bool v2 = this->operands.last()->isValue();
+		if (v1 & v2 & numeric) {
+			// compute
+			this->setValue(std::pow(this->operands.first()->value(),
+			                        this->operands.last()->value()));
+			break;
+		}
+		if (v1 and this->operands.first()->value() == 0) {
+			// 0^x = 0
+			delete this->operands.first();
+			delete this->operands.last();
+			this->operands.first() = nullptr;
+			this->operands.last() = nullptr;
+			this->operands.clear();
+			this->op.s         = "0";
+			this->op.type      = TokenType::v;
+			this->op.assoc     = Assoc::NONE;
+			this->op.prec      = 0; // raw assoc TODO: enum
+			this->op.rightPrec = 0;
+			this->op.nextPrec  = 0;
+			break;
+		}
+		if (v1 and this->operands.first()->value() == 1) {
+			// 1^x = 1
+			delete this->operands.first();
+			delete this->operands.last();
+			this->operands.first() = nullptr;
+			this->operands.last() = nullptr;
+			this->operands.clear();
+			this->op.s         = "1";
+			this->op.type      = TokenType::v;
+			this->op.assoc     = Assoc::NONE;
+			this->op.prec      = 0; // raw assoc TODO: enum
+			this->op.rightPrec = 0;
+			this->op.nextPrec  = 0;
+			break;
+		}
+		if (v2 and this->operands.last()->value() == 0) {
+			// x^0 = 1
+			delete this->operands.first();
+			delete this->operands.last();
+			this->operands.first() = nullptr;
+			this->operands.last() = nullptr;
+			this->operands.clear();
+			this->op.s         = "1";
+			this->op.type      = TokenType::v;
+			this->op.assoc     = Assoc::NONE;
+			this->op.prec      = 0; // raw assoc TODO: enum
+			this->op.rightPrec = 0;
+			this->op.nextPrec  = 0;
+			break;
+		}
+		if (v2 and this->operands.last()->value() == 1) {
+			// x^1 = x
+			delete this->operands.last();
+			this->operands.last() = nullptr;
+			this->operands.removeLast();
+			auto tmp = *this;
+			*this = *tmp.operands.first();
+			delete tmp.operands.first();
+			tmp.operands.removeFirst();
+			break;
+		}
+
+		int n = this->operands.first()->negative();
+		if (n < 0) {
+			if (this->operands.last()->isValue() and
+			    this->operands.last()->isEven()) {
+				this->operands.first()->negate();
+			}
+			if (this->operands.last()->isValue() and
+			    this->operands.last()->isOdd()) {
+				this->operands.first()->negate();
+				this->negate();
+//				traverse(this);
+			}
+		}
+//		Q_UNIMPLEMENTED();
+		break;
+	}
+	case chash("%"): {
+		bool v1 = this->operands.first()->isValue();
+		bool v2 = this->operands.last()->isValue();
+		if (v1 & v2 & numeric) {
+			// compute
+			// TODO: fix type
+			this->setValue((int)this->operands.first()->value() %
+			               (int)this->operands.last()->value());
+			break;
+		}
+	}
 	default:
 		break;
 	}
-	qDebug("nani");
+
 	for (auto& el : operands) {
 		el->reduce();
 	}
@@ -1142,7 +1486,7 @@ MufExprParser::ExprTree::negate()
 	if (op.type == TokenType::v or
 	    op.type == TokenType::x or
 	    operands.isEmpty()) { // no operands but not a value
-		// nothing to do
+		this->prefixUnary();
 		return;
 	}
 
@@ -1152,12 +1496,50 @@ MufExprParser::ExprTree::negate()
 			// neg(-x) = x
 			auto tmp = *this;
 			*this = *tmp.operands.first();
-			delete tmp.operands.first();
+//			delete tmp.operands.first();
 			tmp.operands.removeFirst();
 		} else {
 			// neg(x - y) = y - x
 			std::swap(this->operands.first(),
 			          this->operands.last());
+
+			int n1 = this->operands.first()->negative();
+			int n2 = this->operands.last()->negative();
+			if (n1 <  0 and n2 <  0) {
+				// neg(-x - -y) = x - y
+				this->operands.first()->negate();
+				this->operands.last()->negate();
+			}
+			if (n1 <  0 and n2 >= 0) {
+				// neg(-x - y) = x + y
+				// TODO: place in Un-
+				this->op.s = "+";
+				this->operands.first()->negate();
+			}
+			if (n1 >= 0 and n2 <  0) {
+				// neg(x - -y) = -(x + y)
+				this->op.s = "+";
+				this->operands.last()->negate();
+				this->prefixUnary();
+
+//				ExprTree* ttree = new ExprTree(*this);
+
+//				this->op.s         = "-";
+//				this->op.type      = TokenType::U;
+//				this->op.assoc     = Assoc::PREFIX;
+//				this->op.prec      = 6; // raw assoc TODO: enum
+//				this->op.rightPrec = 0;
+//				this->op.nextPrec  = 0;
+
+//				this->operands.clear();
+//				this->operands.append(ttree);
+			}
+			if (n1 >= 0 and n2 >= 0) {
+				// neg(x - y) = y - x
+				std::swap(this->operands.first(),
+				          this->operands.last());
+			}
+			break;
 		}
 		break;
 	}
@@ -1168,12 +1550,12 @@ MufExprParser::ExprTree::negate()
 		int n1 = this->operands.first()->negative();
 		int n2 = this->operands.last()->negative();
 		if (n1 <  0 and n2 <  0) {
-			// neg(x + y) = -x + -y
+			// neg(-x + -y) = x + y
 			this->operands.first()->negate();
 			this->operands.last()->negate();
 		}
 		if (n1 <  0 and n2 >= 0) {
-			// neg(-x + -y) = x - y
+			// neg(-x + y) = x - y
 			op.s = "-";
 			this->operands.first()->negate();
 		}
@@ -1187,7 +1569,19 @@ MufExprParser::ExprTree::negate()
 		if (n1 >= 0 and n2 >= 0) {
 			// neg(x + y) = -(x + y)
 			// TODO: place in Un-
-			Q_UNIMPLEMENTED();
+			this->prefixUnary();
+//			ExprTree* ttree = new ExprTree(*this);
+
+//			this->op.s         = "-";
+//			this->op.type      = TokenType::U;
+//			this->op.assoc     = Assoc::PREFIX;
+//			this->op.prec      = 6; // raw assoc TODO: enum
+//			this->op.rightPrec = 0;
+//			this->op.nextPrec  = 0;
+
+//			this->operands.clear();
+//			this->operands.append(ttree);
+//			Q_UNIMPLEMENTED();
 		}
 		break;
 	}
@@ -1204,15 +1598,30 @@ MufExprParser::ExprTree::negate()
 	}
 	case chash("^"): {
 		// TODO: place in Un-
-		str_tok_t ttok;
-		ttok.s         = "-";
-		ttok.type      = TokenType::U;
-		ttok.assoc     = Assoc::PREFIX;
-		ttok.prec      = 6; // raw assoc TODO: enum
-		ttok.rightPrec = 0;
-		ttok.nextPrec  = 0;
+//		str_tok_t ttok;
+//		ttok.s         = "-";
+//		ttok.type      = TokenType::U;
+//		ttok.assoc     = Assoc::PREFIX;
+//		ttok.prec      = 6; // raw assoc TODO: enum
+//		ttok.rightPrec = 0;
+//		ttok.nextPrec  = 0;
 
-		*this = *new ExprTree(ttok, *this);
+//		traverse(this);
+//		ExprTree ttree = ExprTree(this->op, *this);
+
+		this->prefixUnary();
+
+//		ExprTree* ttree = new ExprTree(*this);
+
+//		this->op.s         = "-";
+//		this->op.type      = TokenType::U;
+//		this->op.assoc     = Assoc::PREFIX;
+//		this->op.prec      = 6; // raw assoc TODO: enum
+//		this->op.rightPrec = 0;
+//		this->op.nextPrec  = 0;
+
+//		this->operands.clear();
+//		this->operands.append(ttree);
 
 		break;
 	}
@@ -1227,6 +1636,68 @@ MufExprParser::ExprTree::negate()
 		break;
 	}
 	return;
-//	Q_UNREACHABLE();
+	//      Q_UNREACHABLE();
 }
 
+void
+MufExprParser::ExprTree::prefixUnary()
+{
+	ExprTree* ttree = new ExprTree(*this);
+
+	this->op.s         = "-";
+	this->op.type      = TokenType::U;
+	this->op.assoc     = Assoc::PREFIX;
+	this->op.prec      = 6; // raw assoc TODO: enum
+	this->op.rightPrec = 0;
+	this->op.nextPrec  = 0;
+
+	this->operands.clear();
+	this->operands.append(ttree);
+}
+
+void
+MufExprParser::ExprTree::setValue(const double& v)
+{
+	for (auto& el : this->operands) {
+		delete el;
+		el = nullptr;
+	}
+	this->operands.clear();
+	this->op.s         = QString::number(v);
+	this->op.type      = TokenType::v;
+	this->op.assoc     = Assoc::NONE;
+	this->op.prec      = 0; // raw assoc TODO: enum
+	this->op.rightPrec = 0;
+	this->op.nextPrec  = 0;
+}
+
+void
+MufExprParser::ExprTree::setValue(const QString& v)
+{
+	for (auto& el : this->operands) {
+		delete el;
+		el = nullptr;
+	}
+	this->operands.clear();
+	this->op.s         = v;
+	this->op.type      = TokenType::v;
+	this->op.assoc     = Assoc::NONE;
+	this->op.prec      = 0; // raw assoc TODO: enum
+	this->op.rightPrec = 0;
+	this->op.nextPrec  = 0;
+}
+
+void
+MufExprParser::ExprTree::setChild(const int& i)
+{
+	for (int j = 0; j < this->operands.size(); ++j) {
+		if (j == i) {
+			continue;
+		}
+		delete this->operands.at(j);
+	}
+	auto tmp = *this;
+	*this = *tmp.operands.at(i);
+	delete tmp.operands.at(i);
+	tmp.operands.clear();
+}

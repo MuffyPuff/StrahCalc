@@ -568,6 +568,7 @@ MainWindow::updatePreviewBuilderThreadInput()
 void
 MainWindow::updatePreviewBuilderThreadInput_adv()
 {
+	qDebug("adv update");
 	//      if (!compute()) {
 	//              return;
 	//      }

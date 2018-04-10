@@ -61,6 +61,7 @@ public:
 		{
 			this->op = op_sent;
 			this->operands.clear();
+			this->numeric = true;
 		}
 //		        : left(nullptr), right(nullptr) {}
 		ExprTree(const ExprTree& rhs)
@@ -71,6 +72,7 @@ public:
 			for (int i = 0; i < rhs.operands.size(); ++i) {
 				this->operands.append(rhs.operands.at(i));
 			}
+			this->numeric = true;
 //			this->left  = nullptr;
 //			this->right = nullptr;
 //			if (rhs.left != nullptr) {
@@ -85,12 +87,14 @@ public:
 		{
 			this->op = v;
 			this->operands.clear();
+			this->numeric = true;
 		}
 		ExprTree(str_tok_t _op, ExprTree _operand)
 		{
 			this->op = _op;
 			this->operands.clear();
 			this->operands.push_back(new ExprTree(_operand));
+			this->numeric = true;
 //			if (_op.assoc == Assoc::PREFIX) {
 //				op = _op;
 //				left = nullptr;
@@ -109,6 +113,7 @@ public:
 			this->op = _op;
 			this->operands.clear();
 			this->operands.push_back(_operand);
+			this->numeric = true;
 //			if (_op.assoc == Assoc::PREFIX) {
 //				op = _op;
 //				left = nullptr;
@@ -129,6 +134,7 @@ public:
 			this->operands.clear();
 			this->operands.push_back(new ExprTree(_left));
 			this->operands.push_back(new ExprTree(_right));
+			this->numeric = true;
 		}
 		ExprTree(str_tok_t _op, ExprTree* _left, ExprTree* _right)
 //		        : left(_left), right(_right)
@@ -137,6 +143,7 @@ public:
 			this->operands.clear();
 			this->operands.push_back(_left);
 			this->operands.push_back(_right);
+			this->numeric = true;
 		}
 		~ExprTree()
 		{
@@ -152,22 +159,32 @@ public:
 //				delete right;
 //			}
 		}
+		// TODO: add int check
 		// check if it's worth to convert
-		int negative();
+		int             negative();
 		// check if it can be reduced to a value
-		bool isValue();
-		double value();
-		bool isOdd();
-		bool isEven();
-		QString print();
-		QString toLatex();
-		void reduce();
-		void negate();
+		bool            isValue();
+		double          value();
+		bool            isOdd();
+		bool            isEven();
+		QString         print();
+		QString         toLatex();
+		void            reduce();
+		void            negate();
 
 		str_tok_t       op;    // can be any operator or value
 //		ExprTree*       left;  // can be null
 //		ExprTree*       right; // can be null
 		QList<ExprTree*> operands;
+
+	private:
+		void            prefixUnary();
+		void            setValue(const double& v);
+		void            setValue(const QString& v);
+		void            setChild(const int& i);
+
+	public:
+		bool            numeric;
 	};
 
 public:
