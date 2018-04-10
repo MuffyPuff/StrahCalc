@@ -46,8 +46,10 @@ main(int argc, char* argv[])
 	Q_ASSERT(mPar.exprParseTD("1^x") == "{1}");
 	Q_ASSERT(mPar.exprParseTD("x^0") == "{1}");
 	Q_ASSERT(mPar.exprParseTD("x^1") == "{x}");
-	Q_ASSERT(mPar.exprParseTD("-x/-y") == "\\frac{{x}}{{y}}");
+	Q_ASSERT(mPar.exprParseTD("-x/-y") == "{\\frac{{x}}{{y}}}");
 	Q_ASSERT(mPar.exprParseTD("-x*-y") == "{{x}\\cdot{y}}");
+	Q_ASSERT(mPar.exprParseTD("x^(2+7*x)-(-x/-7)") ==
+	         "{{{x}^{{2}+{{7}\\cdot{x}}}}-{\\frac{{x}}{{7}}}}");
 
 
 	MainWindow w;
