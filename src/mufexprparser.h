@@ -43,13 +43,18 @@ public:
 		friend bool operator==(const str_tok_t& lhs, const str_tok_t& rhs);
 		friend bool operator!=(const str_tok_t& lhs, const str_tok_t& rhs);
 	};
+//	struct pat_t {
+//		QString         str;
+//		TokenType       type;
+//		Assoc           assoc;
+//		int             prec;
+//		int             rightPrec;
+//		int             nextPrec;
+//		QRegularExpression re;
+//	};
 	struct pat_t {
 		QString         str;
-		TokenType       type;
-		Assoc           assoc;
-		int             prec;
-		int             rightPrec;
-		int             nextPrec;
+		str_tok_t*      op;
 		QRegularExpression re;
 	};
 
@@ -213,11 +218,10 @@ private:
 	str_tok_t       next();    // returns next token
 
 	bool            tokenize(QString input);
-	pat_t*          match(
-	        QString s,
-	        QList<pat_t> p,
-	        str_tok_t* t,
-	        QString* e);
+	pat_t*          match(QString s,
+	                      QList<pat_t>& p,
+	                      str_tok_t* t,
+	                      QString* e);
 
 	ExprTree*       exprTD(int p);
 	ExprTree*       pTD();
@@ -246,6 +250,22 @@ public:
 private:
 	static str_tok_t tok_end; // end token
 	static str_tok_t op_sent; // sentinel
+	static str_tok_t op_rbr;
+	static str_tok_t op_lbr;
+	static str_tok_t op_exp;
+	static str_tok_t op_fac;
+	static str_tok_t op_mul;
+	static str_tok_t op_div;
+	static str_tok_t op_mod;
+	static str_tok_t op_add;
+	static str_tok_t op_sub;
+	static str_tok_t op_equ;
+	static str_tok_t op_and;
+	static str_tok_t op_or;
+	static str_tok_t op_neg;
+	static str_tok_t arg_pr;
+	static str_tok_t arg_num;
+	static str_tok_t arg_var;
 	pat_t           pat_eos; // end of string pattern
 	QList<pat_t>    pat_ops; // list of operator patterns
 	QList<pat_t>    pat_arg; // list of arg? patterns
