@@ -1337,6 +1337,9 @@ MufExprParser::ExprTree::eval()
 	if (op.type == TokenType::v) {
 		return op.s.toDouble();
 	}
+	if (op.type == TokenType::x) {
+		return 1; // 5x returns 5?
+	}
 	if (op.type == TokenType::U and
 	    op.assoc == Assoc::PREFIX and
 	    op.s == "-") {
@@ -1979,28 +1982,39 @@ MufExprParser::ExprTree::setValue(const double& v)
 		el = nullptr;
 	}
 	this->operands.clear();
-	this->op.s         = QString::number(v);
+	this->op.s         = QString::number(std::abs(v));
 	this->op.type      = TokenType::v;
 	this->op.assoc     = Assoc::NONE;
 	this->op.prec      = 0; // raw assoc TODO: enum
 	this->op.rightPrec = 0;
 	this->op.nextPrec  = 0;
+	if (v < 0) {
+		this->prefixUnary();
+	}
 }
 
 void
 MufExprParser::ExprTree::setValue(const QString& v)
 {
+	bool b = v.at(0) == '-';
 	for (auto& el : this->operands) {
 		delete el;
 		el = nullptr;
 	}
 	this->operands.clear();
-	this->op.s         = v;
+	if (b) {
+		this->op.s = v.mid(1); // cut off -
+	} else {
+		this->op.s = v;
+	}
 	this->op.type      = TokenType::v;
 	this->op.assoc     = Assoc::NONE;
 	this->op.prec      = 0; // raw assoc TODO: enum
 	this->op.rightPrec = 0;
 	this->op.nextPrec  = 0;
+	if (b) {
+		this->prefixUnary();
+	}
 }
 
 void
