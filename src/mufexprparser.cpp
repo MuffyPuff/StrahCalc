@@ -1008,13 +1008,6 @@ MufExprParser::ExprTree::toFrac()
 		ExprTree* ttree = new ExprTree(*this);
 
 		this->op = op_div;
-//		this->op.s         = "/";
-//		this->op.type      = TokenType::B;
-//		this->op.assoc     = Assoc::LEFT;
-//		this->op.prec      = 5; // raw assoc TODO: enumed
-//		this->op.rightPrec = 6;
-//		this->op.nextPrec  = 5;
-
 		this->operands.clear();
 		this->operands.append(ttree);
 		this->operands.append(new ExprTree());
@@ -1030,13 +1023,6 @@ MufExprParser::ExprTree::toFrac()
 		ExprTree* ttree = new ExprTree(*this);
 
 		this->op = op_div;
-//		this->op.s         = "/";
-//		this->op.type      = TokenType::B;
-//		this->op.assoc     = Assoc::LEFT;
-//		this->op.prec      = 5; // raw assoc TODO: enumed
-//		this->op.rightPrec = 6;
-//		this->op.nextPrec  = 5;
-
 		this->operands.clear();
 		this->operands.append(ttree);
 		this->operands.append(new ExprTree());
@@ -1055,13 +1041,6 @@ MufExprParser::ExprTree::toFrac()
 		ExprTree* ttree = new ExprTree(*this);
 
 		this->op = op_div;
-//		this->op.s         = "/";
-//		this->op.type      = TokenType::B;
-//		this->op.assoc     = Assoc::LEFT;
-//		this->op.prec      = 5; // raw assoc TODO: enumed
-//		this->op.rightPrec = 6;
-//		this->op.nextPrec  = 5;
-
 		this->operands.clear();
 		this->operands.append(ttree);
 		this->operands.append(new ExprTree());
@@ -1120,13 +1099,6 @@ MufExprParser::ExprTree::toFrac()
 		int n1 = v11 * v21;
 
 		this->op = op_div;
-//		this->op.s         = "/";
-//		this->op.type      = TokenType::B;
-//		this->op.assoc     = Assoc::LEFT;
-//		this->op.prec      = 5; // raw assoc TODO: enumed
-//		this->op.rightPrec = 6;
-//		this->op.nextPrec  = 5;
-
 		this->operands.clear();
 		this->operands.append(new ExprTree());
 		this->operands.append(new ExprTree());
@@ -1163,13 +1135,6 @@ MufExprParser::ExprTree::toFrac()
 			ExprTree* ttree = new ExprTree(*this);
 
 			this->op = op_div;
-//			this->op.s         = "/";
-//			this->op.type      = TokenType::B;
-//			this->op.assoc     = Assoc::LEFT;
-//			this->op.prec      = 5; // raw assoc TODO: enumed
-//			this->op.rightPrec = 6;
-//			this->op.nextPrec  = 5;
-
 			this->operands.clear();
 			this->operands.append(ttree);
 			this->operands.append(new ExprTree());
@@ -1195,13 +1160,6 @@ MufExprParser::ExprTree::toFrac()
 			ExprTree* ttree = new ExprTree(*this);
 
 			this->op = op_div;
-//			this->op.s         = "/";
-//			this->op.type      = TokenType::B;
-//			this->op.assoc     = Assoc::LEFT;
-//			this->op.prec      = 5; // raw assoc TODO: enumed
-//			this->op.rightPrec = 6;
-//			this->op.nextPrec  = 5;
-
 			this->operands.clear();
 			this->operands.append(ttree);
 			this->operands.append(new ExprTree());
@@ -1245,13 +1203,6 @@ MufExprParser::ExprTree::toFrac()
 		ExprTree* ttree = new ExprTree(*this);
 
 		this->op = op_div;
-//		this->op.s         = "/";
-//		this->op.type      = TokenType::B;
-//		this->op.assoc     = Assoc::LEFT;
-//		this->op.prec      = 5; // raw assoc TODO: enumed
-//		this->op.rightPrec = 6;
-//		this->op.nextPrec  = 5;
-
 		this->operands.clear();
 		this->operands.append(ttree);
 		this->operands.append(new ExprTree());
@@ -1421,13 +1372,6 @@ MufExprParser::ExprTree::toFrac()
 		ExprTree* ttree = new ExprTree(*this);
 
 		this->op = op_div;
-//		this->op.s         = "/";
-//		this->op.type      = TokenType::B;
-//		this->op.assoc     = Assoc::LEFT;
-//		this->op.prec      = 5; // raw assoc TODO: enumed
-//		this->op.rightPrec = 6;
-//		this->op.nextPrec  = 5;
-
 		this->operands.clear();
 		this->operands.append(ttree);
 		this->operands.append(new ExprTree());
@@ -1438,13 +1382,6 @@ MufExprParser::ExprTree::toFrac()
 		ExprTree* ttree = new ExprTree(*this);
 
 		this->op = op_div;
-//		this->op.s         = "/";
-//		this->op.type      = TokenType::B;
-//		this->op.assoc     = Assoc::LEFT;
-//		this->op.prec      = 5; // raw assoc TODO: enumed
-//		this->op.rightPrec = 6;
-//		this->op.nextPrec  = 5;
-
 		this->operands.clear();
 		this->operands.append(ttree);
 		this->operands.append(new ExprTree());
@@ -2036,13 +1973,6 @@ MufExprParser::ExprTree::multiply(const int& factor)
 	ExprTree* ttree = new ExprTree(*this);
 
 	this->op = op_mul;
-//	this->op.s         = "*";
-//	this->op.type      = TokenType::B;
-//	this->op.assoc     = Assoc::LEFT;
-//	this->op.prec      = 5; // raw assoc TODO: enumed
-//	this->op.rightPrec = 6;
-//	this->op.nextPrec  = 5;
-
 	this->operands.clear();
 	this->operands.append(new ExprTree);
 	this->operands.first()->setValue(factor);
@@ -2055,13 +1985,6 @@ MufExprParser::ExprTree::multiply(const QString& var)
 	ExprTree* ttree = new ExprTree(*this);
 
 	this->op = op_mul;
-//	this->op.s         = "*";
-//	this->op.type      = TokenType::B;
-//	this->op.assoc     = Assoc::LEFT;
-//	this->op.prec      = 5; // raw assoc TODO: enumed
-//	this->op.rightPrec = 6;
-//	this->op.nextPrec  = 5;
-
 	this->operands.clear();
 	this->operands.append(ttree);
 	this->operands.append(new ExprTree);
@@ -2093,13 +2016,6 @@ MufExprParser::ExprTree::prefixUnary()
 	ExprTree* ttree = new ExprTree(*this);
 
 	this->op = op_neg;
-//	this->op.s         = "-";
-//	this->op.type      = TokenType::U;
-//	this->op.assoc     = Assoc::PREFIX;
-//	this->op.prec      = 6; // raw assoc TODO: enumed
-//	this->op.rightPrec = 0;
-//	this->op.nextPrec  = 0;
-
 	this->operands.clear();
 	this->operands.append(ttree);
 }
@@ -2114,11 +2030,6 @@ MufExprParser::ExprTree::setValue(const double& v)
 	this->operands.clear();
 	this->op = arg_num;
 	this->op.s         = QString::number(std::abs(v));
-//	this->op.type      = TokenType::v;
-//	this->op.assoc     = Assoc::NONE;
-//	this->op.prec      = 0; // raw assoc TODO: enumed
-//	this->op.rightPrec = 0;
-//	this->op.nextPrec  = 0;
 	if (v < 0) {
 		this->prefixUnary();
 	}
@@ -2139,11 +2050,6 @@ MufExprParser::ExprTree::setValue(const QString& v)
 	} else {
 		this->op.s = v;
 	}
-//	this->op.type      = TokenType::v;
-//	this->op.assoc     = Assoc::NONE;
-//	this->op.prec      = 0; // raw assoc TODO: enumed
-//	this->op.rightPrec = 0;
-//	this->op.nextPrec  = 0;
 	if (b) {
 		this->prefixUnary();
 	}
