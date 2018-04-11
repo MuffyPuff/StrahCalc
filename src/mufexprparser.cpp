@@ -204,7 +204,7 @@ traverse(MufExprParser::ExprTree* t)
 	qDebug() << "Text  |" << t->op.s;
 	qDebug() << "Neg?  |" << t->negative();
 	qDebug() << "Val?  |" << t->isValue();
-	qDebug() << "Val   |" << t->value();
+	qDebug() << "Val   |" << t->eval();
 	qDebug() << "Odd?  |" << t->isOdd();
 	qDebug() << "Even? |" << t->isEven();
 	qDebug() << "Frac? |" << t->isFrac();
@@ -912,7 +912,7 @@ MufExprParser::ExprTree::toFrac()
 }
 
 double
-MufExprParser::ExprTree::value()
+MufExprParser::ExprTree::eval()
 {
 	// TODO: improve
 	if (op.type == TokenType::v) {
@@ -921,34 +921,34 @@ MufExprParser::ExprTree::value()
 	if (op.type == TokenType::U and
 	    op.assoc == Assoc::PREFIX and
 	    op.s == "-") {
-		return -this->operands.first()->value();
+		return -this->operands.first()->eval();
 	}
 	switch (chash(this->op.s)) {
 	case chash("/"): {
 		Q_UNIMPLEMENTED();
-		return this->operands.first()->value() /
-		       this->operands.last()->value();
+		return this->operands.first()->eval() /
+		       this->operands.last()->eval();
 		break;
 	}
 	case chash("*"): {
-		return this->operands.first()->value() *
-		       this->operands.last()->value();
+		return this->operands.first()->eval() *
+		       this->operands.last()->eval();
 		break;
 	}
 	case chash("+"): {
-		return this->operands.first()->value() +
-		       this->operands.last()->value();
+		return this->operands.first()->eval() +
+		       this->operands.last()->eval();
 		break;
 	}
 	case chash("-"): {
-		return this->operands.first()->value() -
-		       this->operands.last()->value();
+		return this->operands.first()->eval() -
+		       this->operands.last()->eval();
 		break;
 	}
 	case chash("%"): {
 		Q_UNIMPLEMENTED();
-		return (int)this->operands.first()->value() %
-		       (int)this->operands.last()->value();
+		return (int)this->operands.first()->eval() %
+		       (int)this->operands.last()->eval();
 		break;
 	}
 	default:
@@ -968,7 +968,7 @@ bool
 MufExprParser::ExprTree::isOdd()
 {
 	if (this->isValue()) {
-		const double v = this->value();
+		const double v = this->eval();
 		if (v == static_cast<int>(v)) {
 			return static_cast<int>(v) % 2;
 		}
@@ -980,7 +980,7 @@ MufExprParser::ExprTree::isOdd()
 bool MufExprParser::ExprTree::isEven()
 {
 	if (this->isValue()) {
-		const double v = this->value();
+		const double v = this->eval();
 		if (v == static_cast<int>(v)) {
 			return !static_cast<int>(v) % 2;
 		}
@@ -1123,33 +1123,33 @@ MufExprParser::ExprTree::reduce()
 		bool v2 = this->operands.last()->isValue();
 		if (v1 & v2 & numeric) {
 			// compute
-			int g = gcd(this->operands.first()->value(),
-			            this->operands.last()->value());
+			int g = gcd(this->operands.first()->eval(),
+			            this->operands.last()->eval());
 			this->operands.first()->setValue(
-			        this->operands.first()->value() / g);
+			        this->operands.first()->eval() / g);
 			this->operands.last()->setValue(
-			        this->operands.last()->value() / g);
+			        this->operands.last()->eval() / g);
 			this->numeric = false;
 			this->reduce();
 			this->numeric = true;
 			break;
 		}
-		if (v2 and this->operands.last()->value() == 0) {
+		if (v2 and this->operands.last()->eval() == 0) {
 			// x/0 = inf
 			this->setValue("inf"); //unreasonable?
 			break;
 		}
-		if (v1 and this->operands.first()->value() == 0) {
+		if (v1 and this->operands.first()->eval() == 0) {
 			// 0/x = 0
 			this->setValue(0);
 			break;
 		}
-		if (v2 and this->operands.last()->value() == 1) {
+		if (v2 and this->operands.last()->eval() == 1) {
 			// x/1 = x
 			this->setChild(0);
 			break;
 		}
-		if (v1 and this->operands.first()->value() == 1) {
+		if (v1 and this->operands.first()->eval() == 1) {
 			// 1/x = 1/x
 			// do nothing
 			break;
@@ -1170,26 +1170,26 @@ MufExprParser::ExprTree::reduce()
 		bool v2 = this->operands.last()->isValue();
 		if (v1 & v2 & numeric) {
 			// compute
-			this->setValue(this->operands.first()->value() *
-			               this->operands.last()->value());
+			this->setValue(this->operands.first()->eval() *
+			               this->operands.last()->eval());
 			break;
 		}
-		if (v2 and this->operands.last()->value() == 0) {
+		if (v2 and this->operands.last()->eval() == 0) {
 			// x*0 = 0
 			this->setValue(0);
 			break;
 		}
-		if (v1 and this->operands.first()->value() == 0) {
+		if (v1 and this->operands.first()->eval() == 0) {
 			// 0*x = 0
 			this->setValue(0);
 			break;
 		}
-		if (v2 and this->operands.last()->value() == 1) {
+		if (v2 and this->operands.last()->eval() == 1) {
 			// x*1 = x
 			this->setChild(0);
 			break;
 		}
-		if (v1 and this->operands.first()->value() == 1) {
+		if (v1 and this->operands.first()->eval() == 1) {
 			// 1*x = x
 			this->setChild(1);
 			break;
@@ -1210,16 +1210,16 @@ MufExprParser::ExprTree::reduce()
 		bool v2 = this->operands.last()->isValue();
 		if (v1 & v2 & numeric) {
 			// compute
-			this->setValue(this->operands.first()->value() -
-			               this->operands.last()->value());
+			this->setValue(this->operands.first()->eval() -
+			               this->operands.last()->eval());
 			break;
 		}
-		if (v2 and this->operands.last()->value() == 0) {
+		if (v2 and this->operands.last()->eval() == 0) {
 			// x-0 = x
 			this->setChild(0);
 			break;
 		}
-		if (v1 and this->operands.first()->value() == 0) {
+		if (v1 and this->operands.first()->eval() == 0) {
 			// 0-x = -x
 			this->setChild(1);
 			this->negate();
@@ -1265,16 +1265,16 @@ MufExprParser::ExprTree::reduce()
 		bool v2 = this->operands.last()->isValue();
 		if (v1 & v2 & numeric) {
 			// compute
-			this->setValue(this->operands.first()->value() +
-			               this->operands.last()->value());
+			this->setValue(this->operands.first()->eval() +
+			               this->operands.last()->eval());
 			break;
 		}
-		if (v2 and this->operands.last()->value() == 0) {
+		if (v2 and this->operands.last()->eval() == 0) {
 			// x+0 = x
 			this->setChild(0);
 			break;
 		}
-		if (v1 and this->operands.first()->value() == 0) {
+		if (v1 and this->operands.first()->eval() == 0) {
 			// 0+x = x
 			this->setChild(1);
 			break;
@@ -1311,26 +1311,26 @@ MufExprParser::ExprTree::reduce()
 		bool v2 = this->operands.last()->isValue();
 		if (v1 & v2 & numeric) {
 			// compute
-			this->setValue(std::pow(this->operands.first()->value(),
-			                        this->operands.last()->value()));
+			this->setValue(std::pow(this->operands.first()->eval(),
+			                        this->operands.last()->eval()));
 			break;
 		}
-		if (v1 and this->operands.first()->value() == 0) {
+		if (v1 and this->operands.first()->eval() == 0) {
 			// 0^x = 0
 			this->setValue("0");
 			break;
 		}
-		if (v1 and this->operands.first()->value() == 1) {
+		if (v1 and this->operands.first()->eval() == 1) {
 			// 1^x = 1
 			this->setValue("1");
 			break;
 		}
-		if (v2 and this->operands.last()->value() == 0) {
+		if (v2 and this->operands.last()->eval() == 0) {
 			// x^0 = 1
 			this->setValue(1);
 			break;
 		}
-		if (v2 and this->operands.last()->value() == 1) {
+		if (v2 and this->operands.last()->eval() == 1) {
 			// x^1 = x
 			this->setChild(0);
 			break;
@@ -1357,8 +1357,8 @@ MufExprParser::ExprTree::reduce()
 		if (v1 & v2 & numeric) {
 			// compute
 			// TODO: fix type
-			this->setValue((int)this->operands.first()->value() %
-			               (int)this->operands.last()->value());
+			this->setValue((int)this->operands.first()->eval() %
+			               (int)this->operands.last()->eval());
 			break;
 		}
 		break;

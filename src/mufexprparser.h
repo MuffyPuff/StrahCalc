@@ -167,7 +167,7 @@ public:
 		bool            isFrac();
 		bool            hasFrac();
 		void            toFrac();
-		double          value();
+		double          eval();
 		bool            isInt();
 		bool            isOdd();
 		bool            isEven();
