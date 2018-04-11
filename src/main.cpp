@@ -50,6 +50,7 @@ main(int argc, char* argv[])
 	Q_ASSERT(mPar.exprParseTD("-x*-y") == "{{x}\\cdot{y}}");
 	Q_ASSERT(mPar.exprParseTD("x^(2+7*x)-(-x/-7)") ==
 	         "{{{x}^{{2}+{{7}\\cdot{x}}}}-{\\frac{{x}}{{7}}}}");
+	Q_ASSERT(mPar.exprParseTD("t-x/y+z") == "{{{t}-{\\frac{{x}}{{y}}}}+{z}}");
 
 
 	MainWindow w;
