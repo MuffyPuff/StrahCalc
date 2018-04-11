@@ -832,8 +832,8 @@ MufExprParser::ExprTree::isValue()
 	    op.s == "/" and
 	    this->operands.first()->isValue() and
 	    this->operands.last()->isValue()) {
-		return (coprime(this->operands.first()->value(),
-		                this->operands.last()->value()));
+		return ((int)this->operands.first()->eval() %
+		        (int)this->operands.last()->eval()) == 0;
 	}
 	for (auto& el : operands) {   // if any operand
 		if (!el->isValue()) { // is not a value
@@ -1532,14 +1532,16 @@ MufExprParser::ExprTree::setValue(const QString& v)
 void
 MufExprParser::ExprTree::setChild(const int& i)
 {
-	for (int j = 0; j < this->operands.size(); ++j) {
+	for (int j = this->operands.size() - 1; j >= 0; --j) {
 		if (j == i) {
 			continue;
 		}
 		delete this->operands.at(j);
+		this->operands.removeAt(j);
 	}
 	auto tmp = *this;
-	*this = *tmp.operands.at(i);
-	delete tmp.operands.at(i);
+	*this = *tmp.operands.first();
+	tmp.operands.first()->operands.clear();
+	delete tmp.operands.first();
 	tmp.operands.clear();
 }
