@@ -20,7 +20,6 @@ public:
 	};
 	Q_ENUM(Assoc)
 	enum class TokenType {
-		P,
 		B, // binary op
 		E, // expression
 		b, // brace
@@ -175,6 +174,9 @@ public:
 		QString         toLatex();
 		void            reduce();
 		void            negate();
+		void            multiply(const int& factor);
+		void            multiply(const QString& var);
+		QStringList     var();
 
 		str_tok_t       op;    // can be any operator or value
 //		ExprTree*       left;  // can be null

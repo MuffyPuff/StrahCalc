@@ -237,9 +237,12 @@ MufExprParser::exprParseTD(QString input)
 			t->numeric = true;
 			// TODO: set numeric to childs
 			tree->reduce();
+			tree->toFrac();
+			tree->reduce();
 //			qDebug() << "isFraction: " << tree->isFrac();
 //			qDebug() << tree->print();
 //			traverse(tree);
+			qDebug() << tree->toLatex();
 			return tree->toLatex();
 		}
 //		qDebug() << "expr or expect" << tokens.size();
@@ -876,33 +879,449 @@ MufExprParser::ExprTree::hasFrac()
 void
 MufExprParser::ExprTree::toFrac()
 {
-	qDebug() << "toFrac";
-	if (!this->hasFrac()) {
+//	if (!this->hasFrac()) {
+//		return;
+//	}
+	if (this->op.type == TokenType::v or
+	    this->op.type == TokenType::x) {
+		ExprTree* ttree = new ExprTree(*this);
+
+		this->op.s         = "/";
+		this->op.type      = TokenType::B;
+		this->op.assoc     = Assoc::LEFT;
+		this->op.prec      = 5; // raw assoc TODO: enum
+		this->op.rightPrec = 6;
+		this->op.nextPrec  = 5;
+
+		this->operands.clear();
+		this->operands.append(ttree);
+		this->operands.append(new ExprTree());
+		this->operands.last()->setValue("1");
 		return;
 	}
+	if (operands.isEmpty()) { // no operands
+		return;
+	}
+	if (op.type == TokenType::U and
+	    op.assoc == Assoc::PREFIX and
+	    op.s == "-") {
+		ExprTree* ttree = new ExprTree(*this);
+
+		this->op.s         = "/";
+		this->op.type      = TokenType::B;
+		this->op.assoc     = Assoc::LEFT;
+		this->op.prec      = 5; // raw assoc TODO: enum
+		this->op.rightPrec = 6;
+		this->op.nextPrec  = 5;
+
+		this->operands.clear();
+		this->operands.append(ttree);
+		this->operands.append(new ExprTree());
+		this->operands.last()->setValue("1");
+		return;
+	}
+	ExprTree* t1 = nullptr;
+	ExprTree* t2 = nullptr;
+	if (this->operands.first()->op.s == "^") {
+		t1 = this->operands.first();
+	}
+	if (this->operands.last()->op.s == "^") {
+		t2 = this->operands.last();
+	}
+	if (t1 != nullptr and t2 != nullptr) {
+		ExprTree* ttree = new ExprTree(*this);
+
+		this->op.s         = "/";
+		this->op.type      = TokenType::B;
+		this->op.assoc     = Assoc::LEFT;
+		this->op.prec      = 5; // raw assoc TODO: enum
+		this->op.rightPrec = 6;
+		this->op.nextPrec  = 5;
+
+		this->operands.clear();
+		this->operands.append(ttree);
+		this->operands.append(new ExprTree());
+		this->operands.last()->setValue("1");
+		return;
+	}
+
 	switch (chash(this->op.s)) {
 	case chash("/"): {
+		// TODO: a/b / c/d = ad/bc
 		this->operands.first()->toFrac();
 		this->operands.last()->toFrac();
-		// TODO: a/b / c/d = ad/bc
-		Q_UNIMPLEMENTED();
+		bool b11 = this->operands.first()->operands.first()->isValue();
+		bool b12 = this->operands.first()->operands.last()->isValue();
+		bool b21 = this->operands.last()->operands.first()->isValue();
+		bool b22 = this->operands.last()->operands.last()->isValue();
+		// TODO: negative values
+		int v11 = this->operands.first()->operands.first()->eval();
+		int v12 = this->operands.first()->operands.last()->eval();
+		int v21 = this->operands.last()->operands.first()->eval();
+		int v22 = this->operands.last()->operands.last()->eval();
+		QStringList x11 = this->operands.first()->operands.first()->var();
+		QStringList x12 = this->operands.first()->operands.last()->var();
+		QStringList x21 = this->operands.last()->operands.first()->var();
+		QStringList x22 = this->operands.last()->operands.last()->var();
+		int n1 = v11 * v22;
+		int n2 = v12 * v21;
+
+		this->operands.first()->setValue(n1);
+		for (auto& el : x11) {
+			this->operands.first()->multiply(el);
+		}
+		for (auto& el : x22) {
+			this->operands.first()->multiply(el);
+		}
+		this->operands.last()->setValue(n2);
+		for (auto& el : x12) {
+			this->operands.last()->multiply(el);
+		}
+		for (auto& el : x21) {
+			this->operands.last()->multiply(el);
+		}
 		break;
 	}
 	case chash("*"): {
 		// TODO: handle x*y/z in reduce
-		Q_UNIMPLEMENTED();
+		this->operands.first()->toFrac();
+		this->operands.last()->toFrac();
+		int v11 = this->operands.first()->operands.first()->eval();
+		int v12 = this->operands.first()->operands.last()->eval();
+		int v21 = this->operands.last()->operands.first()->eval();
+		int v22 = this->operands.last()->operands.last()->eval();
+		QStringList x11 = this->operands.first()->operands.first()->var();
+		QStringList x12 = this->operands.first()->operands.last()->var();
+		QStringList x21 = this->operands.last()->operands.first()->var();
+		QStringList x22 = this->operands.last()->operands.last()->var();
+		int n2 = v12 * v22;
+		int n1 = v11 * v21;
+
+		this->op.s         = "/";
+		this->op.type      = TokenType::B;
+		this->op.assoc     = Assoc::LEFT;
+		this->op.prec      = 5; // raw assoc TODO: enum
+		this->op.rightPrec = 6;
+		this->op.nextPrec  = 5;
+
+		this->operands.clear();
+		this->operands.append(new ExprTree());
+		this->operands.append(new ExprTree());
+		this->operands.first()->setValue(n1);
+		this->operands.last()->setValue(n2);
+
+		for (auto& el : x11) {
+			this->operands.first()->multiply(el);
+		}
+		for (auto& el : x21) {
+			this->operands.first()->multiply(el);
+		}
+
+		for (auto& el : x12) {
+			this->operands.last()->multiply(el);
+		}
+		for (auto& el : x22) {
+			this->operands.last()->multiply(el);
+		}
 		break;
 	}
 	case chash("+"):
 	case chash("-"): {
+		// TODO: a/b + c/d = (ad + bc) / bd
+		if (t1 != nullptr) {
+			// a^b + c/d = (da^b + c)/d
+			auto v21 = this->operands.last()->operands.first();
+			int v22 = this->operands.last()->operands.last()->eval();
+			QStringList x22 = this->operands.last()->operands.last()->var();
+			t1->multiply(v22);
+			for (auto& el : x22) {
+				this->operands.first()->operands.first()->multiply(el);
+			}
+			ExprTree* ttree = new ExprTree(*this);
+
+			this->op.s         = "/";
+			this->op.type      = TokenType::B;
+			this->op.assoc     = Assoc::LEFT;
+			this->op.prec      = 5; // raw assoc TODO: enum
+			this->op.rightPrec = 6;
+			this->op.nextPrec  = 5;
+
+			this->operands.clear();
+			this->operands.append(ttree);
+			this->operands.append(new ExprTree());
+			this->operands.first()->operands.first() = t1;
+			this->operands.first()->operands.last() = v21;
+			this->operands.last()->setValue(v22);
+			for (auto& el : x22) {
+				this->operands.last()->multiply(el);
+			}
+//			qDebug() << this->print();
+			break;
+		}
+		if (t2 != nullptr) {
+			// a^b + c/d = (da^b + c)/d
+			auto v11 = this->operands.first()->operands.first();
+			int v12 = this->operands.first()->operands.last()->eval();
+			QStringList x12 = this->operands.last()->operands.last()->var();
+			t2->multiply(v12);
+			for (auto& el : x12) {
+				this->operands.first()->operands.first()->multiply(el);
+			}
+
+			ExprTree* ttree = new ExprTree(*this);
+
+			this->op.s         = "/";
+			this->op.type      = TokenType::B;
+			this->op.assoc     = Assoc::LEFT;
+			this->op.prec      = 5; // raw assoc TODO: enum
+			this->op.rightPrec = 6;
+			this->op.nextPrec  = 5;
+
+			this->operands.clear();
+			this->operands.append(ttree);
+			this->operands.append(new ExprTree());
+			this->operands.first()->operands.last() = t2;
+			this->operands.first()->operands.first() = v11;
+			this->operands.last()->setValue(v12);
+			for (auto& el : x12) {
+				this->operands.last()->multiply(el);
+			}
+			break;
+		}
 		this->operands.first()->toFrac();
 		this->operands.last()->toFrac();
-		// TODO: x/y + z/w = (xw + zy) / yw
-		Q_UNIMPLEMENTED();
+		bool b11 = this->operands.first()->operands.first()->isValue();
+		bool b12 = this->operands.first()->operands.last()->isValue();
+		bool b21 = this->operands.last()->operands.first()->isValue();
+		bool b22 = this->operands.last()->operands.last()->isValue();
+
+		int v11 = this->operands.first()->operands.first()->eval();
+		int v12 = this->operands.first()->operands.last()->eval();
+		int v21 = this->operands.last()->operands.first()->eval();
+		int v22 = this->operands.last()->operands.last()->eval();
+		QStringList x11 = this->operands.first()->operands.first()->var();
+		QStringList x12 = this->operands.first()->operands.last()->var();
+		QStringList x21 = this->operands.last()->operands.first()->var();
+		QStringList x22 = this->operands.last()->operands.last()->var();
+		int greatestd = gcd(v12, v22);
+		int n2 = abs(v12 * v22) / greatestd;
+		int n11 = v11 * v22 / greatestd;
+		int n12 = v21 * v12 / greatestd;
+//		qDebug() << this->print();
+//		qDebug() << this->operands.first()->operands.first()->print();
+//		qDebug() << x11;
+//		qDebug() << this->operands.first()->operands.last()->print();
+//		qDebug() << x12;
+//		qDebug() << this->operands.last()->operands.first()->print();
+//		qDebug() << x21;
+//		qDebug() << this->operands.last()->operands.last()->print();
+//		qDebug() << x22;
+
+		ExprTree* ttree = new ExprTree(*this);
+
+		this->op.s         = "/";
+		this->op.type      = TokenType::B;
+		this->op.assoc     = Assoc::LEFT;
+		this->op.prec      = 5; // raw assoc TODO: enum
+		this->op.rightPrec = 6;
+		this->op.nextPrec  = 5;
+
+		this->operands.clear();
+		this->operands.append(ttree);
+		this->operands.append(new ExprTree());
+		this->operands.first()->operands.first()->setValue(n11);
+		this->operands.first()->operands.last()->setValue(n12);
+		this->operands.last()->setValue(n2);
+
+
+		for (auto& el : x11) {
+			this->operands.first()->operands.first()->multiply(el);
+		}
+		for (auto& el : x22) {
+			this->operands.first()->operands.first()->multiply(el);
+		}
+
+		for (auto& el : x12) {
+			this->operands.first()->operands.last()->multiply(el);
+		}
+		for (auto& el : x21) {
+			this->operands.first()->operands.last()->multiply(el);
+		}
+
+		for (auto& el : x12) {
+			this->operands.last()->multiply(el);
+		}
+		for (auto& el : x22) {
+			this->operands.last()->multiply(el);
+		}
+//		qDebug() << this->print();
+
+//		// TODO: make better decisions based on b11 & b21
+//		if (b12 & b22 & b11 & b21) {
+//			/* v11   v21   n11 + n12 *
+//			 * --- + --- = --------- *
+//			 * v12   v22      n2     */
+//			// TODO: negative values
+//			int v11 = this->operands.first()->operands.first()->eval();
+//			int v12 = this->operands.first()->operands.last()->eval();
+//			int v21 = this->operands.last()->operands.first()->eval();
+//			int v22 = this->operands.last()->operands.last()->eval();
+//			int greatestd = gcd(v12, v22);
+//			int n2 = abs(v12 * v22) / greatestd;
+//			int n11 = v11 * v22 / greatestd;
+//			int n12 = v21 * v12 / greatestd;
+
+//			ExprTree* ttree = new ExprTree(*this);
+
+//			this->op.s         = "/";
+//			this->op.type      = TokenType::B;
+//			this->op.assoc     = Assoc::LEFT;
+//			this->op.prec      = 5; // raw assoc TODO: enum
+//			this->op.rightPrec = 6;
+//			this->op.nextPrec  = 5;
+
+//			this->operands.clear();
+//			this->operands.append(ttree);
+//			this->operands.append(new ExprTree());
+//			this->operands.first()->operands.first()->setValue(n11);
+//			this->operands.first()->operands.last()->setValue(n12);
+//			this->operands.last()->setValue(n2);
+//			break;
+//		}
+//		if (b12 & b22 & b11) {
+//			/*  v11   v21*x   n11*x + n12  *
+//			 *  --- + ----- = -----------  *
+//			 *  v12    v22         n2      */
+//			QStringList x = this->operands.last()->operands.first()->var();
+//			int v11 = this->operands.first()->operands.first()->eval();
+//			int v12 = this->operands.first()->operands.last()->eval();
+//			int v21 = this->operands.last()->operands.first()->eval();
+//			int v22 = this->operands.last()->operands.last()->eval();
+//			int greatestd = gcd(v12, v22);
+//			int n2 = abs(v12 * v22) / greatestd;
+//			int n12 = v11 * v22 / greatestd;
+//			int n11 = v21 * v12 / greatestd;
+
+//			ExprTree* ttree = new ExprTree(*this);
+
+//			this->op.s         = "/";
+//			this->op.type      = TokenType::B;
+//			this->op.assoc     = Assoc::LEFT;
+//			this->op.prec      = 5; // raw assoc TODO: enum
+//			this->op.rightPrec = 6;
+//			this->op.nextPrec  = 5;
+
+//			this->operands.clear();
+//			this->operands.append(ttree);
+//			this->operands.append(new ExprTree());
+//			this->operands.first()->operands.first()->setValue(x.first());
+//			this->operands.first()->operands.first()->op.type = TokenType::x;
+//			this->operands.first()->operands.first()->multiply(n11);
+//			this->operands.first()->operands.last()->setValue(n12);
+//			this->operands.last()->setValue(n2);
+//			break;
+//		}
+//		if (b12 & b22 & b21) {
+//			/*  v11*x   v21   n12*x + n11  *
+//			 *  ----- + --- = -----------  *
+//			 *  v12     v22        n2      */
+//			QStringList x = this->operands.first()->operands.first()->var();
+//			int v11 = this->operands.first()->operands.first()->eval();;
+//			int v12 = this->operands.first()->operands.last()->eval();
+//			int v21 = this->operands.last()->operands.first()->eval();
+//			int v22 = this->operands.last()->operands.last()->eval();
+//			int greatestd = gcd(v12, v22);
+//			int n2 = abs(v12 * v22) / greatestd;
+//			int n12 = v11 * v22 / greatestd;
+//			int n11 = v21 * v12 / greatestd;
+
+//			ExprTree* ttree = new ExprTree(*this);
+
+//			this->op.s         = "/";
+//			this->op.type      = TokenType::B;
+//			this->op.assoc     = Assoc::LEFT;
+//			this->op.prec      = 5; // raw assoc TODO: enum
+//			this->op.rightPrec = 6;
+//			this->op.nextPrec  = 5;
+
+//			this->operands.clear();
+//			this->operands.append(ttree);
+//			this->operands.append(new ExprTree());
+//			this->operands.first()->operands.first()->setValue(x.first());
+//			this->operands.first()->operands.first()->op.type = TokenType::x;
+//			this->operands.first()->operands.first()->multiply(n12);
+//			this->operands.first()->operands.last()->setValue(n11);
+//			this->operands.last()->setValue(n2);
+//			break;
+//		}
+//		if (b12 & b22) {
+//			/*  v11*x   v21*y   n12*x + n11*y  *
+//			 *  ----- + ----- = -------------  *
+//			 *   v12     v22          n2       */
+//			QStringList x1 = this->operands.first()->operands.first()->var();
+//			QStringList x2 = this->operands.last()->operands.first()->var();
+//			int v11 = this->operands.first()->operands.first()->eval();
+//			int v12 = this->operands.first()->operands.last()->eval();
+//			int v21 = this->operands.last()->operands.first()->eval();
+//			int v22 = this->operands.last()->operands.last()->eval();
+//			int greatestd = gcd(v12, v22);
+//			int n2 = abs(v12 * v22) / greatestd;
+//			int n12 = v11 * v22 / greatestd;
+//			int n11 = v21 * v12 / greatestd;
+
+//			ExprTree* ttree = new ExprTree(*this);
+
+//			this->op.s         = "/";
+//			this->op.type      = TokenType::B;
+//			this->op.assoc     = Assoc::LEFT;
+//			this->op.prec      = 5; // raw assoc TODO: enum
+//			this->op.rightPrec = 6;
+//			this->op.nextPrec  = 5;
+
+//			this->operands.clear();
+//			this->operands.append(ttree);
+//			this->operands.append(new ExprTree());
+//			this->operands.first()->operands.first()->setValue(x1.first());
+//			this->operands.first()->operands.first()->op.type = TokenType::x;
+//			this->operands.first()->operands.first()->multiply(n12);
+//			this->operands.first()->operands.last()->setValue(x2.first());
+//			this->operands.first()->operands.last()->op.type = TokenType::x;
+//			this->operands.first()->operands.last()->multiply(n11);
+//			this->operands.last()->setValue(n2);
+//			break;
+//		}
 		break;
 	}
 	case chash("%"): {
-		Q_UNIMPLEMENTED();
+		ExprTree* ttree = new ExprTree(*this);
+
+		this->op.s         = "/";
+		this->op.type      = TokenType::B;
+		this->op.assoc     = Assoc::LEFT;
+		this->op.prec      = 5; // raw assoc TODO: enum
+		this->op.rightPrec = 6;
+		this->op.nextPrec  = 5;
+
+		this->operands.clear();
+		this->operands.append(ttree);
+		this->operands.append(new ExprTree());
+		this->operands.last()->setValue("1");
+		break;
+	}
+	case chash("^"): {
+		ExprTree* ttree = new ExprTree(*this);
+
+		this->op.s         = "/";
+		this->op.type      = TokenType::B;
+		this->op.assoc     = Assoc::LEFT;
+		this->op.prec      = 5; // raw assoc TODO: enum
+		this->op.rightPrec = 6;
+		this->op.nextPrec  = 5;
+
+		this->operands.clear();
+		this->operands.append(ttree);
+		this->operands.append(new ExprTree());
+		this->operands.last()->setValue("1");
 		break;
 	}
 	default:
@@ -1116,7 +1535,7 @@ MufExprParser::ExprTree::reduce()
 		// tabun
 		return;
 	}
-
+//	this->toFrac();
 	switch (chash(op.s)) {
 	case chash("/"): {
 		bool v1 = this->operands.first()->isValue();
@@ -1479,6 +1898,61 @@ MufExprParser::ExprTree::negate()
 	}
 	return;
 	//      Q_UNREACHABLE();
+}
+
+void
+MufExprParser::ExprTree::multiply(const int& factor)
+{
+	ExprTree* ttree = new ExprTree(*this);
+
+	this->op.s         = "*";
+	this->op.type      = TokenType::B;
+	this->op.assoc     = Assoc::LEFT;
+	this->op.prec      = 5; // raw assoc TODO: enum
+	this->op.rightPrec = 6;
+	this->op.nextPrec  = 5;
+
+	this->operands.clear();
+	this->operands.append(new ExprTree);
+	this->operands.first()->setValue(factor);
+	this->operands.append(ttree);
+}
+
+void
+MufExprParser::ExprTree::multiply(const QString& var)
+{
+	ExprTree* ttree = new ExprTree(*this);
+
+	this->op.s         = "*";
+	this->op.type      = TokenType::B;
+	this->op.assoc     = Assoc::LEFT;
+	this->op.prec      = 5; // raw assoc TODO: enum
+	this->op.rightPrec = 6;
+	this->op.nextPrec  = 5;
+
+	this->operands.clear();
+	this->operands.append(ttree);
+	this->operands.append(new ExprTree);
+	this->operands.last()->setValue(var);
+	this->operands.last()->op.type = TokenType::x;
+}
+
+QStringList
+MufExprParser::ExprTree::var()
+{
+	if (op.type == TokenType::v) {
+		return {};
+	}
+	if (op.type == TokenType::x) {
+		return {op.s}; // 5x returns 5?
+	}
+	QStringList r;
+	for (auto& el : this->operands) {
+		if (el->op.type == TokenType::x) {
+			r.append(el->op.s);
+		}
+	}
+	return r;
 }
 
 void
