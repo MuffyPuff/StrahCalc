@@ -818,26 +818,26 @@ bool coprime(int a, int b)
 bool
 MufExprParser::ExprTree::isValue()
 {
-	if (op.type == TokenType::v) {
+	if (this->op.type == TokenType::v) {
 		return true;
 	}
-	if (op.type == TokenType::x) {
+	if (this->op.type == TokenType::x) {
 		return false;
 	}
-	if (operands.isEmpty()) { // no operands but not a value
+	if (this->operands.isEmpty()) { // no operands but not a value
 		return false;
 	}
 	// TODO: move to isInt
-	if (op.type == TokenType::B and
-	    op.s == "/" and
+	if (this->op.type == TokenType::B and
+	    this->op.s == "/" and
 	    this->operands.first()->isValue() and
 	    this->operands.last()->isValue()) {
 		return ((int)this->operands.first()->eval() %
 		        (int)this->operands.last()->eval()) == 0;
 	}
-	for (auto& el : operands) {   // if any operand
-		if (!el->isValue()) { // is not a value
-			return false; // then this is not a value
+	for (auto& el : this->operands) {   // if any operand
+		if (!el->isValue()) {       // is not a value
+			return false;       // then this is not a value
 		}
 	}
 	return true; // might be value
@@ -846,8 +846,8 @@ MufExprParser::ExprTree::isValue()
 bool
 MufExprParser::ExprTree::isFrac()
 {
-	if (op.type == TokenType::B and
-	    op.s == "/") {
+	if (this->op.type == TokenType::B and
+	    this->op.s == "/") {
 		return true;
 	}
 	return false;
@@ -856,13 +856,13 @@ MufExprParser::ExprTree::isFrac()
 bool
 MufExprParser::ExprTree::hasFrac()
 {
-	if (op.type == TokenType::v) {
+	if (this->op.type == TokenType::v) {
 		return false;
 	}
-	if (op.type == TokenType::x) {
+	if (this->op.type == TokenType::x) {
 		return false;
 	}
-	if (operands.isEmpty()) { // no operands
+	if (this->operands.isEmpty()) { // no operands
 		return false;
 	}
 	for (auto& el : operands) {
