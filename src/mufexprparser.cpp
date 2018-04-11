@@ -254,25 +254,25 @@ MufExprParser::exprParseTD(QString input)
 bool
 MufExprParser::operator()(QString input)
 {
-	if (tree != nullptr) {
-		delete tree;
-		tree = nullptr;
-	}
-	ExprTree* t;
-	tokens.clear();
-	if (tokenize(input)) {
-		t = exprTD(0);
-		if (t != nullptr and expect(tok_end)) {
-			tree = t;
-//			qDebug() << "tree:" << input;
-			return true;
-		}
-	}
-	qDebug() << "tokens:" << input;
-	for (auto el : tokens) {
-		qDebug() << el.s << el.type;
-	}
-	return false;
+//	if (tree != nullptr) {
+//		delete tree;
+//		tree = nullptr;
+//	}
+//	ExprTree* t;
+//	tokens.clear();
+//	if (tokenize(input)) {
+//		t = exprTD(0);
+//		if (t != nullptr and expect(tok_end)) {
+//			tree = t;
+////                    qDebug() << "tree:" << input;
+//			return true;
+//		}
+//	}
+//	qDebug() << "tokens:" << input;
+//	for (auto el : tokens) {
+//		qDebug() << el.s << el.type;
+//	}
+	return exprParseTD(input);
 }
 
 bool
@@ -1227,6 +1227,7 @@ MufExprParser::ExprTree::reduce()
 				// do nothing
 			}
 		}
+		break;
 	}
 	// -x + -y = -(x + y)
 	// -x + y = y - x
@@ -1275,6 +1276,7 @@ MufExprParser::ExprTree::reduce()
 			// x + y
 			// do nothing
 		}
+		break;
 	}
 	case chash("^"): {
 		bool v1 = this->operands.first()->isValue();
@@ -1332,6 +1334,7 @@ MufExprParser::ExprTree::reduce()
 			               (int)this->operands.last()->value());
 			break;
 		}
+		break;
 	}
 	default:
 		break;
