@@ -165,6 +165,7 @@ public:
 		// check if it can be reduced to a value
 		bool            isValue();
 		bool            isFrac();
+		bool            hasFrac();
 		void            toFrac();
 		double          value();
 		bool            isInt();
@@ -238,7 +239,7 @@ public slots:
 	QString         exprParseRD(QString input);
 	QString         exprParseTD(QString input);
 public:
-	bool            operator()(QString input);
+	QString         operator()(QString input);
 
 private:
 	static str_tok_t tok_end; // end token

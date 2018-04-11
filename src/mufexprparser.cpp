@@ -251,7 +251,7 @@ MufExprParser::exprParseTD(QString input)
 	return "not valid";
 }
 
-bool
+QString
 MufExprParser::operator()(QString input)
 {
 //	if (tree != nullptr) {
@@ -490,7 +490,6 @@ MufExprParser::exprSY()
 		return false;
 	}
 	while (next().type == TokenType::B) {
-//		Q_UNIMPLEMENTED(); // push next
 		pushOperator(next());
 		consume();
 		if (!pSY()) {
@@ -499,10 +498,9 @@ MufExprParser::exprSY()
 		}
 	}
 	while (mOperators.top() != op_sent) {
-		qDebug() << "this?";
-//		Q_UNIMPLEMENTED(); // pop
+//		qDebug() << "this?";
 		popOperator();
-		qDebug() << "this?";
+//		qDebug() << "this?";
 	}
 	return true;
 }
@@ -533,7 +531,6 @@ MufExprParser::pSY()
 		mOperators.pop();
 	} else if (next().type == TokenType::U and next().assoc == Assoc::PREFIX) {
 //		qDebug() << "un";
-//		Q_UNIMPLEMENTED(); // push next
 		pushOperator(next());
 		consume();
 		if (!pSY()) {
@@ -729,7 +726,6 @@ MufExprParser::ExprTree::negative()
 			int n1 = this->operands.first()->negative();
 			int n2 = this->operands.last()->negative();
 			return n1 - n2;
-//			Q_UNIMPLEMENTED();
 			return 0;
 		}
 		break;
@@ -800,6 +796,25 @@ MufExprParser::ExprTree::negative()
 	Q_UNREACHABLE();
 }
 
+int gcd(int a, int b)
+{
+	if (b == 0) {
+		return a;
+	} else {
+		return gcd(b, a % b);
+	}
+}
+
+bool coprime(int a, int b)
+{
+	if (gcd(a, b) == 1) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
 bool
 MufExprParser::ExprTree::isValue()
 {
@@ -812,6 +827,14 @@ MufExprParser::ExprTree::isValue()
 	if (operands.isEmpty()) { // no operands but not a value
 		return false;
 	}
+	// TODO: move to isInt
+	if (op.type == TokenType::B and
+	    op.s == "/" and
+	    this->operands.first()->isValue() and
+	    this->operands.last()->isValue()) {
+		return (coprime(this->operands.first()->value(),
+		                this->operands.last()->value()));
+	}
 	for (auto& el : operands) {   // if any operand
 		if (!el->isValue()) { // is not a value
 			return false; // then this is not a value
@@ -823,6 +846,16 @@ MufExprParser::ExprTree::isValue()
 bool
 MufExprParser::ExprTree::isFrac()
 {
+	if (op.type == TokenType::B and
+	    op.s == "/") {
+		return true;
+	}
+	return false;
+}
+
+bool
+MufExprParser::ExprTree::hasFrac()
+{
 	if (op.type == TokenType::v) {
 		return false;
 	}
@@ -831,10 +864,6 @@ MufExprParser::ExprTree::isFrac()
 	}
 	if (operands.isEmpty()) { // no operands
 		return false;
-	}
-	if (op.type == TokenType::B and
-	    op.s == "/") {
-		return true;
 	}
 	for (auto& el : operands) {
 		if (el->isFrac()) {
@@ -847,15 +876,38 @@ MufExprParser::ExprTree::isFrac()
 void
 MufExprParser::ExprTree::toFrac()
 {
-
-}
-
-int gcd(int a, int b)
-{
-	if (b == 0) {
-		return a;
-	} else {
-		return gcd(b, a % b);
+	qDebug() << "toFrac";
+	if (!this->hasFrac()) {
+		return;
+	}
+	switch (chash(this->op.s)) {
+	case chash("/"): {
+		this->operands.first()->toFrac();
+		this->operands.last()->toFrac();
+		// TODO: a/b / c/d = ad/bc
+		Q_UNIMPLEMENTED();
+		break;
+	}
+	case chash("*"): {
+		// TODO: handle x*y/z in reduce
+		Q_UNIMPLEMENTED();
+		break;
+	}
+	case chash("+"):
+	case chash("-"): {
+		this->operands.first()->toFrac();
+		this->operands.last()->toFrac();
+		// TODO: x/y + z/w = (xw + zy) / yw
+		Q_UNIMPLEMENTED();
+		break;
+	}
+	case chash("%"): {
+		Q_UNIMPLEMENTED();
+		break;
+	}
+	default:
+		Q_UNIMPLEMENTED();
+		break;
 	}
 }
 
@@ -927,7 +979,14 @@ MufExprParser::ExprTree::isOdd()
 
 bool MufExprParser::ExprTree::isEven()
 {
-	return !this->isOdd();
+	if (this->isValue()) {
+		const double v = this->value();
+		if (v == static_cast<int>(v)) {
+			return !static_cast<int>(v) % 2;
+		}
+	}
+	qWarning("value check on non-value");
+	return false;
 }
 
 QString
@@ -944,23 +1003,6 @@ MufExprParser::ExprTree::print()
 		t.append(operands.at(i)->print());
 	}
 	t.append(")");
-//			if (op.type == TokenType::B) {
-//				t.append("(");
-//				t.append(left->print());
-//				t.append(", ");
-//				t.append(right->print());
-//				t.append(")");
-//			} else if (op.type  == TokenType::U and
-//			           op.assoc == Assoc::POSTFIX) {
-//				t.append("(");
-//				t.append(left->print());
-//				t.append(")");
-//			} else if (op.type  == TokenType::U and
-//			           op.assoc == Assoc::PREFIX) {
-//				t.append("(");
-//				t.append(right->print());
-//				t.append(")");
-//			}
 	return t;
 }
 
@@ -991,14 +1033,6 @@ MufExprParser::ExprTree::toLatex()
 			return "{" + op.s + "}";
 			break;
 		}
-//		if (op.s == "(" or
-//		    op.s == "[" or
-//		    op.s == "{") {
-//		}
-//		if (op.s == ")" or
-//		    op.s == "]" or
-//		    op.s == "}") {
-//		}
 		Q_UNREACHABLE();
 		break;
 	case 1:
@@ -1020,7 +1054,6 @@ MufExprParser::ExprTree::toLatex()
 		Q_UNREACHABLE();
 		break;
 	case 2:
-//		switch (const_hash(op.s.toStdString().c_str())) {
 		switch (chash(op.s)) {
 		case chash("/"):
 			t.append("{\\frac{");
@@ -1055,9 +1088,6 @@ MufExprParser::ExprTree::toLatex()
 			return t;
 			break;
 		}
-//		if (op.s == "/") {
-//		} else {
-//		}
 		Q_UNREACHABLE();
 		break;
 	default: // probably a function
@@ -1211,7 +1241,6 @@ MufExprParser::ExprTree::reduce()
 				this->operands.last()->negate();
 			}
 			if (n1 <  0 and n2 >= 0) {
-//				Q_UNIMPLEMENTED();
 				// -x - y = -(x + y)
 				op.s = "+";
 				this->operands.first()->negate();
@@ -1254,7 +1283,6 @@ MufExprParser::ExprTree::reduce()
 		int n1 = this->operands.first()->negative();
 		int n2 = this->operands.last()->negative();
 		if (n1 <  0 and n2 <  0) {
-//			Q_UNIMPLEMENTED();
 			// -x + -y = -(x + y)
 			this->operands.first()->negate();
 			this->operands.last()->negate();
@@ -1321,7 +1349,6 @@ MufExprParser::ExprTree::reduce()
 //				traverse(this);
 			}
 		}
-//		Q_UNIMPLEMENTED();
 		break;
 	}
 	case chash("%"): {
