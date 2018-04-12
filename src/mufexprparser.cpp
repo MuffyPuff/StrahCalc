@@ -188,7 +188,8 @@ int MufExprParser::init()
 	}
 
 //	mOperators.push(op_sent);
-	tree = nullptr;
+	this->tree = nullptr;
+	this->reduce = false;
 
 //	qDebug("init done");
 
@@ -350,11 +351,13 @@ MufExprParser::exprParseTD(QString input)
 //			qDebug() << "reduced tree:";
 //			return tree->print();
 //			traverse(tree);
-			t->numeric = true;
-			// TODO: set numeric to childs
-			tree->reduce();
-			tree->toFrac();
-			tree->reduce();
+			if (this->reduce) {
+				this->tree->numeric = true;
+				// TODO: set numeric to childs
+				this->tree->reduce();
+				this->tree->toFrac();
+				this->tree->reduce();
+			}
 //			qDebug() << "isFraction: " << tree->isFrac();
 //			qDebug() << tree->print();
 //			traverse(tree);

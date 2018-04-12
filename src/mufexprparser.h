@@ -279,6 +279,8 @@ public:
 //	QQueue<str_tok_t> queue;
 	ExprTree*       tree;
 
+	bool            reduce;
+
 	friend bool operator>(const str_tok_t& lhs, const str_tok_t& rhs);
 };
 
