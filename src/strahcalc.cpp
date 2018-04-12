@@ -671,14 +671,27 @@ StrahCalc::updatePreviewBuilderThreadInput_plot()
 	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 //	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
-//	input.latex = Muf::toLatex(ui->eqnInput_sym->toPlainText()) +
-//	              " \\to \\text{\\detokenize{";
-//	for (auto el : mSym.queue) {
-//		input.latex.append(el.s);
-//	}
-//	input.latex.append("}}");
-	Muf::mPar.exprParseTD(ui->eqnInput_sym->toPlainText());
-	input.latex = Muf::mPar.tree->toLatex();
+	QString s = ui->eqnInput_plot->toPlainText();
+	s.replace("\\x", "x");
+	Muf::toLatex.mPar(s);
+	input.latex = "\\documentclass{article}"
+	              "\\usepackage{tikz}"
+	              "\\begin{document}"
+	              "\\textcolor{white}{.}\\\\"
+	              "\\begin{tikzpicture}[domain=0:4]"
+	              "\\draw[very thin,color=gray] (-0.1,-1.1) grid (3.9,3.9);"
+	              "\\draw[->] (-0.2,0) -- (4.2,0) node[right] {$x$};"
+	              "\\draw[->] (0,-1.2) -- (0,4.2) node[above] {$f(x)$};"
+	              "\\draw[color=black] plot (\\x,"
+	              + ui->eqnInput_plot->toPlainText() +
+	              ") node[right] {$f(x) = "
+	              + Muf::toLatex.mPar.tree->toLatex() +
+	              "$};"
+	              "\\end{tikzpicture}"
+	              "\\textcolor{white}{.}\\\\\\textcolor{white}{.}"
+	              "\\pagenumbering{gobble}"
+	              "\\end{document}";
+
 	if (mPreviewBuilderThread->inputChanged(input)) {
 		qDebug() << "input changed. Render...";
 		//              ui->statusBar->showMessage(Muf::translation("rendering"));
