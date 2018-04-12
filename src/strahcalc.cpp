@@ -671,6 +671,8 @@ StrahCalc::updatePreviewBuilderThreadInput_plot()
 	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 //	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
+	input.bypassTemplate = true;
+
 	QString s = ui->eqnInput_plot->toPlainText();
 	s.replace("\\x", "x");
 	Muf::toLatex.mPar(s);
