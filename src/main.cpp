@@ -30,7 +30,7 @@ main(int argc, char* argv[])
 //	qDebug() << mPar.exprParseTD("x^(2+7*x)-(-7*x)");
 //	qDebug() << mPar.exprParseTD("x^(2+7*x)-(-x/-7)");
 //	qDebug() << mPar.exprParseTD("");
-	//*
+	/*
 	Q_ASSERT(mPar("x") == "{x}");
 	Q_ASSERT(mPar("0+x") == "{x}");
 	Q_ASSERT(mPar("x+0") == "{x}");
@@ -49,12 +49,12 @@ main(int argc, char* argv[])
 	Q_ASSERT(mPar("-x/-y") == "{\\frac{{x}}{{y}}}");
 	Q_ASSERT(mPar("-x*-y") == "{{x}\\cdot{y}}");
 	Q_ASSERT(mPar("x^(2+7*x)-(-x/-7)") ==
-	         "{\\frac{{{{7}\\cdot{{x}^{{2}+{{7}\\cdot{x}}}}}-{x}}}{{7}}}");
+		 "{\\frac{{{{7}\\cdot{{x}^{{2}+{{7}\\cdot{x}}}}}-{x}}}{{7}}}");
 	Q_ASSERT(mPar("a^b + c/d") == "{\\frac{{{{d}\\cdot{{a}^{b}}}+{c}}}{{d}}}");
 	Q_ASSERT(mPar("2*x/3+5*y/7") ==
-	         "{\\frac{{{{14}\\cdot{x}}+{{15}\\cdot{y}}}}{{21}}}");
+		 "{\\frac{{{{14}\\cdot{x}}+{{15}\\cdot{y}}}}{{21}}}");
 	Q_ASSERT(mPar("2*a/(3*b) + 5*c/(7*d)") ==
-	         "{\\frac{{{{{14}\\cdot{a}}\\cdot{d}}+{{{15}\\cdot{b}}\\cdot{c}}}}{{{{21}\\cdot{b}}\\cdot{d}}}}");
+		 "{\\frac{{{{{14}\\cdot{a}}\\cdot{d}}+{{{15}\\cdot{b}}\\cdot{c}}}}{{{{21}\\cdot{b}}\\cdot{d}}}}");
 	Q_ASSERT(mPar("a^b+c^d") == "{{{a}^{b}}+{{c}^{d}}}");
 	//*/
 
