@@ -6,6 +6,8 @@
 #include <QMutex>
 #include <QMutexLocker>
 
+#include "mufexprparser.h"
+
 class MufLatex : public QObject
 {
 	Q_OBJECT
@@ -32,6 +34,9 @@ private:
 
 //	static bool     _hasnewinfo;
 //	static bool     _abort;
+
+public:
+	MufExprParser   mPar;
 };
 
 #endif // MUFLATEX_H

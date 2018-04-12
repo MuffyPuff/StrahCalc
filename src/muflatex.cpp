@@ -14,9 +14,18 @@ MufLatex::operator()(QString input)
 {
 	input = input.split(';').last();
 	input = assignment(input);
-	input = power(input);
-	input = operators(input);
-	input = braces(input);
+
+	input = mPar(input);
+//	mPar.reduce = true;
+	input.append("&=");
+	mPar.tree->reduce();
+	mPar.tree->toFrac();
+	mPar.tree->reduce();
+	input.append(mPar.tree->toLatex());
+
+//	input = power(input);
+//	input = operators(input);
+//	input = braces(input);
 	qDebug() << input ;
 
 	return input;
