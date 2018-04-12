@@ -1,5 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "strahcalc.h"
+#include "ui_strahcalc.h"
 
 #include <cmath>
 
@@ -14,9 +14,9 @@
 using Muf::translation;
 
 
-MainWindow::MainWindow(QWidget* parent) :
+StrahCalc::StrahCalc(QWidget* parent) :
         QMainWindow(parent),
-        ui(new Ui::MainWindow)
+        ui(new Ui::StrahCalc)
 {
 	ui->setupUi(this);
 
@@ -41,18 +41,18 @@ MainWindow::MainWindow(QWidget* parent) :
 //	qDebug() << Muf::translation("language_code");
 
 	// update variables when computation ends
-	connect(this, &MainWindow::resultAvailable,
-	        this, &MainWindow::updateVariableDisplay,
+	connect(this, &StrahCalc::resultAvailable,
+	        this, &StrahCalc::updateVariableDisplay,
 	        Qt::QueuedConnection);
 //	// start rendering result
-//	connect(this, &MainWindow::resultAvailable,
-//	        this, &MainWindow::updatePreviewBuilderThreadInput,
+//	connect(this, &StrahCalc::resultAvailable,
+//	        this, &StrahCalc::updatePreviewBuilderThreadInput,
 //	        Qt::QueuedConnection);
 
 	updateText(_lang);
 }
 
-MainWindow::~MainWindow()
+StrahCalc::~StrahCalc()
 {
 //	saveSettings();
 	delete mPreviewBuilderThread;
@@ -66,7 +66,7 @@ MainWindow::~MainWindow()
 //2^(1+((x+1)^(x+2))%3)+1
 
 bool
-MainWindow::initKLF()
+StrahCalc::initKLF()
 {
 	input.mathmode = "\\[ ... \\]";
 //	input.mathmode = "";
@@ -92,31 +92,31 @@ MainWindow::initKLF()
 
 //	// display updated expression image
 //	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-//	        this, &MainWindow::showRealTimePreview,
+//	        this, &StrahCalc::showRealTimePreview,
 //	        Qt::QueuedConnection);
 
 	return true;
 }
 
 bool
-MainWindow::initExprtk()
+StrahCalc::initExprtk()
 {
 	mExprtk = new MufExprtkBackend(this, input.latex);
 
 	// store result from exprtk
 	connect(mExprtk, &MufExprtkBackend::resultAvailable,
-	        this, &MainWindow::getResult,
+	        this, &StrahCalc::getResult,
 	        Qt::QueuedConnection);
 	// handle exprtk errors
 	connect(mExprtk, &MufExprtkBackend::error,
-	        this, &MainWindow::handleExprtkError,
+	        this, &StrahCalc::handleExprtkError,
 	        Qt::QueuedConnection);
 
 	return true;
 }
 
 bool
-MainWindow::initUI()
+StrahCalc::initUI()
 {
 	if (initMenu()) {}
 
@@ -136,28 +136,28 @@ MainWindow::initUI()
 //	}
 
 	connect(&translation, &MufTranslate::languageChanged,
-	        this, &MainWindow::updateText,
+	        this, &StrahCalc::updateText,
 	        Qt::QueuedConnection);
 
 	return true;
 }
 
 bool
-MainWindow::initMenu()
+StrahCalc::initMenu()
 {
 	mMenu = new MufMenu(ui->menuBar, this);
 
 	connect(mMenu->mClear, &QAction::triggered,
-	        this, &MainWindow::clear,
+	        this, &StrahCalc::clear,
 	        Qt::QueuedConnection);
 	connect(mMenu->mCopyImg, &QAction::triggered,
-	        this, &MainWindow::copyEqToClipboard,
+	        this, &StrahCalc::copyEqToClipboard,
 	        Qt::QueuedConnection);
 	connect(mMenu->mCopyRes, &QAction::triggered,
-	        this, &MainWindow::copyResToClipboard,
+	        this, &StrahCalc::copyResToClipboard,
 	        Qt::QueuedConnection);
 	connect(mMenu->mSettings, &QAction::triggered,
-	        this, &MainWindow::openSettings,
+	        this, &StrahCalc::openSettings,
 	        Qt::QueuedConnection);
 	connect(mMenu->mAbout, &QAction::triggered,
 	[ = ]() {
@@ -169,7 +169,7 @@ MainWindow::initMenu()
 	});
 	connect(mMenu->mExit, &QAction::triggered,
 	[ = ]() {
-//		this->~MainWindow();
+//		this->~StrahCalc();
 		exit(0);
 	});
 
@@ -177,31 +177,31 @@ MainWindow::initMenu()
 }
 
 bool
-MainWindow::initCalcView()
+StrahCalc::initCalcView()
 {
 	// update equation in exprtk on return
 	connect(ui->eqnInput, &QLineEdit::returnPressed,
-	        this, &MainWindow::compute,
+	        this, &StrahCalc::compute,
 	        Qt::QueuedConnection);
 //	// update history on return
 //	connect(ui->eqnInput, &QLineEdit::returnPressed,
-//	        this, &MainWindow::updateHistory,
+//	        this, &StrahCalc::updateHistory,
 //	        Qt::QueuedConnection);
 
 	// compute
 	connect(ui->compute, &QAbstractButton::clicked,
-	        this, &MainWindow::compute,
+	        this, &StrahCalc::compute,
 	        Qt::QueuedConnection);
 //	// update history on compute
 //	connect(ui->compute, &QAbstractButton::clicked,
-//	        this, &MainWindow::updateHistory,
+//	        this, &StrahCalc::updateHistory,
 //	        Qt::QueuedConnection);
 
 	// copy to clipboard
 	connect(ui->clipBtnEq, &QAbstractButton::clicked,
-	        this, &MainWindow::copyEqToClipboard);
+	        this, &StrahCalc::copyEqToClipboard);
 	connect(ui->clipBtnRes, &QAbstractButton::clicked,
-	        this, &MainWindow::copyResToClipboard);
+	        this, &StrahCalc::copyResToClipboard);
 
 
 //	ui->clipBtnEq->setText(Muf::translation("copy_img"));
@@ -215,22 +215,22 @@ MainWindow::initCalcView()
 }
 
 bool
-MainWindow::initAdvCalcView()
+StrahCalc::initAdvCalcView()
 {
 	// compute
 	connect(ui->compute_adv, &QAbstractButton::clicked,
-	        this, &MainWindow::compute_adv,
+	        this, &StrahCalc::compute_adv,
 	        Qt::QueuedConnection);
 //	// update history on compute
 //	connect(ui->compute_adv, &QAbstractButton::clicked,
-//	        this, &MainWindow::updateHistory,
+//	        this, &StrahCalc::updateHistory,
 //	        Qt::QueuedConnection);
 
 	// copy to clipboard
 	connect(ui->clipBtnEq_adv, &QAbstractButton::clicked,
-	        this, &MainWindow::copyEqToClipboard);
+	        this, &StrahCalc::copyEqToClipboard);
 	connect(ui->clipBtnRes_adv, &QAbstractButton::clicked,
-	        this, &MainWindow::copyResToClipboard);
+	        this, &StrahCalc::copyResToClipboard);
 
 
 //	ui->clipBtnEq->setText(Muf::translation("copy_img"));
@@ -244,22 +244,22 @@ MainWindow::initAdvCalcView()
 }
 
 bool
-MainWindow::initSymCalcView()
+StrahCalc::initSymCalcView()
 {
 	// compute
 	connect(ui->compute_sym, &QAbstractButton::clicked,
-	        this, &MainWindow::compute_sym,
+	        this, &StrahCalc::compute_sym,
 	        Qt::QueuedConnection);
 //	// update history on compute
 //	connect(ui->compute_adv, &QAbstractButton::clicked,
-//	        this, &MainWindow::updateHistory,
+//	        this, &StrahCalc::updateHistory,
 //	        Qt::QueuedConnection);
 
 	// copy to clipboard
 	connect(ui->clipBtnEq_sym, &QAbstractButton::clicked,
-	        this, &MainWindow::copyEqToClipboard);
+	        this, &StrahCalc::copyEqToClipboard);
 	connect(ui->clipBtnRes_sym, &QAbstractButton::clicked,
-	        this, &MainWindow::copyResToClipboard);
+	        this, &StrahCalc::copyResToClipboard);
 
 
 //	ui->clipBtnEq->setText(Muf::translation("copy_img"));
@@ -273,7 +273,7 @@ MainWindow::initSymCalcView()
 }
 
 bool
-MainWindow::initSymView()
+StrahCalc::initSymView()
 {
 	// var init
 	mVarList   = new MufSymbolListView_w({"name", "value"}, this);
@@ -300,7 +300,7 @@ MainWindow::initSymView()
 
 // TODO: convert functions to view
 bool
-MainWindow::initFnView()
+StrahCalc::initFnView()
 {
 	fnDirList.append(QDir::cleanPath(
 	                         QDir::current().absolutePath() +
@@ -312,7 +312,7 @@ MainWindow::initFnView()
 }
 
 bool
-MainWindow::initSettingsView()
+StrahCalc::initSettingsView()
 {
 	mSettings = new MufSettings_w();
 
@@ -336,17 +336,17 @@ MainWindow::initSettingsView()
 //	mSettings->bg_color->setText(_bg_color.name());
 
 	connect(mSettings, &MufSettings_w::accepted,
-	        this, &MainWindow::saveSettings,
+	        this, &StrahCalc::saveSettings,
 	        Qt::QueuedConnection);
 	connect(mSettings, &MufSettings_w::defaults,
-	        this, &MainWindow::setDefaults,
+	        this, &StrahCalc::setDefaults,
 	        Qt::QueuedConnection);
 
 	return true;
 }
 
 void
-MainWindow::getResult(double value)
+StrahCalc::getResult(double value)
 {
 	this->rawValue = value;
 	this->roundValue = Muf::roundFloat(value);
@@ -354,7 +354,7 @@ MainWindow::getResult(double value)
 }
 
 void
-MainWindow::clear()
+StrahCalc::clear()
 {
 	ui->eqnInput->clear();
 	ui->label->clear();
@@ -362,19 +362,19 @@ MainWindow::clear()
 }
 
 void
-MainWindow::updateVariableDisplay()
+StrahCalc::updateVariableDisplay()
 {
 	mVarList->setList(mExprtk->getVariables());
 }
 
 void
-MainWindow::updateConstantDisplay()
+StrahCalc::updateConstantDisplay()
 {
 	mConstList->setList(mExprtk->getConstants());
 }
 
 void
-MainWindow::updateText(const QString& lang)
+StrahCalc::updateText(const QString& lang)
 {
 	// rename tabs
 	REP(i, header.size()) {
@@ -402,7 +402,7 @@ MainWindow::updateText(const QString& lang)
 }
 
 void
-MainWindow::setStatusMessage(const QString& code, const bool& timeout)
+StrahCalc::setStatusMessage(const QString& code, const bool& timeout)
 {
 	if (timeout == true) {
 		QTimer::singleShot(_timeout, this,
@@ -416,7 +416,7 @@ MainWindow::setStatusMessage(const QString& code, const bool& timeout)
 }
 
 void
-MainWindow::applySettings()
+StrahCalc::applySettings()
 {
 	translation.changeLanguage(_lang);
 	input.dpi = _dpi;
@@ -431,7 +431,7 @@ MainWindow::applySettings()
 }
 
 void
-MainWindow::openSettings()
+StrahCalc::openSettings()
 {
 	mSettings->languages->setCurrentText(translation("language_name"));
 	mSettings->timeout->setValue(_timeout);
@@ -446,7 +446,7 @@ MainWindow::openSettings()
 }
 
 void
-MainWindow::loadSettings()
+StrahCalc::loadSettings()
 {
 	QSettings settings;
 	qDebug() << settings.fileName();
@@ -466,7 +466,7 @@ MainWindow::loadSettings()
 }
 
 void
-MainWindow::saveSettings()
+StrahCalc::saveSettings()
 {
 	qDebug() << mSettings->languages->currentText();
 	qDebug() << MufTranslate::_languageList;
@@ -492,7 +492,7 @@ MainWindow::saveSettings()
 }
 
 void
-MainWindow::setDefaults()
+StrahCalc::setDefaults()
 {
 	QSettings settings;
 	settings.clear();
@@ -502,13 +502,13 @@ MainWindow::setDefaults()
 }
 
 void
-MainWindow::addVariable(const QString& name, const double& value)
+StrahCalc::addVariable(const QString& name, const double& value)
 {
 	mExprtk->addVariable(name, value);
 }
 
 void
-MainWindow::removeVariable(const QString& name)
+StrahCalc::removeVariable(const QString& name)
 {
 	// TODO: implement removal
 	Q_UNUSED(name);
@@ -516,13 +516,13 @@ MainWindow::removeVariable(const QString& name)
 }
 
 void
-MainWindow::addConstant(const QString& name, const double& value)
+StrahCalc::addConstant(const QString& name, const double& value)
 {
 	mExprtk->addConstant(name, value);
 }
 
 void
-MainWindow::removeConstant(const QString& name)
+StrahCalc::removeConstant(const QString& name)
 {
 	// TODO: implement removal
 	Q_UNUSED(name);
@@ -530,7 +530,7 @@ MainWindow::removeConstant(const QString& name)
 }
 
 void
-MainWindow::copyEqToClipboard()
+StrahCalc::copyEqToClipboard()
 {
 	clipboard->setPixmap(pixmap);
 //	ui->statusBar->showMessage(Muf::translation("img_copied"));
@@ -538,7 +538,7 @@ MainWindow::copyEqToClipboard()
 }
 
 void
-MainWindow::copyResToClipboard()
+StrahCalc::copyResToClipboard()
 {
 	clipboard->setText(roundValue);
 //	ui->statusBar->showMessage(Muf::translation("res_copied"));
@@ -546,7 +546,7 @@ MainWindow::copyResToClipboard()
 }
 
 void
-MainWindow::handleExprtkError()
+StrahCalc::handleExprtkError()
 {
 	// TODO: halt render
 
@@ -560,7 +560,7 @@ MainWindow::handleExprtkError()
 }
 
 void
-MainWindow::updatePreviewBuilderThreadInput()
+StrahCalc::updatePreviewBuilderThreadInput()
 {
 //	if (!compute()) {
 //		return;
@@ -589,7 +589,7 @@ MainWindow::updatePreviewBuilderThreadInput()
 }
 
 void
-MainWindow::updatePreviewBuilderThreadInput_adv()
+StrahCalc::updatePreviewBuilderThreadInput_adv()
 {
 	qDebug("adv update");
 	//      if (!compute()) {
@@ -659,7 +659,7 @@ MainWindow::updatePreviewBuilderThreadInput_adv()
 }
 
 void
-MainWindow::updatePreviewBuilderThreadInput_sym()
+StrahCalc::updatePreviewBuilderThreadInput_sym()
 {
 	//      if (!compute()) {
 	//              return;
@@ -693,7 +693,7 @@ MainWindow::updatePreviewBuilderThreadInput_sym()
 }
 
 void
-MainWindow::updateExprtkInput(const QString& input)
+StrahCalc::updateExprtkInput(const QString& input)
 {
 //	QString input(ui->eqnInput->text());
 	if (mExprtk->inputChanged(input)) {
@@ -705,90 +705,90 @@ MainWindow::updateExprtkInput(const QString& input)
 }
 
 void
-MainWindow::compute()
+StrahCalc::compute()
 {
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &MainWindow::showRealTimePreview);
+	           this, &StrahCalc::showRealTimePreview);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &MainWindow::showRealTimePreview_adv);
+	           this, &StrahCalc::showRealTimePreview_adv);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &MainWindow::showRealTimePreview_sym);
+	           this, &StrahCalc::showRealTimePreview_sym);
 
-	disconnect(this, &MainWindow::resultAvailable,
-	           this, &MainWindow::updatePreviewBuilderThreadInput);
-	disconnect(this, &MainWindow::resultAvailable,
-	           this, &MainWindow::updatePreviewBuilderThreadInput_adv);
-	disconnect(this, &MainWindow::resultAvailable,
-	           this, &MainWindow::updatePreviewBuilderThreadInput_sym);
+	disconnect(this, &StrahCalc::resultAvailable,
+	           this, &StrahCalc::updatePreviewBuilderThreadInput);
+	disconnect(this, &StrahCalc::resultAvailable,
+	           this, &StrahCalc::updatePreviewBuilderThreadInput_adv);
+	disconnect(this, &StrahCalc::resultAvailable,
+	           this, &StrahCalc::updatePreviewBuilderThreadInput_sym);
 
 	// display updated expression image
 	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	        this, &MainWindow::showRealTimePreview,
+	        this, &StrahCalc::showRealTimePreview,
 	        Qt::QueuedConnection);
 	// start rendering result
-	connect(this, &MainWindow::resultAvailable,
-	        this, &MainWindow::updatePreviewBuilderThreadInput,
+	connect(this, &StrahCalc::resultAvailable,
+	        this, &StrahCalc::updatePreviewBuilderThreadInput,
 	        Qt::QueuedConnection);
 	updateExprtkInput(ui->eqnInput->text());
 	updateHistory(ui->eqnInput->text());
 }
 
 void
-MainWindow::compute_adv()
+StrahCalc::compute_adv()
 {
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &MainWindow::showRealTimePreview);
+	           this, &StrahCalc::showRealTimePreview);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &MainWindow::showRealTimePreview_adv);
+	           this, &StrahCalc::showRealTimePreview_adv);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &MainWindow::showRealTimePreview_sym);
+	           this, &StrahCalc::showRealTimePreview_sym);
 
-	disconnect(this, &MainWindow::resultAvailable,
-	           this, &MainWindow::updatePreviewBuilderThreadInput);
-	disconnect(this, &MainWindow::resultAvailable,
-	           this, &MainWindow::updatePreviewBuilderThreadInput_adv);
-	disconnect(this, &MainWindow::resultAvailable,
-	           this, &MainWindow::updatePreviewBuilderThreadInput_sym);
+	disconnect(this, &StrahCalc::resultAvailable,
+	           this, &StrahCalc::updatePreviewBuilderThreadInput);
+	disconnect(this, &StrahCalc::resultAvailable,
+	           this, &StrahCalc::updatePreviewBuilderThreadInput_adv);
+	disconnect(this, &StrahCalc::resultAvailable,
+	           this, &StrahCalc::updatePreviewBuilderThreadInput_sym);
 
 	// display updated expression image
 	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	        this, &MainWindow::showRealTimePreview_adv,
+	        this, &StrahCalc::showRealTimePreview_adv,
 	        Qt::QueuedConnection);
 	// start rendering result
-	connect(this, &MainWindow::resultAvailable,
-	        this, &MainWindow::updatePreviewBuilderThreadInput_adv,
+	connect(this, &StrahCalc::resultAvailable,
+	        this, &StrahCalc::updatePreviewBuilderThreadInput_adv,
 	        Qt::QueuedConnection);
 	updateExprtkInput(ui->eqnInput_adv->toPlainText());
 	updateHistory(ui->eqnInput_adv->toPlainText());
 }
 
 void
-MainWindow::compute_sym()
+StrahCalc::compute_sym()
 {
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &MainWindow::showRealTimePreview);
+	           this, &StrahCalc::showRealTimePreview);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &MainWindow::showRealTimePreview_adv);
+	           this, &StrahCalc::showRealTimePreview_adv);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &MainWindow::showRealTimePreview_sym);
+	           this, &StrahCalc::showRealTimePreview_sym);
 
-	disconnect(this, &MainWindow::resultAvailable,
-	           this, &MainWindow::updatePreviewBuilderThreadInput);
-	disconnect(this, &MainWindow::resultAvailable,
-	           this, &MainWindow::updatePreviewBuilderThreadInput_adv);
-	disconnect(this, &MainWindow::resultAvailable,
-	           this, &MainWindow::updatePreviewBuilderThreadInput_sym);
+	disconnect(this, &StrahCalc::resultAvailable,
+	           this, &StrahCalc::updatePreviewBuilderThreadInput);
+	disconnect(this, &StrahCalc::resultAvailable,
+	           this, &StrahCalc::updatePreviewBuilderThreadInput_adv);
+	disconnect(this, &StrahCalc::resultAvailable,
+	           this, &StrahCalc::updatePreviewBuilderThreadInput_sym);
 
 	// display updated expression image
 	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	        this, &MainWindow::showRealTimePreview_sym,
+	        this, &StrahCalc::showRealTimePreview_sym,
 	        Qt::QueuedConnection);
 	mSym.parse(ui->eqnInput_sym->toPlainText());
 	updatePreviewBuilderThreadInput_sym();
 }
 
 void
-MainWindow::updateHistory(const QString& input)
+StrahCalc::updateHistory(const QString& input)
 {
 	if (input.isEmpty()) {
 		return;
@@ -798,7 +798,7 @@ MainWindow::updateHistory(const QString& input)
 }
 
 void
-MainWindow::showRealTimePreview(const QImage& preview, bool latexerror)
+StrahCalc::showRealTimePreview(const QImage& preview, bool latexerror)
 {
 	if (latexerror) {
 //		ui->statusBar->showMessage(Muf::translation("render_err_general"));
@@ -813,7 +813,7 @@ MainWindow::showRealTimePreview(const QImage& preview, bool latexerror)
 }
 
 void
-MainWindow::showRealTimePreview_adv(const QImage& preview, bool latexerror)
+StrahCalc::showRealTimePreview_adv(const QImage& preview, bool latexerror)
 {
 	if (latexerror) {
 		//              ui->statusBar->showMessage(Muf::translation("render_err_general"));
@@ -828,7 +828,7 @@ MainWindow::showRealTimePreview_adv(const QImage& preview, bool latexerror)
 }
 
 void
-MainWindow::showRealTimePreview_sym(const QImage& preview, bool latexerror)
+StrahCalc::showRealTimePreview_sym(const QImage& preview, bool latexerror)
 {
 	if (latexerror) {
 		//              ui->statusBar->showMessage(Muf::translation("render_err_general"));

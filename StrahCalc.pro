@@ -23,7 +23,7 @@ SOURCES += \
         src/main.cpp\
         src/mufmenu.cpp \
         src/muflatex.cpp \
-        src/mainwindow.cpp \
+        src/strahcalc.cpp \
         src/mufsymbols.cpp \
         src/muffunctions.cpp \
         src/mufsettings_w.cpp \
@@ -34,7 +34,7 @@ HEADERS  += \
         src/global.h \
         src/mufmenu.h \
         src/muflatex.h \
-        src/mainwindow.h \
+        src/strahcalc.h \
         src/mufsymbols.h \
         src/muffunctions.h \
         src/mufsettings_w.h \
@@ -42,7 +42,7 @@ HEADERS  += \
         src/mufsymbollistview_w.h
 
 FORMS    += \
-        src/mainwindow.ui \
+        src/strahcalc.ui \
         src/mufsettings_w.ui \
         src/mufsymbollistview_w.ui
 

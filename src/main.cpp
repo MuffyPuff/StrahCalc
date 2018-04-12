@@ -1,5 +1,5 @@
 #include <QApplication>
-#include "mainwindow.h"
+#include "strahcalc.h"
 
 #include "mufsymbols.h"
 #include "mufexprparser.h"
@@ -13,24 +13,24 @@ main(int argc, char* argv[])
 	QCoreApplication::setOrganizationName("rstrah");
 	QCoreApplication::setOrganizationDomain("rokstrah.com");
 
-	MufExprParser mPar;
-//	qDebug() << mPar.exprParseSY("2-3");
-//	qDebug() << mPar.exprParseSY("-[-x -x]");
-//	qDebug() << mPar.exprParseSY("2^x");
-//	qDebug() << mPar.exprParseSY("x^(2+7*x)-(-7*x)");
-//	qDebug() << mPar.exprParseSY("x^(2+7*x)-(-x/-7)");
-//	qDebug() << mPar.exprParseSY("");
-//	qDebug() << mPar.exprParseRD("-[-x -x]");
-//	qDebug() << mPar.exprParseRD("2^x");
-//	qDebug() << mPar.exprParseRD("x^(2+7*x)-(-7*x)");
-//	qDebug() << mPar.exprParseRD("x^(2+7*x)-(-x/-7)");
-//	qDebug() << mPar.exprParseRD("");
-//	qDebug() << mPar.exprParseTD("-[-x -x]");
-//	qDebug() << mPar.exprParseTD("2^x");
-//	qDebug() << mPar.exprParseTD("x^(2+7*x)-(-7*x)");
-//	qDebug() << mPar.exprParseTD("x^(2+7*x)-(-x/-7)");
-//	qDebug() << mPar.exprParseTD("");
 	/*
+	MufExprParser mPar;
+	qDebug() << mPar.exprParseSY("2-3");
+	qDebug() << mPar.exprParseSY("-[-x -x]");
+	qDebug() << mPar.exprParseSY("2^x");
+	qDebug() << mPar.exprParseSY("x^(2+7*x)-(-7*x)");
+	qDebug() << mPar.exprParseSY("x^(2+7*x)-(-x/-7)");
+	qDebug() << mPar.exprParseSY("");
+	qDebug() << mPar.exprParseRD("-[-x -x]");
+	qDebug() << mPar.exprParseRD("2^x");
+	qDebug() << mPar.exprParseRD("x^(2+7*x)-(-7*x)");
+	qDebug() << mPar.exprParseRD("x^(2+7*x)-(-x/-7)");
+	qDebug() << mPar.exprParseRD("");
+	qDebug() << mPar.exprParseTD("-[-x -x]");
+	qDebug() << mPar.exprParseTD("2^x");
+	qDebug() << mPar.exprParseTD("x^(2+7*x)-(-7*x)");
+	qDebug() << mPar.exprParseTD("x^(2+7*x)-(-x/-7)");
+	qDebug() << mPar.exprParseTD("");
 	Q_ASSERT(mPar("x") == "{x}");
 	Q_ASSERT(mPar("0+x") == "{x}");
 	Q_ASSERT(mPar("x+0") == "{x}");
@@ -58,7 +58,7 @@ main(int argc, char* argv[])
 	Q_ASSERT(mPar("a^b+c^d") == "{{{a}^{b}}+{{c}^{d}}}");
 	//*/
 
-	MainWindow w;
+	StrahCalc w;
 	w.setWindowTitle("StrahCalc");
 	w.show();
 

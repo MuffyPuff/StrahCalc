@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef STRAHCALC_H
+#define STRAHCALC_H
 
 #include <QMainWindow>
 #include <QClipboard>
@@ -18,10 +18,10 @@
 
 namespace Ui
 {
-class MainWindow;
+class StrahCalc;
 }
 
-class MainWindow : public QMainWindow
+class StrahCalc : public QMainWindow
 {
 	Q_OBJECT
 
@@ -39,8 +39,8 @@ public:
 	};
 	Q_ENUM(Status)
 
-	explicit MainWindow(QWidget* parent = 0);
-	~MainWindow();
+	explicit StrahCalc(QWidget* parent = 0);
+	~StrahCalc();
 
 private:
 //	QString         roundFloat(double value, int count = 0);
@@ -96,7 +96,7 @@ signals:
 	void            resultAvailable();
 
 private:
-	Ui::MainWindow* ui;
+	Ui::StrahCalc* ui;
 	KLFPreviewBuilderThread* mPreviewBuilderThread;
 	KLFInput        input;
 	KLFSettings     settings;
@@ -134,4 +134,4 @@ private:
 	MathMode        _mathmode;
 };
 
-#endif // MAINWINDOW_H
+#endif // STRAHCALC_H
