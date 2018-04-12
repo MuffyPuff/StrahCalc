@@ -3,6 +3,7 @@
 
 #include <QSettings>
 
+#include "mufexprparser.h"
 #include "muftranslate.h"
 #include "muflatex.h"
 
@@ -20,10 +21,11 @@ namespace Muf
 //static MufTranslate translation("en-GB");
 static MufTranslate translation("sl-SI");
 static MufLatex toLatex;
+static MufExprParser mPar;
 
 static int prec = 12;
 
-static QString
+static inline QString
 roundFloat(const double& value, int count = 0)
 {
 	if (count > 15) {

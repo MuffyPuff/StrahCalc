@@ -8,6 +8,7 @@
 #include "klfpreviewbuilderthread.h"
 
 #include "mufexprtkbackend.h"
+#include "mufsymbols.h"
 
 #include "mufsymbollistview_w.h"
 #include "mufsettings_w.h"
@@ -49,6 +50,7 @@ private:
 	bool            initMenu();
 	bool            initCalcView();
 	bool            initAdvCalcView();
+	bool            initSymCalcView();
 	bool            initSymView();
 	bool            initFnView();
 	bool            initSettingsView();
@@ -58,12 +60,15 @@ private slots:
 //	void            updatePreviewBuilderThreadInput(const double &res);
 	void            updatePreviewBuilderThreadInput();
 	void            updatePreviewBuilderThreadInput_adv();
+	void            updatePreviewBuilderThreadInput_sym();
 	void            updateExprtkInput(const QString& input);
 	void            compute();
 	void            compute_adv();
+	void            compute_sym();
 	void            updateHistory(const QString& input);
 	void            showRealTimePreview(const QImage& preview, bool latexerror);
 	void            showRealTimePreview_adv(const QImage& preview, bool latexerror);
+	void            showRealTimePreview_sym(const QImage& preview, bool latexerror);
 	void            copyEqToClipboard();
 	void            copyResToClipboard();
 //	void            addNewVariable();
@@ -80,6 +85,7 @@ private slots:
 	void            openSettings();
 	void            loadSettings();
 	void            saveSettings();
+	void            setDefaults();
 
 	void            addVariable(const QString& name, const double& value);
 	void            removeVariable(const QString& name);
@@ -105,6 +111,8 @@ private:
 	Status          status;
 	QString         statusMessageCode;
 
+	MufSymbols      mSym;
+
 
 	QList<QString>  fnDirList;
 	QStringList     header;
@@ -121,6 +129,8 @@ private:
 	QString         _lang;
 	int             _timeout;
 	int             _dpi;
+	QColor          _color;
+	QColor          _bg_color;
 	MathMode        _mathmode;
 };
 

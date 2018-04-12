@@ -12,11 +12,21 @@ MufLatex::MufLatex(QObject* parent)
 QString
 MufLatex::operator()(QString input)
 {
+	input = input.split('\n').last();
 	input = input.split(';').last();
 	input = assignment(input);
-	input = power(input);
-	input = operators(input);
-	input = braces(input);
+
+	input = mPar(input);
+//	mPar.reduce = true;
+	input.append("&=");
+	mPar.tree->reduce();
+	mPar.tree->toFrac();
+	mPar.tree->reduce();
+	input.append(mPar.tree->toLatex());
+
+//	input = power(input);
+//	input = operators(input);
+//	input = braces(input);
 	qDebug() << input ;
 
 	return input;
@@ -59,7 +69,9 @@ MufLatex::power(QString input)
 	auto m = pow.match(input);
 	QString exp = m.captured("exp");
 //	QString res = (exp.indexOf("^") != -1) ? power(exp) : exp;
-	input.replace(m.captured("recurse"), "{" + power(exp) + "}");
+	if (m.hasMatch()) {
+		input.replace(m.captured("recurse"), "{" + power(exp) + "}");
+	}
 //	QStringList words;
 //	auto i = base.globalMatch(input);
 //	while (i.hasNext()) {

@@ -156,7 +156,19 @@
     "translation": "Dots per inch (dpi)"
 },
 {
+    "id": "color",
+    "translation": "Text colour"
+},
+{
+    "id": "bg_color",
+    "translation": "Background colour"
+},
+{
+    "id": "defaults",
+    "translation": "Default settings"
+},
+{
     "id": "",
-            "translation": ""
+    "translation": ""
 }
 ]

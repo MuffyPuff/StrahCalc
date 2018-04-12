@@ -15,24 +15,31 @@ TARGET = StrahCalc
 TEMPLATE = app
 
 CONFIG += c++17
+CONFIG -= app_bundle
+
+#PRECOMPILED_HEADER = src/stable.h
 
 SOURCES += \
         src/main.cpp\
         src/mufmenu.cpp \
+        src/muflatex.cpp \
         src/mainwindow.cpp \
+        src/mufsymbols.cpp \
         src/muffunctions.cpp \
         src/mufsettings_w.cpp \
-        src/mufsymbollistview_w.cpp \
-        src/muflatex.cpp
+        src/mufexprparser.cpp \
+        src/mufsymbollistview_w.cpp
 
 HEADERS  += \
         src/global.h \
         src/mufmenu.h \
+        src/muflatex.h \
         src/mainwindow.h \
+        src/mufsymbols.h \
         src/muffunctions.h \
         src/mufsettings_w.h \
-        src/mufsymbollistview_w.h \
-        src/muflatex.h
+        src/mufexprparser.h \
+        src/mufsymbollistview_w.h
 
 FORMS    += \
         src/mainwindow.ui \

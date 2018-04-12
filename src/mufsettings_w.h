@@ -24,6 +24,11 @@ public:
 	QComboBox*      languages;
 	QSpinBox*       timeout;
 	QSpinBox*       dpi;
+	QLineEdit*      color;
+	QLineEdit*      bg_color;
+
+signals:
+	void            defaults();
 
 public slots:
 	void            updateText(const QString& lang = "");

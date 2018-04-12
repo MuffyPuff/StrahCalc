@@ -156,6 +156,18 @@
     "translation": "Dots per inch (dpi)"
 },
 {
+    "id": "color",
+    "translation": "テキストの色"
+},
+{
+    "id": "bg_color",
+    "translation": "背景色"
+},
+{
+    "id": "defaults",
+    "translation": "デフォルトの設定"
+},
+{
     "id": "",
     "translation": ""
 }

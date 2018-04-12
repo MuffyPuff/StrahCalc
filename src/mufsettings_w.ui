@@ -14,7 +14,7 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
+   <item row="2" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -24,7 +24,14 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
+   <item row="2" column="0">
+    <widget class="QPushButton" name="defaults_b">
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
@@ -164,7 +171,10 @@
          <item row="3" column="2">
           <widget class="QLineEdit" name="color_v">
            <property name="inputMask">
-            <string>\#HHHhhhhh</string>
+            <string>&gt;\#HHHhhh</string>
+           </property>
+           <property name="maxLength">
+            <number>7</number>
            </property>
            <property name="placeholderText">
             <string/>
@@ -174,7 +184,10 @@
          <item row="4" column="2">
           <widget class="QLineEdit" name="bg_color_v">
            <property name="inputMask">
-            <string>\#HHHhhhhh</string>
+            <string>&gt;\#HHHhhh</string>
+           </property>
+           <property name="text">
+            <string>#</string>
            </property>
           </widget>
          </item>
