@@ -12,6 +12,7 @@ MufLatex::MufLatex(QObject* parent)
 QString
 MufLatex::operator()(QString input)
 {
+	input = input.split('\n').last();
 	input = input.split(';').last();
 	input = assignment(input);
 
