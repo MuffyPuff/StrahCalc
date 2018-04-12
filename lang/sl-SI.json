@@ -156,6 +156,14 @@
     "translation": "Pike na inč (dpi)"
 },
 {
+    "id": "color",
+    "translation": "Barva teksta"
+},
+{
+    "id": "bg_color",
+    "translation": "Barva ozadja"
+},
+{
     "id": "",
     "translation": ""
 }
