@@ -338,6 +338,9 @@ MainWindow::initSettingsView()
 	connect(mSettings, &MufSettings_w::accepted,
 	        this, &MainWindow::saveSettings,
 	        Qt::QueuedConnection);
+	connect(mSettings, &MufSettings_w::defaults,
+	        this, &MainWindow::setDefaults,
+	        Qt::QueuedConnection);
 
 	return true;
 }
@@ -420,6 +423,10 @@ MainWindow::applySettings()
 	ui->label->setMinimumHeight(_dpi / 2);
 //	input.bg_color = _color.rgba();
 //	input.fg_color = _bg_color.rgba();
+	ui->label->setStyleSheet("background-color: " + _bg_color.name() + ";");
+	ui->label_adv->setStyleSheet("background-color: " + _bg_color.name() + ";");
+	ui->label_sym->setStyleSheet("background-color: " + _bg_color.name() + ";");
+	ui->label->repaint();
 	qDebug() << "applied settings";
 }
 
@@ -442,13 +449,18 @@ void
 MainWindow::loadSettings()
 {
 	QSettings settings;
+	qDebug() << settings.fileName();
 	_lang           = settings.value("ui/language_code",    "sl-SI").toString();
 	_timeout        = settings.value("ui/message_timeout",  3000).toInt();
-	_dpi            = settings.value("ui/dpi",              200).toInt();
-//	_color          = settings.value("ui/color",
-//	                                 qRgba(0xff, 0xff, 0xff, 255 * 0.70)).toUInt();
-//	_bg_color       = settings.value("ui/bg_color",
-//	                                 qRgba(0x44, 0x44, 0x44, 255)).toUInt();
+	_dpi            = settings.value("label/dpi",           200).toInt();
+	_color.setNamedColor(
+	        settings.value(
+	                "label/color",
+	                QColor(0xff, 0xff, 0xff, 255 * 0.70).name()).toString());
+	_bg_color.setNamedColor(
+	        settings.value(
+	                "label/bg_color",
+	                QColor(0x44, 0x44, 0x44, 255).name()).toString());
 
 	qDebug() << "loaded settings";
 }
@@ -456,21 +468,37 @@ MainWindow::loadSettings()
 void
 MainWindow::saveSettings()
 {
+	qDebug() << mSettings->languages->currentText();
+	qDebug() << MufTranslate::_languageList;
 	_lang = MufTranslate::_languageList.key(mSettings->languages->currentText());
 	_timeout = mSettings->timeout->value();
 	_dpi = mSettings->dpi->value();
-	_color.setNamedColor(mSettings->color->text());
-	_bg_color.setNamedColor(mSettings->bg_color->text());
 
 	QSettings settings;
 	settings.setValue("ui/language_code",           _lang);
 	settings.setValue("ui/message_timeout",         _timeout);
-	settings.setValue("ui/dpi",                     _dpi);
-	settings.setValue("ui/color",                   _color);
-	settings.setValue("ui/bg_color",                _bg_color);
+	settings.setValue("label/dpi",                  _dpi);
+	if (QColor::isValidColor(mSettings->color->text())) {
+		_color.setNamedColor(mSettings->color->text());
+		settings.setValue("label/color",        _color.name());
+	}
+	if (QColor::isValidColor(mSettings->bg_color->text())) {
+		_bg_color.setNamedColor(mSettings->bg_color->text());
+		settings.setValue("label/bg_color",     _bg_color.name());
+	}
 
 	qDebug() << "saved settings";
 	applySettings();
+}
+
+void
+MainWindow::setDefaults()
+{
+	QSettings settings;
+	settings.clear();
+	loadSettings();
+	applySettings();
+	mSettings->hide();
 }
 
 void

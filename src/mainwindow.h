@@ -85,6 +85,7 @@ private slots:
 	void            openSettings();
 	void            loadSettings();
 	void            saveSettings();
+	void            setDefaults();
 
 	void            addVariable(const QString& name, const double& value);
 	void            removeVariable(const QString& name);
