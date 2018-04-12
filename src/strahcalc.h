@@ -60,15 +60,16 @@ private slots:
 //	void            updatePreviewBuilderThreadInput(const double &res);
 	void            updatePreviewBuilderThreadInput();
 	void            updatePreviewBuilderThreadInput_adv();
-	void            updatePreviewBuilderThreadInput_sym();
+	void            updatePreviewBuilderThreadInput_plot();
 	void            updateExprtkInput(const QString& input);
 	void            compute();
 	void            compute_adv();
-	void            compute_sym();
+	void            compute_plot();
 	void            updateHistory(const QString& input);
 	void            showRealTimePreview(const QImage& preview, bool latexerror);
 	void            showRealTimePreview_adv(const QImage& preview, bool latexerror);
-	void            showRealTimePreview_sym(const QImage& preview, bool latexerror);
+	void            showRealTimePreview_plot(const QImage& preview,
+	                bool latexerror);
 	void            copyEqToClipboard();
 	void            copyResToClipboard();
 //	void            addNewVariable();

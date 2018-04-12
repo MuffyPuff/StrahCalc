@@ -124,7 +124,7 @@ StrahCalc::initUI()
 	header.append({
 	        "calc",
 	        "calc_adv",
-	        "calc_sym",
+	        "calc_plot",
 	        "vars",
 	        "consts",
 	        "history"
@@ -247,8 +247,8 @@ bool
 StrahCalc::initSymCalcView()
 {
 	// compute
-	connect(ui->compute_sym, &QAbstractButton::clicked,
-	        this, &StrahCalc::compute_sym,
+	connect(ui->compute_plot, &QAbstractButton::clicked,
+	        this, &StrahCalc::compute_plot,
 	        Qt::QueuedConnection);
 //	// update history on compute
 //	connect(ui->compute_adv, &QAbstractButton::clicked,
@@ -256,9 +256,9 @@ StrahCalc::initSymCalcView()
 //	        Qt::QueuedConnection);
 
 	// copy to clipboard
-	connect(ui->clipBtnEq_sym, &QAbstractButton::clicked,
+	connect(ui->clipBtnEq_plot, &QAbstractButton::clicked,
 	        this, &StrahCalc::copyEqToClipboard);
-	connect(ui->clipBtnRes_sym, &QAbstractButton::clicked,
+	connect(ui->clipBtnRes_plot, &QAbstractButton::clicked,
 	        this, &StrahCalc::copyResToClipboard);
 
 
@@ -389,9 +389,9 @@ StrahCalc::updateText(const QString& lang)
 	ui->clipBtnRes_adv->setText(Muf::translation("copy_res"));
 	ui->compute_adv->setText(Muf::translation("compute"));
 
-	ui->clipBtnEq_sym->setText(Muf::translation("copy_img"));
-	ui->clipBtnRes_sym->setText(Muf::translation("copy_res"));
-	ui->compute_sym->setText(Muf::translation("compute"));
+	ui->clipBtnEq_plot->setText(Muf::translation("copy_img"));
+	ui->clipBtnRes_plot->setText(Muf::translation("copy_res"));
+	ui->compute_plot->setText(Muf::translation("compute"));
 
 	setStatusMessage(statusMessageCode);
 
@@ -425,7 +425,7 @@ StrahCalc::applySettings()
 //	input.fg_color = _bg_color.rgba();
 	ui->label->setStyleSheet("background-color: " + _bg_color.name() + ";");
 	ui->label_adv->setStyleSheet("background-color: " + _bg_color.name() + ";");
-	ui->label_sym->setStyleSheet("background-color: " + _bg_color.name() + ";");
+	ui->label_plot->setStyleSheet("background-color: " + _bg_color.name() + ";");
 	ui->label->repaint();
 	qDebug() << "applied settings";
 }
@@ -659,7 +659,7 @@ StrahCalc::updatePreviewBuilderThreadInput_adv()
 }
 
 void
-StrahCalc::updatePreviewBuilderThreadInput_sym()
+StrahCalc::updatePreviewBuilderThreadInput_plot()
 {
 	//      if (!compute()) {
 	//              return;
@@ -712,14 +712,14 @@ StrahCalc::compute()
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
 	           this, &StrahCalc::showRealTimePreview_adv);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &StrahCalc::showRealTimePreview_sym);
+	           this, &StrahCalc::showRealTimePreview_plot);
 
 	disconnect(this, &StrahCalc::resultAvailable,
 	           this, &StrahCalc::updatePreviewBuilderThreadInput);
 	disconnect(this, &StrahCalc::resultAvailable,
 	           this, &StrahCalc::updatePreviewBuilderThreadInput_adv);
 	disconnect(this, &StrahCalc::resultAvailable,
-	           this, &StrahCalc::updatePreviewBuilderThreadInput_sym);
+	           this, &StrahCalc::updatePreviewBuilderThreadInput_plot);
 
 	// display updated expression image
 	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
@@ -741,14 +741,14 @@ StrahCalc::compute_adv()
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
 	           this, &StrahCalc::showRealTimePreview_adv);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &StrahCalc::showRealTimePreview_sym);
+	           this, &StrahCalc::showRealTimePreview_plot);
 
 	disconnect(this, &StrahCalc::resultAvailable,
 	           this, &StrahCalc::updatePreviewBuilderThreadInput);
 	disconnect(this, &StrahCalc::resultAvailable,
 	           this, &StrahCalc::updatePreviewBuilderThreadInput_adv);
 	disconnect(this, &StrahCalc::resultAvailable,
-	           this, &StrahCalc::updatePreviewBuilderThreadInput_sym);
+	           this, &StrahCalc::updatePreviewBuilderThreadInput_plot);
 
 	// display updated expression image
 	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
@@ -763,28 +763,28 @@ StrahCalc::compute_adv()
 }
 
 void
-StrahCalc::compute_sym()
+StrahCalc::compute_plot()
 {
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
 	           this, &StrahCalc::showRealTimePreview);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
 	           this, &StrahCalc::showRealTimePreview_adv);
 	disconnect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	           this, &StrahCalc::showRealTimePreview_sym);
+	           this, &StrahCalc::showRealTimePreview_plot);
 
 	disconnect(this, &StrahCalc::resultAvailable,
 	           this, &StrahCalc::updatePreviewBuilderThreadInput);
 	disconnect(this, &StrahCalc::resultAvailable,
 	           this, &StrahCalc::updatePreviewBuilderThreadInput_adv);
 	disconnect(this, &StrahCalc::resultAvailable,
-	           this, &StrahCalc::updatePreviewBuilderThreadInput_sym);
+	           this, &StrahCalc::updatePreviewBuilderThreadInput_plot);
 
 	// display updated expression image
 	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-	        this, &StrahCalc::showRealTimePreview_sym,
+	        this, &StrahCalc::showRealTimePreview_plot,
 	        Qt::QueuedConnection);
-	mSym.parse(ui->eqnInput_sym->toPlainText());
-	updatePreviewBuilderThreadInput_sym();
+	mSym.parse(ui->eqnInput_plot->toPlainText());
+	updatePreviewBuilderThreadInput_plot();
 }
 
 void
@@ -828,7 +828,7 @@ StrahCalc::showRealTimePreview_adv(const QImage& preview, bool latexerror)
 }
 
 void
-StrahCalc::showRealTimePreview_sym(const QImage& preview, bool latexerror)
+StrahCalc::showRealTimePreview_plot(const QImage& preview, bool latexerror)
 {
 	if (latexerror) {
 		//              ui->statusBar->showMessage(Muf::translation("render_err_general"));
@@ -837,7 +837,7 @@ StrahCalc::showRealTimePreview_sym(const QImage& preview, bool latexerror)
 		//              ui->statusBar->showMessage(Muf::translation("done"));
 		setStatusMessage("done");
 		pixmap = QPixmap::fromImage(preview);
-		ui->label_sym->setPixmap(pixmap);
-		ui->label_sym->adjustSize();
+		ui->label_plot->setPixmap(pixmap);
+		ui->label_plot->adjustSize();
 	}
 }

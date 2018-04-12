@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="calc_t">
        <attribute name="title">
@@ -485,13 +485,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="calc_sym_t">
+      <widget class="QWidget" name="calc_plot_t">
        <attribute name="title">
         <string>Page</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_16">
         <item row="0" column="0" colspan="9">
-         <widget class="QPlainTextEdit" name="eqnInput_sym"/>
+         <widget class="QPlainTextEdit" name="eqnInput_plot"/>
         </item>
         <item row="1" column="0">
          <spacer name="horizontalSpacer_26">
@@ -520,7 +520,7 @@
          </spacer>
         </item>
         <item row="1" column="2">
-         <widget class="QPushButton" name="clipBtnEq_sym">
+         <widget class="QPushButton" name="clipBtnEq_plot">
           <property name="text">
            <string>Copy Image</string>
           </property>
@@ -540,7 +540,7 @@
          </spacer>
         </item>
         <item row="1" column="4">
-         <widget class="QPushButton" name="clipBtnRes_sym">
+         <widget class="QPushButton" name="clipBtnRes_plot">
           <property name="text">
            <string>Copy Result</string>
           </property>
@@ -560,7 +560,7 @@
          </spacer>
         </item>
         <item row="1" column="6">
-         <widget class="QPushButton" name="compute_sym">
+         <widget class="QPushButton" name="compute_plot">
           <property name="text">
            <string>compute</string>
           </property>
@@ -593,7 +593,7 @@
          </spacer>
         </item>
         <item row="2" column="0" colspan="9">
-         <widget class="QLabel" name="label_sym">
+         <widget class="QLabel" name="label_plot">
           <property name="minimumSize">
            <size>
             <width>0</width>
