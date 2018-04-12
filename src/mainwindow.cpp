@@ -602,9 +602,49 @@ MainWindow::updatePreviewBuilderThreadInput_adv()
 	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 //	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
-	input.latex = Muf::toLatex(ui->eqnInput_adv->toPlainText()) +
-	              " = " +
-	              roundValue;
+	input.mathmode = "";
+	input.bypassTemplate = true;
+
+//	input.latex = "\\documentclass{article}"
+//	              "\\usepackage{amsmath}"
+//	              "\\begin{document}"
+//	              "\\begin{align*} {{x}^ {0}} &= {1}\\\\ &= 1\\end{align*}"
+//	              "\\end{document}";
+
+
+	input.latex = "\\documentclass{article}"
+	              "\\usepackage{amssymb,amsmath,mathtools}"
+	              "\\usepackage[dvipsnames]{xcolor}"
+	              "\\definecolor{fg}{HTML}{" + _color.name().mid(1) + "}"
+	              "\\definecolor{bg}{HTML}{" + _bg_color.name().mid(1) + "}"
+	              "\\begin{document}"
+	              "\\color{fg}"
+	              "\\pagecolor{bg}"
+	              "\\begin{align*}" +
+	              Muf::toLatex(ui->eqnInput_adv->toPlainText()) +
+	              "\\\\" + "" + " &= " + roundValue + "" +
+	              "\\end{align*}"
+	              "\\pagenumbering{gobble}"
+	              "\\end{document}";
+//	input.latex = "\\documentclass{article}"
+//	              "\\usepackage{tikz}"
+//	              "\\begin{document}"
+//	              "\\textcolor{white}{.}\\\\"
+//	              "  \\begin{tikzpicture}[domain=0:4]"
+//	              "    \\draw[very thin,color=gray] (-0.1,-1.1) grid (3.9,3.9);"
+//	              "    \\draw[->] (-0.2,0) -- (4.2,0) node[right] {$x$};"
+//	              "    \\draw[->] (0,-1.2) -- (0,4.2) node[above] {$f(x)$};"
+//	              "    \\draw[color=red]    plot (\\x,\\x)             node[right] {$f(x) =x$};"
+//	              "    \\draw[color=blue]   plot (\\x,{sin(\\x r)})    node[right] {$f(x) = \\sin x$};"
+//	              "    \\draw[color=orange] plot (\\x,{0.05*exp(\\x)}) node[right] {$f(x) = \\frac{1}{20} \\mathrm e^x$};"
+//	              "  \\end{tikzpicture}"
+//	              "\\textcolor{white}{.}\\\\\\textcolor{white}{.}"
+//	              "\\pagenumbering{gobble}"
+//	              "\\end{document}";
+//	input.latex = "\\begin{align*}" +
+//	              Muf::toLatex(ui->eqnInput_adv->toPlainText()) +
+//	              "\\\\" + "" + " &= " + roundValue + "" +
+//	              "\\end{align*}";
 	if (mPreviewBuilderThread->inputChanged(input)) {
 		qDebug() << "input changed. Render...";
 		//              ui->statusBar->showMessage(Muf::translation("rendering"));
