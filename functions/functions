@@ -16,3 +16,10 @@ function name2(){}; // actual internal name is "_folder_file_name2"
  *  2. error because function redefined in same file
  *       will look into overloading
  **/
+
+// f(x):
+e
+x/2
+x^2/4
+x^0.86
+

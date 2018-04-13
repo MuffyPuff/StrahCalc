@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="calc_t">
        <attribute name="title">
@@ -490,11 +490,38 @@
         <string>Page</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_16">
-        <item row="0" column="0" colspan="9">
+        <item row="0" column="0" colspan="7">
          <widget class="QPlainTextEdit" name="eqnInput_plot"/>
         </item>
-        <item row="1" column="0">
-         <spacer name="horizontalSpacer_26">
+        <item row="1" column="2">
+         <widget class="QPushButton" name="clipBtnEq_plot">
+          <property name="text">
+           <string>Copy Image</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <spacer name="horizontalSpacer_30">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>38</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="4">
+         <widget class="QPushButton" name="compute_plot">
+          <property name="text">
+           <string>compute</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="5">
+         <spacer name="horizontalSpacer_27">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -519,67 +546,7 @@
           </property>
          </spacer>
         </item>
-        <item row="1" column="2">
-         <widget class="QPushButton" name="clipBtnEq_plot">
-          <property name="text">
-           <string>Copy Image</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <spacer name="horizontalSpacer_30">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>38</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="4">
-         <widget class="QPushButton" name="clipBtnRes_plot">
-          <property name="text">
-           <string>Copy Result</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="5">
-         <spacer name="horizontalSpacer_28">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>39</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="1" column="6">
-         <widget class="QPushButton" name="compute_plot">
-          <property name="text">
-           <string>compute</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="7">
-         <spacer name="horizontalSpacer_27">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>38</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="8">
          <spacer name="horizontalSpacer_25">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -592,7 +559,20 @@
           </property>
          </spacer>
         </item>
-        <item row="2" column="0" colspan="9">
+        <item row="1" column="0">
+         <spacer name="horizontalSpacer_26">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>38</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="2" column="0" colspan="7">
          <widget class="QLabel" name="label_plot">
           <property name="minimumSize">
            <size>

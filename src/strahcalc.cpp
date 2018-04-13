@@ -258,9 +258,6 @@ StrahCalc::initSymCalcView()
 	// copy to clipboard
 	connect(ui->clipBtnEq_plot, &QAbstractButton::clicked,
 	        this, &StrahCalc::copyEqToClipboard);
-	connect(ui->clipBtnRes_plot, &QAbstractButton::clicked,
-	        this, &StrahCalc::copyResToClipboard);
-
 
 //	ui->clipBtnEq->setText(Muf::translation("copy_img"));
 //	ui->clipBtnRes->setText(Muf::translation("copy_res"));
@@ -390,7 +387,6 @@ StrahCalc::updateText(const QString& lang)
 	ui->compute_adv->setText(Muf::translation("compute"));
 
 	ui->clipBtnEq_plot->setText(Muf::translation("copy_img"));
-	ui->clipBtnRes_plot->setText(Muf::translation("copy_res"));
 	ui->compute_plot->setText(Muf::translation("compute"));
 
 	setStatusMessage(statusMessageCode);
@@ -673,26 +669,32 @@ StrahCalc::updatePreviewBuilderThreadInput_plot()
 
 	input.bypassTemplate = true;
 
-	QString s = ui->eqnInput_plot->toPlainText();
-	s.replace("\\x", "x");
-	Muf::toLatex.mPar(s);
+//	QString s = ui->eqnInput_plot->toPlainText();
+//	s.replace("\\x", "x");
+//	Muf::toLatex.mPar(s);
 	input.latex = "\\documentclass{article}"
 	              "\\usepackage{tikz}"
 	              "\\begin{document}"
 	              "\\textcolor{white}{.}\\\\"
-	              "\\begin{tikzpicture}[domain=0:4]"
+	              "\\begin{tikzpicture}[domain=0.00000001:4]"
 	              "\\draw[very thin,color=gray] (-0.1,-1.1) grid (3.9,3.9);"
 	              "\\draw[->] (-0.2,0) -- (4.2,0) node[right] {$x$};"
-	              "\\draw[->] (0,-1.2) -- (0,4.2) node[above] {$f(x)$};"
-	              "\\draw[color=black] plot (\\x,"
-	              + ui->eqnInput_plot->toPlainText() +
-	              ") node[right] {$f(x) = "
-	              + Muf::toLatex.mPar.tree->toLatex() +
-	              "$};"
-	              "\\end{tikzpicture}"
-	              "\\textcolor{white}{.}\\\\\\textcolor{white}{.}"
-	              "\\pagenumbering{gobble}"
-	              "\\end{document}";
+	              "\\draw[->] (0,-1.2) -- (0,4.2) node[above] {$f(x)$};";
+	for (QString el : ui->eqnInput_plot->toPlainText().split("\n")) {
+//		QString s = el;
+		Muf::toLatex.mPar(el);
+		el.replace("x", "\\x");
+		input.latex += "\\draw[color=black] plot (\\x," // domain here
+//		               + ui->eqnInput_plot->toPlainText() +
+		               + el +
+		               ") node[right] {$f(x) = "
+		               + Muf::toLatex.mPar.tree->toLatex() +
+		               "$};";
+	}
+	input.latex += "\\end{tikzpicture}"
+	               "\\textcolor{white}{.}\\\\\\textcolor{white}{.}"
+	               "\\pagenumbering{gobble}"
+	               "\\end{document}";
 
 	if (mPreviewBuilderThread->inputChanged(input)) {
 		qDebug() << "input changed. Render...";
