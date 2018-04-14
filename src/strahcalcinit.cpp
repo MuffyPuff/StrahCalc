@@ -250,7 +250,8 @@ StrahCalc::initFnView()
 {
 	fnDirList.append(QDir::cleanPath(
 	                         QDir::current().absolutePath() +
-	                         "/../StrahCalc/functions/"));
+	                         "/functions/"));
+	qDebug() << fnDirList;
 
 	mFnLoader = new MufFunctions(fnDirList, mExprtk, this);
 
@@ -263,7 +264,7 @@ StrahCalc::initSettingsView()
 	mSettings = new MufSettings_w();
 
 	QDir languageDir = QDir::cleanPath(QDir::current().absolutePath() +
-	                                   "/../StrahCalc/lang/");
+	                                   "/lang/");
 //	qDebug() << languageDir.absolutePath();
 	for (auto& fn : languageDir.entryInfoList()) {
 		if (fn.isFile() and fn.suffix() == "json") {
