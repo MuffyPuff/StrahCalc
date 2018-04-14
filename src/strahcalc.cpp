@@ -532,7 +532,7 @@ StrahCalc::compute_plot()
 	disconnect(this, &StrahCalc::resultAvailable,
 	           this, &StrahCalc::updatePreviewBuilderThreadInput_plot);
 
-	// display updated expression image
+	// display graph
 	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
 	        this, &StrahCalc::showRealTimePreview_plot,
 	        Qt::QueuedConnection);
