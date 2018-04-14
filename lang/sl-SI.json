@@ -48,6 +48,10 @@
     "translation": "Napredno"
 },
 {
+    "id": "calc_plot",
+    "translation": "Grafično"
+},
+{
     "id": "vars",
     "translation": "Spremenljivke"
 },
@@ -166,6 +170,10 @@
 {
     "id": "defaults",
     "translation": "Privzete nastavitve"
+},
+{
+    "id": "enable",
+    "translation": "Omogoči"
 },
 {
     "id": "",

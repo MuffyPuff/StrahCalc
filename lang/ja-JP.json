@@ -48,6 +48,10 @@
     "translation": "高度な電卓"
 },
 {
+    "id": "calc_plot",
+    "translation": "図表"
+},
+{
     "id": "vars",
     "translation": "変数"
 },
@@ -166,6 +170,10 @@
 {
     "id": "defaults",
     "translation": "デフォルトの設定"
+},
+{
+    "id": "enable",
+    "translation": "有効にする"
 },
 {
     "id": "",

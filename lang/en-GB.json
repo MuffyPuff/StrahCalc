@@ -48,6 +48,10 @@
     "translation": "Advanced"
 },
 {
+    "id": "calc_plot",
+    "translation": "Graph"
+},
+{
     "id": "vars",
     "translation": "Variables"
 },
@@ -166,6 +170,10 @@
 {
     "id": "defaults",
     "translation": "Default settings"
+},
+{
+    "id": "enable",
+    "translation": "Enable"
 },
 {
     "id": "",
