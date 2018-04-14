@@ -536,7 +536,6 @@ StrahCalc::compute_plot()
 	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
 	        this, &StrahCalc::showRealTimePreview_plot,
 	        Qt::QueuedConnection);
-	mSym.parse(ui->eqnInput_plot->toPlainText());
 	updatePreviewBuilderThreadInput_plot();
 }
 
