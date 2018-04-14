@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(StrahCalc)
 
-set(CMAKE_CXX_STANDARD 17)
-
+#set(CMAKE_CXX_STANDARD 17)
 
 find_package(Qt5Widgets)
  
@@ -22,7 +21,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.10.1\\5.10.1\\msvc2015")
+    set(CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2015\\")
 else(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(CMAKE_PREFIX_PATH "~/Qt/5.10.1/gcc_64/")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
@@ -81,10 +80,10 @@ qt5_wrap_cpp(MOC_FILES ${OBJECT_HEADERS})
 #qt5_wrap_cpp(MOC_FILES src/mufexprparser.cpp)
 #qt5_wrap_cpp(MOC_FILES src/mufsymbollistview_w.cpp)
     
-if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set_target_properties(BSEd PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
-    set_target_properties(BSEd PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+#if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+#    set_target_properties(StrahCalc PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
+#    set_target_properties(StrahCalc PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
+#endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 add_definitions(${Qt5Widgets_DEFINITIONS})
