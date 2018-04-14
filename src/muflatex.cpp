@@ -10,20 +10,21 @@ MufLatex::MufLatex(QObject* parent)
 }
 
 QString
-MufLatex::operator()(QString input)
+MufLatex::operator()(QString input, const bool& reduce)
 {
 	input = input.split('\n').last();
 	input = input.split(';').last();
 	input = assignment(input);
 
 	input = mPar(input);
-//	mPar.reduce = true;
-	input.append("&=");
-	mPar.tree->reduce();
-	mPar.tree->toFrac();
-	mPar.tree->reduce();
-	input.append(mPar.tree->toLatex());
-
+	if (reduce) {
+//		mPar.reduce = true;
+		input.append("&=");
+		mPar.tree->reduce();
+		mPar.tree->toFrac();
+		mPar.tree->reduce();
+		input.append(mPar.tree->toLatex());
+	}
 //	input = power(input);
 //	input = operators(input);
 //	input = braces(input);

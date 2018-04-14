@@ -14,7 +14,7 @@ class MufLatex : public QObject
 public:
 	explicit MufLatex(QObject* parent = nullptr);
 
-	QString         operator()(QString input);
+	QString         operator()(QString input, const bool& reduce = true);
 
 private:
 	QString         assignment(QString input);

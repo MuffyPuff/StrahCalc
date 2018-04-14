@@ -15,4 +15,5 @@ OTHER_FILES += \
             ./lib/klfbackend/klfdebug.cpp \
             ./lib/klfbackend/klfblockprocess.cpp \
             ./lib/klfbackend/klfdefs.cpp \
-            ./lib/klfbackend/klfpreviewbuilderthread.cpp
+            ./lib/klfbackend/klfpreviewbuilderthread.cpp \
+            ./lib/klfbackend/KLFBackend.pro

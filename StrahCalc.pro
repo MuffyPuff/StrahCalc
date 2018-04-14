@@ -23,7 +23,6 @@ SOURCES += \
         src/main.cpp\
         src/mufmenu.cpp \
         src/muflatex.cpp \
-        src/strahcalc.cpp \
         src/mufsymbols.cpp \
         src/muffunctions.cpp \
         src/mufsettings_w.cpp \
@@ -34,7 +33,6 @@ HEADERS  += \
         src/global.h \
         src/mufmenu.h \
         src/muflatex.h \
-        src/strahcalc.h \
         src/mufsymbols.h \
         src/muffunctions.h \
         src/mufsettings_w.h \
@@ -83,6 +81,7 @@ DEPENDPATH += $$PWD/lib/MufExprtkBackend/
 include(lib/klfbackend/KLFBackend.pri)
 include(lib/MufExprtkBackend/MufExprtkBackend.pri)
 include(lib/MufTranslate/MufTranslate.pri)
+include(src/StrahCalc.pri)
 
 
 DISTFILES += \

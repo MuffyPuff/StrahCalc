@@ -50,7 +50,7 @@ private:
 	bool            initMenu();
 	bool            initCalcView();
 	bool            initAdvCalcView();
-	bool            initSymCalcView();
+	bool            initPlotView();
 	bool            initSymView();
 	bool            initFnView();
 	bool            initSettingsView();

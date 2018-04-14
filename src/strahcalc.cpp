@@ -22,7 +22,6 @@ StrahCalc::StrahCalc(QWidget* parent) :
 
 	loadSettings();
 	applySettings();
-//	translation.changeLanguage(_lang);
 	statusMessageCode = "wait";
 	status = Status::Waiting;
 
@@ -35,7 +34,7 @@ StrahCalc::StrahCalc(QWidget* parent) :
 	if (initFnView()) {}
 	if (initCalcView()) {}
 	if (initAdvCalcView()) {}
-	if (initSymCalcView()) {}
+	if (initPlotView()) {}
 	if (initSettingsView()) {}
 
 //	qDebug() << Muf::translation("language_code");
@@ -65,282 +64,6 @@ StrahCalc::~StrahCalc()
 }
 //2^(1+((x+1)^(x+2))%3)+1
 
-bool
-StrahCalc::initKLF()
-{
-	input.mathmode = "\\[ ... \\]";
-//	input.mathmode = "";
-//	input.bypassTemplate = true;
-
-//	input.dpi = 200;
-//	ui->label->setMinimumHeight(input.dpi / 2);
-
-//	input.bg_color = qRgba(225, 225, 225, 225);
-	input.bg_color = qRgba(0x44, 0x44, 0x44, 255);
-	input.fg_color = qRgba(255, 255, 255, 255 * 0.70);
-//	input.preamble = QString("\\usepackage{amssymb,amsmath,mathrsfs}");
-	input.preamble = QString("\\usepackage{amssymb,mathtools,mathrsfs}");
-
-	if (!KLFBackend::detectSettings(&settings, "./texlive")) {
-		qDebug() << "unable to find LaTeX in default directories.";
-	} else {
-		qDebug() << "default settings working!";
-	}
-
-	// setup variables:
-	mPreviewBuilderThread = new KLFPreviewBuilderThread(this, input, settings);
-
-//	// display updated expression image
-//	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
-//	        this, &StrahCalc::showRealTimePreview,
-//	        Qt::QueuedConnection);
-
-	return true;
-}
-
-bool
-StrahCalc::initExprtk()
-{
-	mExprtk = new MufExprtkBackend(this, input.latex);
-
-	// store result from exprtk
-	connect(mExprtk, &MufExprtkBackend::resultAvailable,
-	        this, &StrahCalc::getResult,
-	        Qt::QueuedConnection);
-	// handle exprtk errors
-	connect(mExprtk, &MufExprtkBackend::error,
-	        this, &StrahCalc::handleExprtkError,
-	        Qt::QueuedConnection);
-
-	return true;
-}
-
-bool
-StrahCalc::initUI()
-{
-	if (initMenu()) {}
-
-	header.clear();
-	header.append({
-	        "calc",
-	        "calc_adv",
-	        "calc_plot",
-	        "vars",
-	        "consts",
-	        "history"
-	});
-
-//	// rename tabs
-//	REP(i, header.size()) {
-//		ui->tabWidget->setTabText(i, translation(header.at(i)));
-//	}
-
-	connect(&translation, &MufTranslate::languageChanged,
-	        this, &StrahCalc::updateText,
-	        Qt::QueuedConnection);
-
-	return true;
-}
-
-bool
-StrahCalc::initMenu()
-{
-	mMenu = new MufMenu(ui->menuBar, this);
-
-	connect(mMenu->mClear, &QAction::triggered,
-	        this, &StrahCalc::clear,
-	        Qt::QueuedConnection);
-	connect(mMenu->mCopyImg, &QAction::triggered,
-	        this, &StrahCalc::copyEqToClipboard,
-	        Qt::QueuedConnection);
-	connect(mMenu->mCopyRes, &QAction::triggered,
-	        this, &StrahCalc::copyResToClipboard,
-	        Qt::QueuedConnection);
-	connect(mMenu->mSettings, &QAction::triggered,
-	        this, &StrahCalc::openSettings,
-	        Qt::QueuedConnection);
-	connect(mMenu->mAbout, &QAction::triggered,
-	[ = ]() {
-		QMessageBox::about(
-		        this,
-		        translation("about"),
-		        "<a href=https://github.com/MuffyPuff/StrahCalc/ >"
-		        "Rok Strah, Vegova, Matura 2018</a>");
-	});
-	connect(mMenu->mExit, &QAction::triggered,
-	[ = ]() {
-//		this->~StrahCalc();
-		exit(0);
-	});
-
-	return true;
-}
-
-bool
-StrahCalc::initCalcView()
-{
-	// update equation in exprtk on return
-	connect(ui->eqnInput, &QLineEdit::returnPressed,
-	        this, &StrahCalc::compute,
-	        Qt::QueuedConnection);
-//	// update history on return
-//	connect(ui->eqnInput, &QLineEdit::returnPressed,
-//	        this, &StrahCalc::updateHistory,
-//	        Qt::QueuedConnection);
-
-	// compute
-	connect(ui->compute, &QAbstractButton::clicked,
-	        this, &StrahCalc::compute,
-	        Qt::QueuedConnection);
-//	// update history on compute
-//	connect(ui->compute, &QAbstractButton::clicked,
-//	        this, &StrahCalc::updateHistory,
-//	        Qt::QueuedConnection);
-
-	// copy to clipboard
-	connect(ui->clipBtnEq, &QAbstractButton::clicked,
-	        this, &StrahCalc::copyEqToClipboard);
-	connect(ui->clipBtnRes, &QAbstractButton::clicked,
-	        this, &StrahCalc::copyResToClipboard);
-
-
-//	ui->clipBtnEq->setText(Muf::translation("copy_img"));
-//	ui->clipBtnRes->setText(Muf::translation("copy_res"));
-
-	ui->eqnInput->setFocus();
-//	ui->statusBar->showMessage(Muf::translation("wait"));
-//	setStatusMessage("wait");
-
-	return true;
-}
-
-bool
-StrahCalc::initAdvCalcView()
-{
-	// compute
-	connect(ui->compute_adv, &QAbstractButton::clicked,
-	        this, &StrahCalc::compute_adv,
-	        Qt::QueuedConnection);
-//	// update history on compute
-//	connect(ui->compute_adv, &QAbstractButton::clicked,
-//	        this, &StrahCalc::updateHistory,
-//	        Qt::QueuedConnection);
-
-	// copy to clipboard
-	connect(ui->clipBtnEq_adv, &QAbstractButton::clicked,
-	        this, &StrahCalc::copyEqToClipboard);
-	connect(ui->clipBtnRes_adv, &QAbstractButton::clicked,
-	        this, &StrahCalc::copyResToClipboard);
-
-
-//	ui->clipBtnEq->setText(Muf::translation("copy_img"));
-//	ui->clipBtnRes->setText(Muf::translation("copy_res"));
-
-	ui->eqnInput->setFocus();
-//	ui->statusBar->showMessage(Muf::translation("wait"));
-//	setStatusMessage("wait");
-
-	return true;
-}
-
-bool
-StrahCalc::initSymCalcView()
-{
-	// compute
-	connect(ui->compute_plot, &QAbstractButton::clicked,
-	        this, &StrahCalc::compute_plot,
-	        Qt::QueuedConnection);
-//	// update history on compute
-//	connect(ui->compute_adv, &QAbstractButton::clicked,
-//	        this, &StrahCalc::updateHistory,
-//	        Qt::QueuedConnection);
-
-	// copy to clipboard
-	connect(ui->clipBtnEq_plot, &QAbstractButton::clicked,
-	        this, &StrahCalc::copyEqToClipboard);
-
-//	ui->clipBtnEq->setText(Muf::translation("copy_img"));
-//	ui->clipBtnRes->setText(Muf::translation("copy_res"));
-
-	ui->eqnInput->setFocus();
-//	ui->statusBar->showMessage(Muf::translation("wait"));
-//	setStatusMessage("wait");
-
-	return true;
-}
-
-bool
-StrahCalc::initSymView()
-{
-	// var init
-	mVarList   = new MufSymbolListView_w({"name", "value"}, this);
-	mConstList = new MufSymbolListView_w({"name", "value"}, this);
-
-	ui->varList_t->layout()->addWidget(mVarList);
-	ui->constList_t->layout()->addWidget(mConstList);
-
-	updateVariableDisplay();
-	updateConstantDisplay();
-
-	// add symbols from view to exprtk
-	connect(mVarList, SIGNAL(addSym(const QString&, const double&)),
-	        this, SLOT(addVariable(const QString&, const double&)));
-	connect(mVarList, SIGNAL(remSym(const QString&)),
-	        this, SLOT(removeVariable(const QString&)));
-	connect(mConstList, SIGNAL(addSym(const QString&, const double&)),
-	        this, SLOT(addConstant(const QString&, const double&)));
-	connect(mConstList, SIGNAL(remSym(const QString&)),
-	        this, SLOT(removeConstant(const QString&)));
-
-	return true;
-}
-
-// TODO: convert functions to view
-bool
-StrahCalc::initFnView()
-{
-	fnDirList.append(QDir::cleanPath(
-	                         QDir::current().absolutePath() +
-	                         "/../StrahCalc/functions/"));
-
-	mFnLoader = new MufFunctions(fnDirList, mExprtk, this);
-
-	return true;
-}
-
-bool
-StrahCalc::initSettingsView()
-{
-	mSettings = new MufSettings_w();
-
-	QDir languageDir = QDir::cleanPath(QDir::current().absolutePath() +
-	                                   "/../StrahCalc/lang/");
-//	qDebug() << languageDir.absolutePath();
-	for (auto& fn : languageDir.entryInfoList()) {
-		if (fn.isFile() and fn.suffix() == "json") {
-//			qDebug() << fn.fileName();
-			QString lang = translation("language_name", fn.baseName());
-			mSettings->languages->addItem(lang);
-			MufTranslate::_languageList[fn.baseName()] = lang;
-		}
-	}
-
-//	// init values
-//	mSettings->languages->setCurrentText(translation("language_name"));
-//	mSettings->timeout->setValue(_timeout);
-//	mSettings->dpi->setValue(_dpi);
-//	mSettings->color->setText(_color.name());
-//	mSettings->bg_color->setText(_bg_color.name());
-
-	connect(mSettings, &MufSettings_w::accepted,
-	        this, &StrahCalc::saveSettings,
-	        Qt::QueuedConnection);
-	connect(mSettings, &MufSettings_w::defaults,
-	        this, &StrahCalc::setDefaults,
-	        Qt::QueuedConnection);
-
-	return true;
-}
 
 void
 StrahCalc::getResult(double value)
@@ -353,6 +76,7 @@ StrahCalc::getResult(double value)
 void
 StrahCalc::clear()
 {
+	// TODO: extend
 	ui->eqnInput->clear();
 	ui->label->clear();
 	ui->history_ls->clear();
@@ -417,8 +141,8 @@ StrahCalc::applySettings()
 	translation.changeLanguage(_lang);
 	input.dpi = _dpi;
 	ui->label->setMinimumHeight(_dpi / 2);
-//	input.bg_color = _color.rgba();
-//	input.fg_color = _bg_color.rgba();
+	input.fg_color = _color.rgba();
+	input.bg_color = _bg_color.rgba();
 	ui->label->setStyleSheet("background-color: " + _bg_color.name() + ";");
 	ui->label_adv->setStyleSheet("background-color: " + _bg_color.name() + ";");
 	ui->label_plot->setStyleSheet("background-color: " + _bg_color.name() + ";");
@@ -445,7 +169,7 @@ void
 StrahCalc::loadSettings()
 {
 	QSettings settings;
-	qDebug() << settings.fileName();
+//	qDebug() << settings.fileName();
 	_lang           = settings.value("ui/language_code",    "sl-SI").toString();
 	_timeout        = settings.value("ui/message_timeout",  3000).toInt();
 	_dpi            = settings.value("label/dpi",           200).toInt();
@@ -464,8 +188,8 @@ StrahCalc::loadSettings()
 void
 StrahCalc::saveSettings()
 {
-	qDebug() << mSettings->languages->currentText();
-	qDebug() << MufTranslate::_languageList;
+//	qDebug() << mSettings->languages->currentText();
+//	qDebug() << MufTranslate::_languageList;
 	_lang = MufTranslate::_languageList.key(mSettings->languages->currentText());
 	_timeout = mSettings->timeout->value();
 	_dpi = mSettings->dpi->value();
@@ -475,10 +199,12 @@ StrahCalc::saveSettings()
 	settings.setValue("ui/message_timeout",         _timeout);
 	settings.setValue("label/dpi",                  _dpi);
 	if (QColor::isValidColor(mSettings->color->text())) {
+		qDebug() << "valid color";
 		_color.setNamedColor(mSettings->color->text());
 		settings.setValue("label/color",        _color.name());
 	}
 	if (QColor::isValidColor(mSettings->bg_color->text())) {
+		qDebug() << "valid bg color";
 		_bg_color.setNamedColor(mSettings->bg_color->text());
 		settings.setValue("label/bg_color",     _bg_color.name());
 	}
@@ -506,6 +232,7 @@ StrahCalc::addVariable(const QString& name, const double& value)
 void
 StrahCalc::removeVariable(const QString& name)
 {
+	mExprtk->addVariable(name, 0);
 	// TODO: implement removal
 	Q_UNUSED(name);
 	Q_UNIMPLEMENTED();
@@ -565,10 +292,13 @@ StrahCalc::updatePreviewBuilderThreadInput()
 
 	// in linux, I need to reinstate the preamble when rendering. No idea why.
 	input.preamble =
-	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
-//	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+	        QString("\\usepackage{amssymb,mathtools,mathrsfs}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+//	        QString("\\usepackage{amssymb,amsmath,mathrsfs}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
-	input.latex = ui->eqnInput->text() +
+	input.mathmode = "\\[ ... \\]";
+	input.bypassTemplate = false;
+
+	input.latex = Muf::toLatex(ui->eqnInput->text(), false) +
 	              " = " +
 	              roundValue;
 	if (mPreviewBuilderThread->inputChanged(input)) {
@@ -595,8 +325,8 @@ StrahCalc::updatePreviewBuilderThreadInput_adv()
 
 	// in linux, I need to reinstate the preamble when rendering. No idea why.
 	input.preamble =
-	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
-//	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+	        QString("\\usepackage{amssymb,mathtools,mathrsfs}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+//	        QString("\\usepackage{amssymb,amsmath,mathrsfs}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
 	input.mathmode = "";
 	input.bypassTemplate = true;
@@ -609,7 +339,7 @@ StrahCalc::updatePreviewBuilderThreadInput_adv()
 
 
 	input.latex = "\\documentclass{article}"
-	              "\\usepackage{amssymb,amsmath,mathtools}"
+	              "\\usepackage{amssymb,amsmath,mathtools,mathrsfs}"
 	              "\\usepackage[dvipsnames]{xcolor}"
 	              "\\definecolor{fg}{HTML}{" + _color.name().mid(1) + "}"
 	              "\\definecolor{bg}{HTML}{" + _bg_color.name().mid(1) + "}"
@@ -664,7 +394,7 @@ StrahCalc::updatePreviewBuilderThreadInput_plot()
 
 	// in linux, I need to reinstate the preamble when rendering. No idea why.
 	input.preamble =
-	        QString("\\usepackage{amssymb,mathtools}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+	        QString("\\usepackage{amssymb,mathtools,mathrsfs}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 //	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
 	input.bypassTemplate = true;
@@ -679,7 +409,8 @@ StrahCalc::updatePreviewBuilderThreadInput_plot()
 	              "\\begin{tikzpicture}[domain=0.00000001:4]"
 	              "\\draw[very thin,color=gray] (-0.1,-1.1) grid (3.9,3.9);"
 	              "\\draw[->] (-0.2,0) -- (4.2,0) node[right] {$x$};"
-	              "\\draw[->] (0,-1.2) -- (0,4.2) node[above] {$f(x)$};";
+	              "\\draw[->] (0,-1.2) -- (0,4.2) node[above] {$y$};";
+	char c = 'f';
 	for (QString el : ui->eqnInput_plot->toPlainText().split("\n")) {
 //		QString s = el;
 		Muf::toLatex.mPar(el);
@@ -687,9 +418,14 @@ StrahCalc::updatePreviewBuilderThreadInput_plot()
 		input.latex += "\\draw[color=black] plot (\\x," // domain here
 //		               + ui->eqnInput_plot->toPlainText() +
 		               + el +
-		               ") node[right] {$f(x) = "
+		               ") node[right] {$" + c + "(x) = "
 		               + Muf::toLatex.mPar.tree->toLatex() +
 		               "$};";
+		if (c == 'z') {
+			c = 'f';
+		} else {
+			++c;
+		}
 	}
 	input.latex += "\\end{tikzpicture}"
 	               "\\textcolor{white}{.}\\\\\\textcolor{white}{.}"
