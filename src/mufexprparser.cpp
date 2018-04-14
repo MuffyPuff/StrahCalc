@@ -92,13 +92,13 @@ MufExprParser::str_tok_t MufExprParser::op_equ = {
         MufExprParser::TokenType::B
 };
 MufExprParser::str_tok_t MufExprParser::op_and = {
-	"&&",
+        "&",
         MufExprParser::Assoc::LEFT,
         2, 3, 2,
         MufExprParser::TokenType::B
 };
 MufExprParser::str_tok_t MufExprParser::op_or  = {
-	"||",
+        "|",
         MufExprParser::Assoc::LEFT,
         1, 2, 1,
         MufExprParser::TokenType::B
@@ -160,8 +160,8 @@ int MufExprParser::init()
 	        {"^\\+",     &op_add},
 	        {"^\\-",     &op_sub},
 	        {"^\\=",     &op_equ},
-	        {"^\\&\\&",  &op_and},
-	        {"^\\|\\|",  &op_or}
+	        {"^\\&",     &op_and},
+	        {"^\\|",     &op_or}
 	};
 	pat_arg = {
 	        {"^[-]", &op_neg},
@@ -354,7 +354,7 @@ MufExprParser::exprParseTD(QString input)
 			if (this->reduce) {
 				this->tree->numeric = true;
 				// TODO: set numeric to childs
-				this->tree->reduce();
+//				this->tree->reduce();
 				this->tree->toFrac();
 				this->tree->reduce();
 			}
@@ -1030,6 +1030,8 @@ MufExprParser::ExprTree::toFrac()
 		this->operands.last()->setValue("1");
 		return;
 	}
+
+	// if lhs or rhs are of form ^(E,E) store them in t1 and t2 respectively
 	ExprTree* t1 = nullptr;
 	ExprTree* t2 = nullptr;
 	if (this->operands.first()->op.s == "^") {
@@ -1038,6 +1040,7 @@ MufExprParser::ExprTree::toFrac()
 	if (this->operands.last()->op.s == "^") {
 		t2 = this->operands.last();
 	}
+	// if both are ^(E,E) replace them with /(this, 1)
 	if (t1 != nullptr and t2 != nullptr) {
 		ExprTree* ttree = new ExprTree(*this);
 

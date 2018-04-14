@@ -19,8 +19,8 @@ MufLatex::operator()(QString input, const bool& reduce)
 	input = mPar(input);
 	if (reduce) {
 //		mPar.reduce = true;
-		input.append("&=");
-		mPar.tree->reduce();
+		input.append("\\Rightarrow&\\: ");
+//		mPar.tree->reduce();
 		mPar.tree->toFrac();
 		mPar.tree->reduce();
 		input.append(mPar.tree->toLatex());

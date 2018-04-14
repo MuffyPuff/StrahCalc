@@ -348,7 +348,7 @@ StrahCalc::updatePreviewBuilderThreadInput_adv()
 	              "\\pagecolor{bg}"
 	              "\\begin{align*}" +
 	              Muf::toLatex(ui->eqnInput_adv->toPlainText()) +
-	              "\\\\" + "" + " &= " + roundValue + "" +
+	              "\\\\" + "" + "=&\\: " + roundValue + "" +
 	              "\\end{align*}"
 	              "\\pagenumbering{gobble}"
 	              "\\end{document}";
