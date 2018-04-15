@@ -34,7 +34,6 @@ HEADERS  += \
         src/mufsymbollistview_w.h
 
 FORMS    += \
-        src/strahcalc.ui \
         src/mufsettings_w.ui \
         src/mufsymbollistview_w.ui
 
@@ -72,9 +71,9 @@ INCLUDEPATH += $$PWD/lib/MufExprtkBackend/include
 DEPENDPATH += $$PWD/lib/MufExprtkBackend/
 
 
-include(lib/klfbackend/KLFBackend.pri)
-include(lib/MufExprtkBackend/MufExprtkBackend.pri)
-include(lib/MufTranslate/MufTranslate.pri)
+#include(lib/klfbackend/_KLFBackend.pri)
+#include(lib/MufExprtkBackend/_MufExprtkBackend.pri)
+#include(lib/MufTranslate/_MufTranslate.pri)
 include(src/StrahCalc.pri)
 include(src/MufLatex.pri)
 

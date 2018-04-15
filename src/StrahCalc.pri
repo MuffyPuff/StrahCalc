@@ -4,3 +4,6 @@ SOURCES += \
 
 HEADERS += \
 	./src/strahcalc.h
+
+FORMS    += \
+        ./src/strahcalc.ui

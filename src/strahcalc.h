@@ -42,7 +42,6 @@ public:
 	~StrahCalc();
 
 private:
-//	QString         roundFloat(double value, int count = 0);
 	bool            initKLF();
 	bool            initExprtk();
 	bool            initUI();
@@ -56,7 +55,6 @@ private:
 
 private slots:
 	void            handleExprtkError();
-//	void            updatePreviewBuilderThreadInput(const double &res);
 	void            updatePreviewBuilderThreadInput();
 	void            updatePreviewBuilderThreadInput_adv();
 	void            updatePreviewBuilderThreadInput_plot();
@@ -71,7 +69,6 @@ private slots:
 	                bool latexerror);
 	void            copyEqToClipboard();
 	void            copyResToClipboard();
-//	void            addNewVariable();
 	void            getResult(double value);
 	void            clear();
 	void            updateVariableDisplay();
