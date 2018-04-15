@@ -109,5 +109,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5.1}Jezik kalkulatorja}{20}
 \defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.1.1}Vhodno/izhodne operacije}{22}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.1.2}Vektorske operacije}{22}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {6}Rezultati in ugotovitve}{22}
 \contentsfinish 

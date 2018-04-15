@@ -8,6 +8,7 @@
 \usepackage{setspace}
 \usepackage{csquotes}
 \usepackage{float}
+\usepackage{multicol}
 \usepackage{amssymb,amsmath,mathtools,mathrsfs}
 \usepackage[T1]{fontenc}% http://ctan.org/pkg/fontenc
 \usepackage{tikz}
@@ -15,7 +16,7 @@
 \usepackage{titletoc}
 \usepackage{subcaption}
 \usepackage{listings}
-\usepackage[backend=biber, maxbibnames=99]{biblatex}
+\usepackage[backend=biber, maxbibnames=99, sorting=none]{biblatex}
 \addbibresource{bibliography.bib}
 \usepackage{vegovatitle}
 \usepackage[
@@ -78,9 +79,12 @@
 
 
 {\begin{spacing}{1.15}
+\pagestyle{empty}
+\clearpage
 \tableofcontents
 \clearpage
 \listoffigures
+\pagestyle{plain}
 \end{spacing}}
 \thispagestyle{empty}
 \clearpage
@@ -96,7 +100,7 @@
 		\subsection{C++}			
 			C++ je Bjarne Stroustrup kot razširitev C-ju naredil v letu 1979.
 			Želel je ustvariti učinkovit in prilagodljiv jezik podoben C-ju, ki pa bi tudi imel visoko-nivojske funkcije za organizacijo programa, kot so razredi.
-			C++ je ISO/IEC JTC 1/SC 22/WG 21 standardizirala leta 1998, in od takrat so izdali 5 standardov:
+			C++ je ISO/IEC JTC 1/SC 22/WG 21 standardizirala leta 1998, in od takrat so izdali 5 standardov:\cite{cpp_wiki}
 			\begin{itemize}
 				\item ISO/IEC 14882:1998 znan kot C++98,
 				\item ISO/IEC 14882:2003 znan kot C++03,
@@ -495,6 +499,55 @@
 			\item \parbox{\textwidth}{\vspace{5px}\setstretch{0.8}\texttt{[*] \{\\\wdot\qquad case cond: expr1;\\ \wdot\qquad case cond: expr2;\\\};}\vspace{5px}}
 			Za razliko od \texttt{switch-case} bo \texttt{[*]} izračunal vse izraze za katere je \texttt{cond} enak \texttt{true}
 		\end{itemize}
+		\subsection{Vhodno/izhodne operacije}
+			Exprtk pozna dve vrsti I/O operacij (vhodno/izhodnih, iz angl. Input/Output):
+			\begin{itemize}
+				\item Standardne vhodno/izhodne operacije:
+				\begin{enumerate}
+					\item \texttt{print}
+					\item \texttt{println}
+				\end{enumerate}
+				\item Datotečne vhodno/izhodne operacije:
+				\begin{multicols}{3}
+				\begin{enumerate}
+					\item \texttt{open}
+					\item \texttt{close}
+					\item \texttt{write}
+					\item \texttt{read}
+					\item \texttt{getline}
+					\item \texttt{eof}
+				\end{enumerate}
+				\end{multicols}
+			\end{itemize}
+		\subsection{Vektorske operacije}
+			%TODO: basic vectors
+			Na voljo so tudi dodatne vektorske funkcije:
+			\begin{multicols}{3}
+			\begin{enumerate}
+				\item \texttt{all\_true}
+				\item \texttt{all\_false}
+				\item \texttt{any\_true}
+				\item \texttt{any\_false}
+				\item \texttt{count}
+				\item \texttt{copy}
+				\item \texttt{rotate-left}
+				\item \texttt{rotate-right}
+				\item \texttt{shift-left}
+				\item \texttt{shift-right}
+				\item \texttt{sort}
+				\item \texttt{nth\_element}
+				\item \texttt{iota}
+				\item \texttt{sumk}
+				\item \texttt{axpy}
+				\item \texttt{axpby}
+				\item \texttt{axpyz}
+				\item \texttt{axpbyz}
+				\item \texttt{axpbyz}
+				\item \texttt{dot}
+				\item \texttt{dotk}
+			\end{enumerate}
+			\end{multicols}
+			
 \chapter{Rezultati in ugotovitve}
 
 
