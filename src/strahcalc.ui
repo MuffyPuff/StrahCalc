@@ -39,7 +39,14 @@
          </spacer>
         </item>
         <item row="0" column="0" colspan="10">
-         <widget class="QLineEdit" name="eqnInput"/>
+         <widget class="QLineEdit" name="eqnInput">
+          <property name="font">
+           <font>
+            <family>Source Code Pro</family>
+            <italic>false</italic>
+           </font>
+          </property>
+         </widget>
         </item>
         <item row="1" column="4">
          <spacer name="horizontalSpacer_3">
@@ -468,7 +475,14 @@
          </widget>
         </item>
         <item row="0" column="0" rowspan="2" colspan="11">
-         <widget class="QPlainTextEdit" name="eqnInput_adv"/>
+         <widget class="QPlainTextEdit" name="eqnInput_adv">
+          <property name="font">
+           <font>
+            <family>Source Code Pro</family>
+            <italic>false</italic>
+           </font>
+          </property>
+         </widget>
         </item>
         <item row="2" column="1">
          <spacer name="horizontalSpacer_12">
@@ -491,7 +505,13 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_16">
         <item row="0" column="0" colspan="7">
-         <widget class="QPlainTextEdit" name="eqnInput_plot"/>
+         <widget class="QPlainTextEdit" name="eqnInput_plot">
+          <property name="font">
+           <font>
+            <family>Source Code Pro</family>
+           </font>
+          </property>
+         </widget>
         </item>
         <item row="1" column="2">
          <widget class="QPushButton" name="clipBtnEq_plot">

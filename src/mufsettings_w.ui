@@ -43,50 +43,8 @@
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0" rowspan="3" colspan="2">
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="0" column="3">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="1" colspan="2">
-          <widget class="QComboBox" name="lang_v"/>
-         </item>
-         <item row="6" column="2">
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="6" column="0">
+         <item row="7" column="0">
           <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="6" column="1">
-          <spacer name="horizontalSpacer_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -101,32 +59,12 @@
          <item row="0" column="0">
           <widget class="QLabel" name="lang_l">
            <property name="text">
-            <string>TextLabel</string>
+            <string>lang</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="2">
-          <widget class="QSpinBox" name="timeout_v">
-           <property name="suffix">
-            <string> ms</string>
-           </property>
-           <property name="minimum">
-            <number>0</number>
-           </property>
-           <property name="maximum">
-            <number>100000000</number>
-           </property>
-           <property name="singleStep">
-            <number>100</number>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="color_l">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
+         <item row="0" column="1" colspan="2">
+          <widget class="QComboBox" name="lang_v"/>
          </item>
          <item row="2" column="2">
           <widget class="QSpinBox" name="dpi_v">
@@ -147,24 +85,79 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="timeout_l">
-           <property name="text">
-            <string>TextLabel</string>
+         <item row="7" column="2">
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="3">
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="7" column="1">
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="2">
+          <widget class="QSpinBox" name="timeout_v">
+           <property name="suffix">
+            <string> ms</string>
+           </property>
+           <property name="minimum">
+            <number>0</number>
+           </property>
+           <property name="maximum">
+            <number>100000000</number>
+           </property>
+           <property name="singleStep">
+            <number>100</number>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="dpi_l">
+         <item row="3" column="0">
+          <widget class="QLabel" name="color_l">
            <property name="text">
-            <string>TextLabel</string>
+            <string>fg</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="2">
+          <widget class="QCheckBox" name="plot_v">
+           <property name="text">
+            <string>CheckBox</string>
            </property>
           </widget>
          </item>
          <item row="4" column="0">
           <widget class="QLabel" name="bg_color_l">
            <property name="text">
-            <string>TextLabel</string>
+            <string>bg</string>
            </property>
           </widget>
          </item>
@@ -181,6 +174,13 @@
            </property>
           </widget>
          </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="dpi_l">
+           <property name="text">
+            <string>dpi</string>
+           </property>
+          </widget>
+         </item>
          <item row="4" column="2">
           <widget class="QLineEdit" name="bg_color_v">
            <property name="inputMask">
@@ -191,17 +191,31 @@
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="plot_l">
+         <item row="1" column="0">
+          <widget class="QLabel" name="timeout_l">
            <property name="text">
-            <string>TextLabel</string>
+            <string>timeout</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="2">
-          <widget class="QCheckBox" name="plot_v">
+         <item row="6" column="2">
+          <widget class="QCheckBox" name="reduce_v">
            <property name="text">
             <string>CheckBox</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="reduce_l">
+           <property name="text">
+            <string>reduce</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="plot_l">
+           <property name="text">
+            <string>plot</string>
            </property>
           </widget>
          </item>

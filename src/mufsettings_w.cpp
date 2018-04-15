@@ -12,6 +12,8 @@ MufSettings_w::MufSettings_w(QDialog* parent) :
 	dpi             = ui->dpi_v;
 	color           = ui->color_v;
 	bg_color        = ui->bg_color_v;
+	show_plot       = ui->plot_v;
+	reduce          = ui->reduce_v;
 
 	updateText();
 
@@ -38,4 +40,8 @@ MufSettings_w::updateText(const QString& lang)
 	ui->color_l->setText(Muf::translation("color"));
 	ui->bg_color_l->setText(Muf::translation("bg_color"));
 	ui->defaults_b->setText(Muf::translation("defaults"));
+	ui->plot_l->setText(Muf::translation("calc_plot"));
+	ui->plot_v->setText(Muf::translation("enable"));
+	ui->reduce_l->setText(Muf::translation("reduce"));
+	ui->reduce_v->setText(Muf::translation("enable"));
 }

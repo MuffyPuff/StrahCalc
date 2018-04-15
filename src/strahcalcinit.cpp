@@ -78,6 +78,8 @@ StrahCalc::initUI()
 	        "history"
 	});
 
+	ui->calc_plot_t->setDisabled(true);
+
 //	// rename tabs
 //	REP(i, header.size()) {
 //		ui->tabWidget->setTabText(i, translation(header.at(i)));

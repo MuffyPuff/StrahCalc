@@ -12,6 +12,12 @@ MufLatex::MufLatex(QObject* parent)
 QString
 MufLatex::operator()(QString input, const bool& reduce)
 {
+	if (input.endsWith(';')) {
+		input.chop(1); // remove trailing ;
+	}
+	if (input.endsWith('\n')) {
+		input.chop(1); // remove trailing \n
+	}
 	input = input.split('\n').last();
 	input = input.split(';').last();
 	input = assignment(input);
@@ -20,10 +26,11 @@ MufLatex::operator()(QString input, const bool& reduce)
 	if (reduce) {
 //		mPar.reduce = true;
 		input.append("\\Rightarrow&\\: ");
-//		mPar.tree->reduce();
+		mPar.tree->reduce();
 		mPar.tree->toFrac();
 		mPar.tree->reduce();
 		input.append(mPar.tree->toLatex());
+		input.append("\\\\");
 	}
 //	input = power(input);
 //	input = operators(input);

@@ -147,6 +147,13 @@ StrahCalc::applySettings()
 	ui->label_adv->setStyleSheet("background-color: " + _bg_color.name() + ";");
 	ui->label_plot->setStyleSheet("background-color: " + _bg_color.name() + ";");
 	ui->label->repaint();
+	if (_plot) {
+//		ui->calc_plot_t->show();
+		ui->calc_plot_t->setDisabled(false);
+	} else {
+//		ui->calc_plot_t->hide();
+		ui->calc_plot_t->setDisabled(true);
+	}
 	qDebug() << "applied settings";
 }
 
@@ -158,6 +165,8 @@ StrahCalc::openSettings()
 	mSettings->dpi->setValue(_dpi);
 	mSettings->color->setText(_color.name());
 	mSettings->bg_color->setText(_bg_color.name());
+	mSettings->show_plot->setChecked(_plot);
+	mSettings->reduce->setChecked(_reduce);
 
 	mSettings->show();
 	mSettings->raise();
@@ -181,6 +190,8 @@ StrahCalc::loadSettings()
 	        settings.value(
 	                "label/bg_color",
 	                QColor(0x44, 0x44, 0x44, 255).name()).toString());
+	_plot           = settings.value("calc/show_plot",      false).toBool();
+	_reduce         = settings.value("calc/reduce",         true).toBool();
 
 	qDebug() << "loaded settings";
 }
@@ -193,6 +204,8 @@ StrahCalc::saveSettings()
 	_lang = MufTranslate::_languageList.key(mSettings->languages->currentText());
 	_timeout = mSettings->timeout->value();
 	_dpi = mSettings->dpi->value();
+	_plot = mSettings->show_plot->isChecked();
+	_reduce = mSettings->reduce->isChecked();
 
 	QSettings settings;
 	settings.setValue("ui/language_code",           _lang);
@@ -208,6 +221,8 @@ StrahCalc::saveSettings()
 		_bg_color.setNamedColor(mSettings->bg_color->text());
 		settings.setValue("label/bg_color",     _bg_color.name());
 	}
+	settings.setValue("calc/show_plot",             _plot);
+	settings.setValue("calc/reduce",                _reduce);
 
 	qDebug() << "saved settings";
 	applySettings();
@@ -324,11 +339,11 @@ StrahCalc::updatePreviewBuilderThreadInput_adv()
 	//      this->value = res;
 
 	// in linux, I need to reinstate the preamble when rendering. No idea why.
-	input.preamble =
-	        QString("\\usepackage{amssymb,mathtools,mathrsfs}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+//	input.preamble =
+//	        QString("\\usepackage{amssymb,mathtools,mathrsfs}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 //	        QString("\\usepackage{amssymb,amsmath,mathrsfs}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
-	input.mathmode = "";
+//	input.mathmode = "";
 	input.bypassTemplate = true;
 
 //	input.latex = "\\documentclass{article}"
@@ -347,8 +362,8 @@ StrahCalc::updatePreviewBuilderThreadInput_adv()
 	              "\\color{fg}"
 	              "\\pagecolor{bg}"
 	              "\\begin{align*}" +
-	              Muf::toLatex(ui->eqnInput_adv->toPlainText()) +
-	              "\\\\" + "" + "=&\\: " + roundValue + "" +
+	              Muf::toLatex(ui->eqnInput_adv->toPlainText(), _reduce) +
+	              + "=&\\: " + roundValue +
 	              "\\end{align*}"
 	              "\\pagenumbering{gobble}"
 	              "\\end{document}";
@@ -393,8 +408,8 @@ StrahCalc::updatePreviewBuilderThreadInput_plot()
 	//      this->value = res;
 
 	// in linux, I need to reinstate the preamble when rendering. No idea why.
-	input.preamble =
-	        QString("\\usepackage{amssymb,mathtools,mathrsfs}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
+//	input.preamble =
+//	        QString("\\usepackage{amssymb,mathtools,mathrsfs}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 //	        QString("\\usepackage{amssymb,amsmath}"); // add functions here \n\\DeclareMathOperator\\cis{cis}
 
 	input.bypassTemplate = true;
@@ -536,6 +551,7 @@ StrahCalc::compute_plot()
 	connect(mPreviewBuilderThread, &KLFPreviewBuilderThread::previewAvailable,
 	        this, &StrahCalc::showRealTimePreview_plot,
 	        Qt::QueuedConnection);
+	updateHistory(ui->eqnInput_plot->toPlainText());
 	updatePreviewBuilderThreadInput_plot();
 }
 

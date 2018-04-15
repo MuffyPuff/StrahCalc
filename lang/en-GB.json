@@ -176,6 +176,10 @@
     "translation": "Enable"
 },
 {
+    "id": "reduce",
+    "translation": "Reduce"
+},
+{
     "id": "",
     "translation": ""
 }

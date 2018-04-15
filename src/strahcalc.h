@@ -133,6 +133,8 @@ private:
 	QColor          _color;
 	QColor          _bg_color;
 	MathMode        _mathmode;
+	bool            _plot;
+	bool            _reduce;
 };
 
 #endif // STRAHCALC_H

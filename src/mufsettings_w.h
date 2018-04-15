@@ -5,6 +5,7 @@
 
 #include <QComboBox>
 #include <QSpinBox>
+#include <QCheckBox>
 
 #include "global.h"
 
@@ -26,6 +27,8 @@ public:
 	QSpinBox*       dpi;
 	QLineEdit*      color;
 	QLineEdit*      bg_color;
+	QCheckBox*      show_plot;
+	QCheckBox*      reduce;
 
 signals:
 	void            defaults();
