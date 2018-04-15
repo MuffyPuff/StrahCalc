@@ -421,25 +421,23 @@ StrahCalc::updatePreviewBuilderThreadInput_plot()
 	              "\\usepackage{tikz}"
 	              "\\begin{document}"
 	              "\\textcolor{white}{.}\\\\"
-	              "\\begin{tikzpicture}[domain=0.00000001:4]"
+	              "\\begin{tikzpicture}[domain=0.00000001:4]" //support 1/x
 	              "\\draw[very thin,color=gray] (-0.1,-1.1) grid (3.9,3.9);"
 	              "\\draw[->] (-0.2,0) -- (4.2,0) node[right] {$x$};"
 	              "\\draw[->] (0,-1.2) -- (0,4.2) node[above] {$y$};";
-	char c = 'f';
+	char func_name = 'f';
 	for (QString el : ui->eqnInput_plot->toPlainText().split("\n")) {
-//		QString s = el;
 		Muf::toLatex.mPar(el);
 		el.replace("x", "\\x");
 		input.latex += "\\draw[color=black] plot (\\x," // domain here
-//		               + ui->eqnInput_plot->toPlainText() +
 		               + el +
-		               ") node[right] {$" + c + "(x) = "
+		               ") node[right] {$" + func_name + "(x) = "
 		               + Muf::toLatex.mPar.tree->toLatex() +
 		               "$};";
-		if (c == 'z') {
-			c = 'f';
+		if (func_name == 'z') {
+			func_name = 'f'; // start over from f
 		} else {
-			++c;
+			++func_name; // next function
 		}
 	}
 	input.latex += "\\end{tikzpicture}"

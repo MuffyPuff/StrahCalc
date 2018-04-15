@@ -334,6 +334,9 @@ traverse(MufExprParser::ExprTree* t)
 QString
 MufExprParser::exprParseTD(QString input)
 {
+	if (input.isEmpty()) {
+		return "";
+	}
 	if (tree != nullptr) {
 		delete tree;
 		tree = nullptr;
@@ -370,7 +373,7 @@ MufExprParser::exprParseTD(QString input)
 	for (auto el : tokens) {
 		qDebug() << el.s << el.type;
 	}
-	return "not valid";
+	return "";
 }
 
 QString
@@ -1214,26 +1217,38 @@ MufExprParser::ExprTree::toFrac()
 		this->operands.first()->operands.last()->setValue(n12);
 		this->operands.last()->setValue(n2);
 
-
+		MufExprParser par;
 		for (auto& el : x11) {
-			this->operands.first()->operands.first()->multiply(el);
+			par(el);
+			par.tree->reduce();
+			this->operands.first()->operands.first()->multiply(par.tree);
 		}
 		for (auto& el : x22) {
-			this->operands.first()->operands.first()->multiply(el);
+			par(el);
+			par.tree->reduce();
+			this->operands.first()->operands.first()->multiply(par.tree);
 		}
 
 		for (auto& el : x12) {
-			this->operands.first()->operands.last()->multiply(el);
+			par(el);
+			par.tree->reduce();
+			this->operands.first()->operands.last()->multiply(par.tree);
 		}
 		for (auto& el : x21) {
-			this->operands.first()->operands.last()->multiply(el);
+			par(el);
+			par.tree->reduce();
+			this->operands.first()->operands.last()->multiply(par.tree);
 		}
 
 		for (auto& el : x12) {
-			this->operands.last()->multiply(el);
+			par(el);
+			par.tree->reduce();
+			this->operands.last()->multiply(par.tree);
 		}
 		for (auto& el : x22) {
-			this->operands.last()->multiply(el);
+			par(el);
+			par.tree->reduce();
+			this->operands.last()->multiply(par.tree);
 		}
 //		qDebug() << this->print();
 		break;
@@ -1862,6 +1877,67 @@ MufExprParser::ExprTree::multiply(const QString& var)
 	this->operands.last()->op.type = TokenType::x;
 }
 
+void
+MufExprParser::ExprTree::multiply(ExprTree* t)
+{
+	ExprTree* ttree = new ExprTree(*this);
+
+	this->op = op_mul;
+	this->operands.clear();
+	this->operands.append(ttree);
+	this->operands.append(new ExprTree(*t));
+}
+
+QString
+MufExprParser::ExprTree::expr()
+{
+	QString t = "";
+	switch (operands.size()) {
+	case 0:
+		return op.s;
+		break;
+	case 1:
+		switch (op.assoc) {
+		case Assoc::PREFIX:
+			return op.s +
+			       "(" + operands.first()->expr() +
+			       ")";
+			break;
+		case Assoc::POSTFIX:
+			return "(" + operands.first()->expr() +
+			       ")" + op.s;
+			break;
+		default: // do nothing
+			Q_UNREACHABLE();
+			break;
+		}
+		Q_UNREACHABLE();
+		break;
+	case 2:
+		t.append("(");
+		t.append(operands.first()->expr());
+		t.append(")");
+		t.append(this->op.s);
+		t.append("(");
+		t.append(operands.last()->expr());
+		t.append(")");
+		return t;
+		Q_UNREACHABLE();
+		break;
+	default: // probably a function
+		t.append(op.s);
+		t.append("(");
+		t.append(operands.first()->expr());
+		for (int i = 1; i < operands.size(); ++i) {
+			t.append(", ");
+			t.append(operands.at(i)->expr());
+		}
+		t.append(")");
+		return t;
+		break;
+	}
+}
+
 QStringList
 MufExprParser::ExprTree::var()
 {
@@ -1872,10 +1948,14 @@ MufExprParser::ExprTree::var()
 		return {op.s}; // 5x returns 5?
 	}
 	QStringList r;
-	for (auto& el : this->operands) {
-		if (el->op.type == TokenType::x) {
-			r.append(el->op.s);
+	if (this->op == op_div) {
+		r.append(this->operands.first()->var());
+	} else if (this->op == op_mul) {
+		for (auto& el : this->operands) {
+			r.append(el->var());
 		}
+	} else {
+		r.append(this->expr());
 	}
 	return r;
 }

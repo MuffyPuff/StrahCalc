@@ -148,8 +148,8 @@
     "translation": "Časovni zamik"
 },
 {
-    "id": "languages",
-    "translation": "Jeziki"
+    "id": "language",
+    "translation": "Jezik"
 },
 {
     "id": "general",
@@ -178,6 +178,10 @@
 {
     "id": "reduce",
     "translation": "Poenostavi"
+},
+{
+    "id": "cancel",
+    "translation": "Prekliči"
 },
 {
     "id": "",

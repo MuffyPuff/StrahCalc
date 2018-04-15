@@ -148,8 +148,8 @@
     "translation": "Timeout"
 },
 {
-    "id": "languages",
-    "translation": "Languages"
+    "id": "language",
+    "translation": "Language"
 },
 {
     "id": "general",
@@ -178,6 +178,10 @@
 {
     "id": "reduce",
     "translation": "Reduce"
+},
+{
+    "id": "cancel",
+    "translation": "Cancel"
 },
 {
     "id": "",

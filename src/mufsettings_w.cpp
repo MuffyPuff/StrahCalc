@@ -34,7 +34,7 @@ MufSettings_w::updateText(const QString& lang)
 	Q_UNUSED(lang);
 
 	ui->tabWidget->setTabText(0, Muf::translation("general"));
-	ui->lang_l->setText(Muf::translation("languages"));
+	ui->lang_l->setText(Muf::translation("language"));
 	ui->timeout_l->setText(Muf::translation("timeout"));
 	ui->dpi_l->setText(Muf::translation("dpi"));
 	ui->color_l->setText(Muf::translation("color"));
@@ -44,4 +44,6 @@ MufSettings_w::updateText(const QString& lang)
 	ui->plot_v->setText(Muf::translation("enable"));
 	ui->reduce_l->setText(Muf::translation("reduce"));
 	ui->reduce_v->setText(Muf::translation("enable"));
+	ui->buttonBox->button(QDialogButtonBox::Cancel)->setText(
+	        Muf::translation("cancel"));
 }

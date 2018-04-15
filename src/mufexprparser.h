@@ -181,7 +181,9 @@ public:
 		void            negate();
 		void            multiply(const int& factor);
 		void            multiply(const QString& var);
+		void            multiply(ExprTree* t);
 		QStringList     var();
+		QString         expr();
 
 		str_tok_t       op;    // can be any operator or value
 //		ExprTree*       left;  // can be null
