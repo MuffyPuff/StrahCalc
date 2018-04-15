@@ -83,6 +83,12 @@ include(lib/MufExprtkBackend/MufExprtkBackend.pri)
 include(lib/MufTranslate/MufTranslate.pri)
 include(src/StrahCalc.pri)
 
+language_target.files += $$PWD/lang
+language_target.path = $$OUT_PWD
+functions_target.files += $$PWD/functions
+functions_target.path = $$OUT_PWD
+
+INSTALLS += functions_target language_target
 
 DISTFILES += \
           $$PWD/functions/functions \

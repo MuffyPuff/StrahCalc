@@ -91,8 +91,8 @@ add_definitions(${Qt5Widgets_DEFINITIONS})
 # Add compiler flags for building executables (-fPIE)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
-install(FILES 
-    DESTINATION include)
+file(COPY "lang" DESTINATION "${PROJECT_BINARY_DIR}")
+file(COPY "functions" DESTINATION "${PROJECT_BINARY_DIR}")
 
 add_executable(StrahCalc
     ${SRC_LIST}
