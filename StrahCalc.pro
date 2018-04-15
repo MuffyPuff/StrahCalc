@@ -22,21 +22,15 @@ CONFIG -= app_bundle
 SOURCES += \
         src/main.cpp\
         src/mufmenu.cpp \
-        src/muflatex.cpp \
-        src/mufsymbols.cpp \
         src/muffunctions.cpp \
         src/mufsettings_w.cpp \
-        src/mufexprparser.cpp \
         src/mufsymbollistview_w.cpp
 
 HEADERS  += \
         src/global.h \
         src/mufmenu.h \
-        src/muflatex.h \
-        src/mufsymbols.h \
         src/muffunctions.h \
         src/mufsettings_w.h \
-        src/mufexprparser.h \
         src/mufsymbollistview_w.h
 
 FORMS    += \
@@ -82,6 +76,7 @@ include(lib/klfbackend/KLFBackend.pri)
 include(lib/MufExprtkBackend/MufExprtkBackend.pri)
 include(lib/MufTranslate/MufTranslate.pri)
 include(src/StrahCalc.pri)
+include(src/MufLatex.pri)
 
 language_target.files += $$PWD/lang
 language_target.path = $$OUT_PWD

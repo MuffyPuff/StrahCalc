@@ -8,7 +8,6 @@
 #include "klfpreviewbuilderthread.h"
 
 #include "mufexprtkbackend.h"
-#include "mufsymbols.h"
 
 #include "mufsymbollistview_w.h"
 #include "mufsettings_w.h"
@@ -111,9 +110,6 @@ private:
 	MufMenu*        mMenu;
 	Status          status;
 	QString         statusMessageCode;
-
-	MufSymbols      mSym;
-
 
 	QList<QString>  fnDirList;
 	QStringList     header;
