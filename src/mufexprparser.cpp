@@ -1353,7 +1353,7 @@ bool MufExprParser::ExprTree::isEven()
 	if (this->isValue()) {
 		const double v = this->eval();
 		if (v == static_cast<int>(v)) {
-			return !static_cast<int>(v) % 2;
+			return !(static_cast<int>(v) % 2);
 		}
 	}
 	qWarning("value check on non-value");
