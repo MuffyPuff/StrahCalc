@@ -1,0 +1,327 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.9 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{qt_pron}{online}{}
+      \field{sortinit}{A}
+      \field{sortinithash}{3248043b5fe8d0a34dab5ab6b8d4309b}
+      \field{labeltitlesource}{title}
+      \field{title}{About Us}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.qt.io/company/
+      \endverb
+      \verb{url}
+      \verb https://www.qt.io/company/
+      \endverb
+    \endentry
+    \entry{astyle}{online}{}
+      \field{sortinit}{A}
+      \field{sortinithash}{3248043b5fe8d0a34dab5ab6b8d4309b}
+      \field{labeltitlesource}{title}
+      \field{title}{Artistic Style 1.24}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://www.cs.utsa.edu/~rmurphy/astyle.html
+      \endverb
+      \verb{url}
+      \verb http://www.cs.utsa.edu/~rmurphy/astyle.html
+      \endverb
+    \endentry
+    \entry{cpp_wiki}{online}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labeltitlesource}{title}
+      \field{title}{C++}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/wiki/C%2B%2B
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/C%2B%2B
+      \endverb
+    \endentry
+    \entry{exprtk}{online}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labeltitlesource}{title}
+      \field{title}{C++ Mathematical Expression Parsing And Evaluation Library}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://www.partow.net/programming/exprtk/index.html
+      \endverb
+      \verb{url}
+      \verb http://www.partow.net/programming/exprtk/index.html
+      \endverb
+    \endentry
+    \entry{exprtk_git}{online}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labeltitlesource}{title}
+      \field{title}{C++ Mathematical Expression Parsing And Evaluation Library}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/ArashPartow/exprtk
+      \endverb
+      \verb{url}
+      \verb https://github.com/ArashPartow/exprtk
+      \endverb
+    \endentry
+    \entry{clang}{online}{}
+      \field{sortinit}{c}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labeltitlesource}{title}
+      \field{title}{clang: a C language family frontend for LLVM}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://clang.llvm.org/
+      \endverb
+      \verb{url}
+      \verb https://clang.llvm.org/
+      \endverb
+    \endentry
+    \entry{cmake}{online}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labeltitlesource}{title}
+      \field{title}{CMake Wiki}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://cmake.org/Wiki/CMake
+      \endverb
+      \verb{url}
+      \verb https://cmake.org/Wiki/CMake
+      \endverb
+    \endentry
+    \entry{tiobe}{online}{}
+      \name{author}{1}{}{%
+        {{hash=8019595a4181044608117794414d6d65}{%
+           family={Company},
+           familyi={C\bibinitperiod},
+           given={TIOBE\bibnamedelimb -\bibnamedelimb The\bibnamedelimb Software\bibnamedelima Quality},
+           giveni={T\bibinitperiod\bibinitdelim \bibinithyphendelim \bibinithyphendelim \bibinitperiod\bibinitdelim T\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim Q\bibinitperiod}}}%
+      }
+      \strng{namehash}{8019595a4181044608117794414d6d65}
+      \strng{fullhash}{8019595a4181044608117794414d6d65}
+      \strng{bibnamehash}{8019595a4181044608117794414d6d65}
+      \strng{authorbibnamehash}{8019595a4181044608117794414d6d65}
+      \strng{authornamehash}{8019595a4181044608117794414d6d65}
+      \strng{authorfullhash}{8019595a4181044608117794414d6d65}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{TIOBE Index}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.tiobe.com/tiobe-index/
+      \endverb
+      \verb{url}
+      \verb https://www.tiobe.com/tiobe-index/
+      \endverb
+    \endentry
+    \entry{cpp_evolution}{online}{}
+      \field{sortinit}{E}
+      \field{sortinithash}{07bbd5a529b5beaa311df5be05b874bc}
+      \field{labeltitlesource}{title}
+      \field{title}{Evolving a language in and for the real world: C++ 1991-2006}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://stroustrup.com/hopl-almost-final.pdf
+      \endverb
+      \verb{url}
+      \verb http://stroustrup.com/hopl-almost-final.pdf
+      \endverb
+    \endentry
+    \entry{json}{online}{}
+      \field{sortinit}{J}
+      \field{sortinithash}{c86bd6cced82a15683b396c2169909ef}
+      \field{labeltitlesource}{title}
+      \field{title}{JSON}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://json.org/
+      \endverb
+      \verb{url}
+      \verb https://json.org/
+      \endverb
+    \endentry
+    \entry{qt_klf}{online}{}
+      \field{sortinit}{Q}
+      \field{sortinithash}{605f5784956f0b01c606746ceb816bf5}
+      \field{labeltitlesource}{title}
+      \field{title}{Qt and LaTeX via KLFBackend}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://wiki.qt.io/Qt_and_LaTeX_via_KLFBackend
+      \endverb
+      \verb{url}
+      \verb https://wiki.qt.io/Qt_and_LaTeX_via_KLFBackend
+      \endverb
+    \endentry
+    \entry{qt_signals}{online}{}
+      \field{sortinit}{S}
+      \field{sortinithash}{3c1547c63380458f8ca90e40ed14b83e}
+      \field{labeltitlesource}{title}
+      \field{title}{Signals}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://doc.qt.io/qt-5/signalsandslots.html#signals
+      \endverb
+      \verb{url}
+      \verb https://doc.qt.io/qt-5/signalsandslots.html#signals
+      \endverb
+    \endentry
+    \entry{qt_slots}{online}{}
+      \field{sortinit}{S}
+      \field{sortinithash}{3c1547c63380458f8ca90e40ed14b83e}
+      \field{labeltitlesource}{title}
+      \field{title}{Slots}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://doc.qt.io/qt-5/signalsandslots.html#slots
+      \endverb
+      \verb{url}
+      \verb https://doc.qt.io/qt-5/signalsandslots.html#slots
+      \endverb
+    \endentry
+    \entry{terese}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=258e824b022edb275e9f73a2626abe71}{%
+           family={Terese},
+           familyi={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{258e824b022edb275e9f73a2626abe71}
+      \strng{fullhash}{258e824b022edb275e9f73a2626abe71}
+      \strng{bibnamehash}{258e824b022edb275e9f73a2626abe71}
+      \strng{authorbibnamehash}{258e824b022edb275e9f73a2626abe71}
+      \strng{authornamehash}{258e824b022edb275e9f73a2626abe71}
+      \strng{authorfullhash}{258e824b022edb275e9f73a2626abe71}
+      \field{sortinit}{T}
+      \field{sortinithash}{2e5c2f51f7fa2d957f3206819bf86dc3}
+      \field{labelnamesource}{author}
+    \endentry
+    \entry{the_cpp_programming_language_wiki}{online}{}
+      \field{sortinit}{T}
+      \field{sortinithash}{2e5c2f51f7fa2d957f3206819bf86dc3}
+      \field{labeltitlesource}{title}
+      \field{title}{The C++ Programming Language}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/wiki/The_C%2B%2B_Programming_Language
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/The_C%2B%2B_Programming_Language
+      \endverb
+    \endentry
+    \entry{ecma404}{online}{}
+      \field{sortinit}{T}
+      \field{sortinithash}{2e5c2f51f7fa2d957f3206819bf86dc3}
+      \field{labeltitlesource}{title}
+      \field{title}{The JSON Data Interchange Syntax}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
+      \endverb
+      \verb{url}
+      \verb http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
+      \endverb
+    \endentry
+    \entry{ninja}{online}{}
+      \field{sortinit}{T}
+      \field{sortinithash}{2e5c2f51f7fa2d957f3206819bf86dc3}
+      \field{labeltitlesource}{title}
+      \field{title}{The Ninja build system}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://ninja-build.org/manual.html
+      \endverb
+      \verb{url}
+      \verb https://ninja-build.org/manual.html
+      \endverb
+    \endentry
+    \entry{qt_moc}{online}{}
+      \field{sortinit}{U}
+      \field{sortinithash}{1554584e7f69d2b4fe0a645e73d50194}
+      \field{labeltitlesource}{title}
+      \field{title}{Using the Meta-Object Compiler (moc)}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https:/http://doc.qt.io/qt-5/moc.html
+      \endverb
+      \verb{url}
+      \verb https:/http://doc.qt.io/qt-5/moc.html
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
