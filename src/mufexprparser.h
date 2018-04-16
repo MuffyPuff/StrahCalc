@@ -21,7 +21,6 @@ public:
 	Q_ENUM(Assoc)
 	enum class TokenType {
 		B, // binary op
-		E, // expression
 		b, // brace
 		U, // unary
 		v, // value

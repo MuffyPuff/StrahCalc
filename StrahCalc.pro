@@ -33,20 +33,25 @@ HEADERS  += \
         src/mufsymbollistview_w.h
 
 FORMS    += \
+        src/strahcalc.ui \
         src/mufsettings_w.ui \
         src/mufsymbollistview_w.ui
 
-#include(lib/klfbackend/_KLFBackend.pri)
-#include(lib/MufExprtkBackend/_MufExprtkBackend.pri)
-#include(lib/MufTranslate/_MufTranslate.pri)
+include(lib/klfbackend/_KLFBackend.pri)
+include(lib/MufExprtkBackend/_MufExprtkBackend.pri)
+include(lib/MufTranslate/_MufTranslate.pri)
 include(src/StrahCalc.pri)
 include(src/MufLatex.pri)
 include(lang/lang.pri)
 
+win32:CONFIG(release, debug|release): language_target.path = $$OUT_PWD/release
+else:win32:CONFIG(debug, debug|release): language_target.path = $$OUT_PWD/debug
+else:unix:language_target.path = $$OUT_PWD
+win32:CONFIG(release, debug|release): functions_target.path = $$OUT_PWD/release
+else:win32:CONFIG(debug, debug|release): functions_target.path = $$OUT_PWD/debug
+else:unix:functions_target.path = $$OUT_PWD
 language_target.files += $$PWD/lang/*.json
-language_target.path = $$OUT_PWD
 functions_target.files += $$PWD/functions
-functions_target.path = $$OUT_PWD
 
 INSTALLS += functions_target language_target
 

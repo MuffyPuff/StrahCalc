@@ -5,6 +5,3 @@ SOURCES += \
 HEADERS += \
         $$PWD/global.h \
         $$PWD/strahcalc.h
-
-FORMS    += \
-        $$PWD/strahcalc.ui
