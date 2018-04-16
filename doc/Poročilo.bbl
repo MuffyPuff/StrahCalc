@@ -19,25 +19,167 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global}
-    \entry{cpp_wiki}{online}{}
+    \entry{cpp98}{online}{}
       \field{sortinit}{6}
       \field{sortinithash}{02bbed3ed82f61ae046619460488516d}
       \field{labeltitlesource}{title}
-      \field{title}{C++}
+      \field{title}{ISO/IEC 14882:1998}
       \field{urlday}{15}
       \field{urlmonth}{4}
       \field{urlyear}{2018}
       \field{urldateera}{ce}
       \verb{urlraw}
-      \verb https://en.wikipedia.org/wiki/C%2B%2B
+      \verb https://www.iso.org/standard/25845.html
       \endverb
       \verb{url}
-      \verb https://en.wikipedia.org/wiki/C%2B%2B
+      \verb https://www.iso.org/standard/25845.html
+      \endverb
+    \endentry
+    \entry{cpp_naming}{online}{}
+      \field{sortinit}{7}
+      \field{sortinithash}{6ac7fe70cdec8cba8f65694411ce2532}
+      \field{labeltitlesource}{title}
+      \field{title}{Current Status: Standard C++}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://isocpp.org/std/status
+      \endverb
+      \verb{url}
+      \verb https://isocpp.org/std/status
+      \endverb
+    \endentry
+    \entry{cpp_ref}{online}{}
+      \field{sortinit}{7}
+      \field{sortinithash}{6ac7fe70cdec8cba8f65694411ce2532}
+      \field{labeltitlesource}{title}
+      \field{title}{C++ reference}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://en.cppreference.com/w/
+      \endverb
+      \verb{url}
+      \verb https://en.cppreference.com/w/
+      \endverb
+    \endentry
+    \entry{cpp_evolution}{online}{}
+      \field{sortinit}{7}
+      \field{sortinithash}{6ac7fe70cdec8cba8f65694411ce2532}
+      \field{labeltitlesource}{title}
+      \field{title}{Evolving a language in and for the real world: C++ 1991-2006}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://stroustrup.com/hopl-almost-final.pdf
+      \endverb
+      \verb{url}
+      \verb http://stroustrup.com/hopl-almost-final.pdf
+      \endverb
+    \endentry
+    \entry{cpp03}{online}{}
+      \field{sortinit}{8}
+      \field{sortinithash}{2f1b0e69e7617f99664f1cd00bb9603c}
+      \field{labeltitlesource}{title}
+      \field{title}{ISO/IEC 14882:2003}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.iso.org/standard/38110.html
+      \endverb
+      \verb{url}
+      \verb https://www.iso.org/standard/38110.html
+      \endverb
+    \endentry
+    \entry{cpp11}{online}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{labeltitlesource}{title}
+      \field{title}{ISO/IEC 14882:2011}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.iso.org/standard/50372.html
+      \endverb
+      \verb{url}
+      \verb https://www.iso.org/standard/50372.html
+      \endverb
+    \endentry
+    \entry{cpp14}{online}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{labeltitlesource}{title}
+      \field{title}{ISO/IEC 14882:2014}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.iso.org/standard/64029.html
+      \endverb
+      \verb{url}
+      \verb https://www.iso.org/standard/64029.html
+      \endverb
+    \endentry
+    \entry{cpp17}{online}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{labeltitlesource}{title}
+      \field{title}{ISO/IEC 14882:2017}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.iso.org/standard/68564.html
+      \endverb
+      \verb{url}
+      \verb https://www.iso.org/standard/68564.html
+      \endverb
+    \endentry
+    \entry{cpp20_naming}{online}{}
+      \name{author}{1}{}{%
+        {{hash=d1fc2b577689be883fe16f8ef59ed0c4}{%
+           family={Sutter},
+           familyi={S\bibinitperiod},
+           given={Herb},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{d1fc2b577689be883fe16f8ef59ed0c4}
+      \strng{fullhash}{d1fc2b577689be883fe16f8ef59ed0c4}
+      \strng{bibnamehash}{d1fc2b577689be883fe16f8ef59ed0c4}
+      \strng{authorbibnamehash}{d1fc2b577689be883fe16f8ef59ed0c4}
+      \strng{authornamehash}{d1fc2b577689be883fe16f8ef59ed0c4}
+      \strng{authorfullhash}{d1fc2b577689be883fe16f8ef59ed0c4}
+      \field{sortinit}{1}
+      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Trip report: Summer ISO C++ standards meeting (Oulu)}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://herbsutter.com/2016/06/30/trip-report-summer-iso-c-standards-meeting-oulu/
+      \endverb
+      \verb{url}
+      \verb https://herbsutter.com/2016/06/30/trip-report-summer-iso-c-standards-meeting-oulu/
       \endverb
     \endentry
     \entry{the_cpp_programming_language_wiki}{online}{}
-      \field{sortinit}{7}
-      \field{sortinithash}{6ac7fe70cdec8cba8f65694411ce2532}
+      \field{sortinit}{1}
+      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
       \field{labeltitlesource}{title}
       \field{title}{The C++ Programming Language}
       \field{urlday}{15}
@@ -65,8 +207,8 @@
       \strng{authorbibnamehash}{8019595a4181044608117794414d6d65}
       \strng{authornamehash}{8019595a4181044608117794414d6d65}
       \strng{authorfullhash}{8019595a4181044608117794414d6d65}
-      \field{sortinit}{8}
-      \field{sortinithash}{2f1b0e69e7617f99664f1cd00bb9603c}
+      \field{sortinit}{1}
+      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{TIOBE Index}
@@ -81,25 +223,9 @@
       \verb https://www.tiobe.com/tiobe-index/
       \endverb
     \endentry
-    \entry{cpp_evolution}{online}{}
-      \field{sortinit}{9}
-      \field{sortinithash}{2999ebab86052e6d71b434385f8b4ed2}
-      \field{labeltitlesource}{title}
-      \field{title}{Evolving a language in and for the real world: C++ 1991-2006}
-      \field{urlday}{15}
-      \field{urlmonth}{4}
-      \field{urlyear}{2018}
-      \field{urldateera}{ce}
-      \verb{urlraw}
-      \verb http://stroustrup.com/hopl-almost-final.pdf
-      \endverb
-      \verb{url}
-      \verb http://stroustrup.com/hopl-almost-final.pdf
-      \endverb
-    \endentry
     \entry{qt_pron}{online}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{sortinit}{2}
+      \field{sortinithash}{0aa614ace9f3a40ef5a67e7f7a184048}
       \field{labeltitlesource}{title}
       \field{title}{About Us}
       \field{urlday}{15}
@@ -114,8 +240,8 @@
       \endverb
     \endentry
     \entry{qt_moc}{online}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{sortinit}{2}
+      \field{sortinithash}{0aa614ace9f3a40ef5a67e7f7a184048}
       \field{labeltitlesource}{title}
       \field{title}{Using the Meta-Object Compiler (moc)}
       \field{urlday}{15}
@@ -130,8 +256,8 @@
       \endverb
     \endentry
     \entry{qt_signals}{online}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{sortinit}{2}
+      \field{sortinithash}{0aa614ace9f3a40ef5a67e7f7a184048}
       \field{labeltitlesource}{title}
       \field{title}{Signals}
       \field{urlday}{15}
@@ -146,8 +272,8 @@
       \endverb
     \endentry
     \entry{qt_slots}{online}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{sortinit}{3}
+      \field{sortinithash}{197da6d6c34c6b20ce45c4d4baace5a4}
       \field{labeltitlesource}{title}
       \field{title}{Slots}
       \field{urlday}{15}
@@ -162,8 +288,8 @@
       \endverb
     \endentry
     \entry{exprtk}{online}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{sortinit}{3}
+      \field{sortinithash}{197da6d6c34c6b20ce45c4d4baace5a4}
       \field{labeltitlesource}{title}
       \field{title}{C++ Mathematical Expression Parsing And Evaluation Library}
       \field{urlday}{15}
@@ -178,8 +304,8 @@
       \endverb
     \endentry
     \entry{exprtk_git}{online}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{sortinit}{3}
+      \field{sortinithash}{197da6d6c34c6b20ce45c4d4baace5a4}
       \field{labeltitlesource}{title}
       \field{title}{C++ Mathematical Expression Parsing And Evaluation Library}
       \field{urlday}{15}
@@ -194,8 +320,8 @@
       \endverb
     \endentry
     \entry{qt_klf}{online}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{sortinit}{3}
+      \field{sortinithash}{197da6d6c34c6b20ce45c4d4baace5a4}
       \field{labeltitlesource}{title}
       \field{title}{Qt and LaTeX via KLFBackend}
       \field{urlday}{15}
@@ -209,9 +335,55 @@
       \verb https://wiki.qt.io/Qt_and_LaTeX_via_KLFBackend
       \endverb
     \endentry
+    \entry{git}{online}{}
+      \field{sortinit}{3}
+      \field{sortinithash}{197da6d6c34c6b20ce45c4d4baace5a4}
+      \field{labeltitlesource}{title}
+      \field{title}{About - git}
+      \field{urlday}{16}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://git-scm.com/about
+      \endverb
+      \verb{url}
+      \verb https://git-scm.com/about
+      \endverb
+    \endentry
+    \entry{git_name}{online}{}
+      \name{author}{1}{}{%
+        {{hash=d17810e1c711d76f64612b80b3ba67e9}{%
+           family={Torvalds},
+           familyi={T\bibinitperiod},
+           given={Linus},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{d17810e1c711d76f64612b80b3ba67e9}
+      \strng{fullhash}{d17810e1c711d76f64612b80b3ba67e9}
+      \strng{bibnamehash}{d17810e1c711d76f64612b80b3ba67e9}
+      \strng{authorbibnamehash}{d17810e1c711d76f64612b80b3ba67e9}
+      \strng{authornamehash}{d17810e1c711d76f64612b80b3ba67e9}
+      \strng{authorfullhash}{d17810e1c711d76f64612b80b3ba67e9}
+      \field{sortinit}{3}
+      \field{sortinithash}{197da6d6c34c6b20ce45c4d4baace5a4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{git/README}
+      \field{urlday}{16}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/git/git/blob/e83c5163316f89bfbde7d9ab23ca2e25604af290/README
+      \endverb
+      \verb{url}
+      \verb https://github.com/git/git/blob/e83c5163316f89bfbde7d9ab23ca2e25604af290/README
+      \endverb
+    \endentry
     \entry{astyle}{online}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{sortinit}{3}
+      \field{sortinithash}{197da6d6c34c6b20ce45c4d4baace5a4}
       \field{labeltitlesource}{title}
       \field{title}{Artistic Style 1.24}
       \field{urlday}{15}
@@ -226,8 +398,8 @@
       \endverb
     \endentry
     \entry{cmake}{online}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{sortinit}{3}
+      \field{sortinithash}{197da6d6c34c6b20ce45c4d4baace5a4}
       \field{labeltitlesource}{title}
       \field{title}{CMake Wiki}
       \field{urlday}{15}
@@ -242,8 +414,8 @@
       \endverb
     \endentry
     \entry{ninja}{online}{}
-      \field{sortinit}{2}
-      \field{sortinithash}{0aa614ace9f3a40ef5a67e7f7a184048}
+      \field{sortinit}{3}
+      \field{sortinithash}{197da6d6c34c6b20ce45c4d4baace5a4}
       \field{labeltitlesource}{title}
       \field{title}{The Ninja build system}
       \field{urlday}{15}
@@ -258,8 +430,8 @@
       \endverb
     \endentry
     \entry{clang}{online}{}
-      \field{sortinit}{2}
-      \field{sortinithash}{0aa614ace9f3a40ef5a67e7f7a184048}
+      \field{sortinit}{4}
+      \field{sortinithash}{d221becdd544034cf9082056cd6e6d2d}
       \field{labeltitlesource}{title}
       \field{title}{clang: a C language family frontend for LLVM}
       \field{urlday}{15}
@@ -274,8 +446,8 @@
       \endverb
     \endentry
     \entry{json}{online}{}
-      \field{sortinit}{2}
-      \field{sortinithash}{0aa614ace9f3a40ef5a67e7f7a184048}
+      \field{sortinit}{4}
+      \field{sortinithash}{d221becdd544034cf9082056cd6e6d2d}
       \field{labeltitlesource}{title}
       \field{title}{JSON}
       \field{urlday}{15}
@@ -290,8 +462,8 @@
       \endverb
     \endentry
     \entry{ecma404}{online}{}
-      \field{sortinit}{2}
-      \field{sortinithash}{0aa614ace9f3a40ef5a67e7f7a184048}
+      \field{sortinit}{4}
+      \field{sortinithash}{d221becdd544034cf9082056cd6e6d2d}
       \field{labeltitlesource}{title}
       \field{title}{The JSON Data Interchange Syntax}
       \field{urlday}{15}
@@ -305,11 +477,14 @@
       \verb http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
       \endverb
     \endentry
-    \entry{terese}{misc}{}
+    \entry{terese}{book}{}
       \name{author}{1}{}{%
         {{hash=258e824b022edb275e9f73a2626abe71}{%
            family={Terese},
            familyi={T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
       }
       \strng{namehash}{258e824b022edb275e9f73a2626abe71}
       \strng{fullhash}{258e824b022edb275e9f73a2626abe71}
@@ -317,9 +492,14 @@
       \strng{authorbibnamehash}{258e824b022edb275e9f73a2626abe71}
       \strng{authornamehash}{258e824b022edb275e9f73a2626abe71}
       \strng{authorfullhash}{258e824b022edb275e9f73a2626abe71}
-      \field{sortinit}{3}
-      \field{sortinithash}{197da6d6c34c6b20ce45c4d4baace5a4}
+      \field{sortinit}{5}
+      \field{sortinithash}{c9df3c9fb8f555dd9201cedc5e343021}
       \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{4}
+      \field{series}{Cambridge Tracts in Theoretical Computer Science}
+      \field{title}{Term Rewriting Systems}
+      \field{year}{2003}
     \endentry
   \enddatalist
 \endrefsection
