@@ -1,6 +1,6 @@
 \documentclass[12pt,titlepage]{report}
 \usepackage[utf8]{inputenc}
-\usepackage[slovene]{babel}
+\usepackage[british, slovene]{babel}
 \usepackage{graphicx}
 \usepackage{setspace}
 \usepackage{mathptmx}
@@ -8,6 +8,7 @@
 \usepackage{setspace}
 \usepackage{csquotes}
 \usepackage{float}
+\usepackage{wrapfig}
 \usepackage{multicol}
 \usepackage{amssymb,amsmath,mathtools,mathrsfs}
 \usepackage[T1]{fontenc}% http://ctan.org/pkg/fontenc
@@ -35,6 +36,7 @@
 %\renewcommand\thesection{\arabic{section}}
 \linespread{1.5}
 \setlength{\parindent}{0pt}
+\graphicspath{ {images/} }
 
 % Format poglavij
 \titleclass{\chapter}{straight}
@@ -74,7 +76,21 @@
 \maketitle
 
 \chapter*{Povzetek}
+To poročilo predstavlja funkcionalnost in implementacijo programa StrahCalc.
+To je kalkulator, ki je poleg številskega računanja tudi zmožen simbolnega računanja in omejenega risanja grafov.
+Najprej poročilo opiše tehnologije in koncepte, ki so bili uporabljeni za izdelavo naloge.
+Opiše tudi nekaj specifičnih implementacij, nato pa še opiše sintakso jezika, ki ga kalkulator podpira.
+\section*{Ključne besede}
+Kalkulator, Exprtk, Qt, AST, ARS, TRS, C++
+\begin{otherlanguage}{british}
 \chapter*{Abstract}
+This report describes the features and implementation of a calculator StrahCalc. 
+It supports, along with numeric calculations, also symbolic calculations and plotting graphs.
+The report first describes the technologies and concepts used for the project, then moves on to describe a few specific implementations.
+Lastly it describes the syntax of the language of the calculator.
+\section*{Key words}
+Calculator, Exprtk, Qt, AST, ARS, TRS, C++
+\end{otherlanguage}
 \thispagestyle{empty}
 
 
@@ -245,7 +261,7 @@
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=\textwidth]{json_number.png}
-				\caption{število v JSON\cite{ecma404}}
+				\caption{Število v JSON\cite{ecma404}}
 				\label{fig:json_num}
 			\end{figure}
 	\section{Koncepti} % TODO: translate
@@ -366,6 +382,15 @@
 				
 \chapter{Implementacija}
 \label{impl}
+	\section{Drevesna struktura programa}
+	\label{project_tree}
+		test
+		\begin{wrapfigure}{H}{0.43\textwidth}
+			\centering
+			\includegraphics{project_tree.png}
+			\caption{Drevesna struktura programa}
+			\label{fig:project_tree}
+		\end{wrapfigure}
 	\section{Glavno okno}
 	\label{mainwindow_impl}
 		\subsection{Inicializacija}
@@ -457,7 +482,7 @@
 					\label{fig:latex_plot}
 				\end{figure}}
 \chapter{Navodila za uporabo}
-	\section{Jezik kalkulatorja}
+	\section{Jezik kalkulatorja\cite{exprtk_git}}
 		\begin{alignitemize}
 			Osnovni operatorji: &\texttt{+, -, *, /, \%, \^{}} \\
 			Prireditev: &\texttt{:=, +=, -=, *=, /=, \%=}\\
@@ -558,7 +583,13 @@
 %{exprtk pages}\\
 
 \newpage
-\printbibliography
+\chapter{Viri}
+\printbibliography[heading=none]
+\newpage
+\pagestyle{empty}
+\subsection*{Izjava o avtorstvu}
+Izjavljam, da je strokovno poročilo Kalkulator v celoti moje avtorsko delo, ki sem ga izdelal samostojno s pomočjo navedene literature in pod vodstvom mentorja.\\[5cm]
+Ljubljana, 15. 4. 2018 \hfill Gašper Golob
 
 \end{document}
 

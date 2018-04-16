@@ -1,5 +1,7 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {slovene}{}
+\babel@toc {british}{}
+\babel@toc {slovene}{}
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {2.1}{\ignorespaces JSON objekt\cite {ecma404}\relax }}{6}
 \defcounter {refsection}{0}\relax 
@@ -9,7 +11,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {2.4}{\ignorespaces Niz v JSON\cite {ecma404}\relax }}{7}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {2.5}{\ignorespaces \IeC {\v s}tevilo v JSON\cite {ecma404}\relax }}{8}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces \IeC {\v S}tevilo v JSON\cite {ecma404}\relax }}{8}
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Zavihki na glavnem oknu\relax }}{9}
 \defcounter {refsection}{0}\relax 
@@ -29,8 +31,10 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {3.9}{\ignorespaces Zgodovina\relax }}{14}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {4.1}{\ignorespaces input.latex\relax }}{18}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Drevesna struktura programa\relax }}{16}
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {4.2}{\ignorespaces input.latex\relax }}{19}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.3}{\ignorespaces input.latex\relax }}{20}
 \contentsfinish 
 \contentsfinish 

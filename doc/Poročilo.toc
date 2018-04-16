@@ -1,5 +1,7 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {slovene}{}
+\babel@toc {british}{}
+\babel@toc {slovene}{}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {1}Uvod}{1}
 \defcounter {refsection}{0}\relax 
@@ -75,9 +77,11 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {4}Implementacija}{15}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Glavno okno}{15}
+\contentsline {section}{\numberline {4.1}Drevesna struktura programa}{15}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.1}Inicializacija}{15}
+\contentsline {section}{\numberline {4.2}Glavno okno}{15}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.1}Inicializacija}{15}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{KLFBackend}{16}
 \defcounter {refsection}{0}\relax 
@@ -87,9 +91,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Meni}{16}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Spremenljivke in konstante}{16}
+\contentsline {subsubsection}{Spremenljivke in konstante}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Funkcije}{16}
+\contentsline {subsubsection}{Funkcije}{17}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Kalkulator}{17}
 \defcounter {refsection}{0}\relax 
@@ -97,21 +101,23 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Posodobitev teksta}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.2}Potek ra\IeC {\v c}unanja}{17}
+\contentsline {subsection}{\numberline {4.2.2}Potek ra\IeC {\v c}unanja}{18}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Navadni na\IeC {\v c}in}{18}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Napredni na\IeC {\v c}in}{18}
+\contentsline {subsubsection}{Napredni na\IeC {\v c}in}{19}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Grafi\IeC {\v c}ni na\IeC {\v c}in}{19}
+\contentsline {subsubsection}{Grafi\IeC {\v c}ni na\IeC {\v c}in}{20}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Navodila za uporabo}{20}
+\contentsline {chapter}{\numberline {5}Navodila za uporabo}{21}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Jezik kalkulatorja}{20}
+\contentsline {section}{\numberline {5.1}Jezik kalkulatorja\cite {exprtk_git}}{21}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.1}Vhodno/izhodne operacije}{22}
+\contentsline {subsection}{\numberline {5.1.1}Vhodno/izhodne operacije}{23}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.2}Vektorske operacije}{22}
+\contentsline {subsection}{\numberline {5.1.2}Vektorske operacije}{23}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Rezultati in ugotovitve}{22}
+\contentsline {chapter}{\numberline {6}Rezultati in ugotovitve}{23}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {7}Viri}{24}
 \contentsfinish 

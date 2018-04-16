@@ -19,9 +19,25 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global}
-    \entry{the_cpp_programming_language_wiki}{online}{}
+    \entry{cpp_wiki}{online}{}
       \field{sortinit}{6}
       \field{sortinithash}{02bbed3ed82f61ae046619460488516d}
+      \field{labeltitlesource}{title}
+      \field{title}{C++}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/wiki/C%2B%2B
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/C%2B%2B
+      \endverb
+    \endentry
+    \entry{the_cpp_programming_language_wiki}{online}{}
+      \field{sortinit}{7}
+      \field{sortinithash}{6ac7fe70cdec8cba8f65694411ce2532}
       \field{labeltitlesource}{title}
       \field{title}{The C++ Programming Language}
       \field{urlday}{15}
@@ -49,8 +65,8 @@
       \strng{authorbibnamehash}{8019595a4181044608117794414d6d65}
       \strng{authornamehash}{8019595a4181044608117794414d6d65}
       \strng{authorfullhash}{8019595a4181044608117794414d6d65}
-      \field{sortinit}{7}
-      \field{sortinithash}{6ac7fe70cdec8cba8f65694411ce2532}
+      \field{sortinit}{8}
+      \field{sortinithash}{2f1b0e69e7617f99664f1cd00bb9603c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{TIOBE Index}
@@ -65,25 +81,9 @@
       \verb https://www.tiobe.com/tiobe-index/
       \endverb
     \endentry
-    \entry{cpp_wiki}{online}{}
-      \field{sortinit}{8}
-      \field{sortinithash}{2f1b0e69e7617f99664f1cd00bb9603c}
-      \field{labeltitlesource}{title}
-      \field{title}{C++}
-      \field{urlday}{15}
-      \field{urlmonth}{4}
-      \field{urlyear}{2018}
-      \field{urldateera}{ce}
-      \verb{urlraw}
-      \verb https://en.wikipedia.org/wiki/C%2B%2B
-      \endverb
-      \verb{url}
-      \verb https://en.wikipedia.org/wiki/C%2B%2B
-      \endverb
-    \endentry
     \entry{cpp_evolution}{online}{}
-      \field{sortinit}{8}
-      \field{sortinithash}{2f1b0e69e7617f99664f1cd00bb9603c}
+      \field{sortinit}{9}
+      \field{sortinithash}{2999ebab86052e6d71b434385f8b4ed2}
       \field{labeltitlesource}{title}
       \field{title}{Evolving a language in and for the real world: C++ 1991-2006}
       \field{urlday}{15}
@@ -98,8 +98,8 @@
       \endverb
     \endentry
     \entry{qt_pron}{online}{}
-      \field{sortinit}{9}
-      \field{sortinithash}{2999ebab86052e6d71b434385f8b4ed2}
+      \field{sortinit}{1}
+      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
       \field{labeltitlesource}{title}
       \field{title}{About Us}
       \field{urlday}{15}
@@ -242,8 +242,8 @@
       \endverb
     \endentry
     \entry{ninja}{online}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{27a2bc5dfb9ed0a0422134d636544b5d}
+      \field{sortinit}{2}
+      \field{sortinithash}{0aa614ace9f3a40ef5a67e7f7a184048}
       \field{labeltitlesource}{title}
       \field{title}{The Ninja build system}
       \field{urlday}{15}
