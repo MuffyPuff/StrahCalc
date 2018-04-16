@@ -27,7 +27,6 @@ SOURCES += \
         src/mufsymbollistview_w.cpp
 
 HEADERS  += \
-        src/global.h \
         src/mufmenu.h \
         src/muffunctions.h \
         src/mufsettings_w.h \
@@ -37,6 +36,22 @@ FORMS    += \
         src/mufsettings_w.ui \
         src/mufsymbollistview_w.ui
 
+#include(lib/klfbackend/_KLFBackend.pri)
+#include(lib/MufExprtkBackend/_MufExprtkBackend.pri)
+#include(lib/MufTranslate/_MufTranslate.pri)
+include(src/StrahCalc.pri)
+include(src/MufLatex.pri)
+include(lang/lang.pri)
+
+language_target.files += $$PWD/lang/*.json
+language_target.path = $$OUT_PWD
+functions_target.files += $$PWD/functions
+functions_target.path = $$OUT_PWD
+
+INSTALLS += functions_target language_target
+
+DISTFILES += \
+          $$PWD/functions/functions
 
 # note that in unix(linux) systems library names are case sensitive
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/bin
@@ -69,24 +84,3 @@ else:unix: LIBS += -lMufExprtkBackend
 
 INCLUDEPATH += $$PWD/lib/MufExprtkBackend/include
 DEPENDPATH += $$PWD/lib/MufExprtkBackend/
-
-
-#include(lib/klfbackend/_KLFBackend.pri)
-#include(lib/MufExprtkBackend/_MufExprtkBackend.pri)
-#include(lib/MufTranslate/_MufTranslate.pri)
-include(src/StrahCalc.pri)
-include(src/MufLatex.pri)
-
-language_target.files += $$PWD/lang
-language_target.path = $$OUT_PWD
-functions_target.files += $$PWD/functions
-functions_target.path = $$OUT_PWD
-
-INSTALLS += functions_target language_target
-
-DISTFILES += \
-          $$PWD/functions/functions \
-          $$PWD/lang/en-GB.json \
-          $$PWD/lang/sl-SI.json \
-          $$PWD/lang/ja-JP.json
-

@@ -1,7 +1,7 @@
 SOURCES += \
-        src/muflatex.cpp \
-        src/mufexprparser.cpp \
+        $$PWD/muflatex.cpp \
+        $$PWD/mufexprparser.cpp \
 
 HEADERS += \
-        src/muflatex.h \
-        src/mufexprparser.h \
+        $$PWD/muflatex.h \
+        $$PWD/mufexprparser.h \

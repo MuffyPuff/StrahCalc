@@ -1,9 +1,10 @@
 SOURCES += \
-	./src/strahcalc.cpp \
-	./src/strahcalcinit.cpp
+        $$PWD/strahcalc.cpp \
+        $$PWD/strahcalcinit.cpp
 
 HEADERS += \
-	./src/strahcalc.h
+        $$PWD/global.h \
+        $$PWD/strahcalc.h
 
 FORMS    += \
-        ./src/strahcalc.ui
+        $$PWD/strahcalc.ui
