@@ -236,9 +236,6 @@ private:
 	bool            exprR();
 	bool            pR();
 
-
-signals:
-
 public slots:
 
 	bool            exprRecognise(QString input);
@@ -249,6 +246,7 @@ public:
 	QString         operator()(QString input);
 
 private:
+	// predefined tokens
 	static str_tok_t tok_end; // end token
 	static str_tok_t op_sent; // sentinel
 	static str_tok_t op_rbr;

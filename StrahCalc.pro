@@ -44,12 +44,14 @@ include(src/StrahCalc.pri)
 include(src/MufLatex.pri)
 include(lang/lang.pri)
 
-win32:CONFIG(release, debug|release): language_target.path = $$OUT_PWD/release
-else:win32:CONFIG(debug, debug|release): language_target.path = $$OUT_PWD/debug
-else:unix:language_target.path = $$OUT_PWD
-win32:CONFIG(release, debug|release): functions_target.path = $$OUT_PWD/release
-else:win32:CONFIG(debug, debug|release): functions_target.path = $$OUT_PWD/debug
-else:unix:functions_target.path = $$OUT_PWD
+#win32:CONFIG(release, debug|release): language_target.path = $$OUT_PWD/release
+#else:win32:CONFIG(debug, debug|release): language_target.path = $$OUT_PWD/debug
+#else:unix:language_target.path = $$OUT_PWD
+#win32:CONFIG(release, debug|release): functions_target.path = $$OUT_PWD/release
+#else:win32:CONFIG(debug, debug|release): functions_target.path = $$OUT_PWD/debug
+#else:unix:functions_target.path = $$OUT_PWD
+language_target.path = $$OUT_PWD
+functions_target.path = $$OUT_PWD
 language_target.files += $$PWD/lang/*.json
 functions_target.files += $$PWD/functions
 
