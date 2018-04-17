@@ -123,17 +123,17 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.3}MufExprParser}{31}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Navodila za uporabo}{33}
+\contentsline {chapter}{\numberline {5}Navodila za uporabo}{36}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Jezik kalkulatorja}{33}
+\contentsline {section}{\numberline {5.1}Jezik kalkulatorja}{36}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.1}Vhodno/izhodne operacije}{36}
+\contentsline {subsection}{\numberline {5.1.1}Vhodno/izhodne operacije}{39}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.2}Vektorske operacije}{36}
+\contentsline {subsection}{\numberline {5.1.2}Vektorske operacije}{39}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Zaklju\IeC {\v c}ek}{36}
+\contentsline {chapter}{\numberline {6}Zaklju\IeC {\v c}ek}{39}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Viri}{38}
+\contentsline {chapter}{\numberline {7}Viri}{41}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.1}Viri slik}{40}
+\contentsline {section}{\numberline {7.1}Viri slik}{43}
 \contentsfinish 

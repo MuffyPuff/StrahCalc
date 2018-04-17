@@ -688,7 +688,104 @@
 		};
 		\end{lstlisting}
 		\end{spacing}
-		
+		\odstavek
+		Razred vsebuje tudi veliko metod, vendar bom napisal le tiste, ki se dejansko uporabljajo.
+		Odstranil bom tudi definicije zgoraj navedenih razredov~(Kode:~\ref{src:enum_assoc},~\ref{src:enum_tty},~\ref{src:str_tok_t},~\ref{src:pat_t}~in~\ref{src:exprtree}).
+		\begin{spacing}{1}
+		\begin{lstlisting}[language=C++, caption=Deklaracija razreda \codequote{MufExprParser}, label=src:mufexprparser]
+		class MufExprParser : public QObject
+		{
+			Q_OBJECT
+		public:
+			enum class Assoc;
+			Q_ENUM(Assoc)
+			enum class TokenType;
+			Q_ENUM(TokenType)
+			struct str_tok_t;
+			struct pat_t;
+			
+			class ExprTree;
+			
+		public:
+			explicit MufExprParser(QObject* parent = nullptr);
+			~MufExprParser()
+			{
+				if (tree != nullptr) {
+					delete tree;
+					tree = nullptr;
+				}
+			}
+			
+		private:
+			int             init();
+			
+			bool            expect(const QString& tok_s); // true if next.s == tok_s
+			bool            expect(const str_tok_t& tok); // true if next == tok
+			bool            expect(const TokenType& tok_t); // true if next.type == tok_t
+			void            consume(); // removes next token
+			str_tok_t       next();    // returns next token
+			
+			bool            tokenize(QString input);
+			pat_t*          match(QString s,
+			                      QList<pat_t>& p,
+			                      str_tok_t* t,
+			                      QString* e);
+			
+			ExprTree*       exprTD(int p);
+			ExprTree*       pTD();
+			
+		public slots:
+			QString         exprParseTD(QString input);
+		public:
+			QString         operator()(QString input);
+			
+		private:
+			// predefined tokens
+			static str_tok_t tok_end; // end token
+			static str_tok_t op_sent; // sentinel
+			static str_tok_t op_rbr;
+			static str_tok_t op_lbr;
+			static str_tok_t op_exp;
+			static str_tok_t op_fac;
+			static str_tok_t op_mul;
+			static str_tok_t op_div;
+			static str_tok_t op_mod;
+			static str_tok_t op_add;
+			static str_tok_t op_sub;
+			static str_tok_t op_equ;
+			static str_tok_t op_and;
+			static str_tok_t op_or;
+			static str_tok_t op_neg;
+			static str_tok_t arg_pr;
+			static str_tok_t arg_num;
+			static str_tok_t arg_var;
+			pat_t           pat_eos; // end of string pattern
+			QList<pat_t>    pat_ops; // list of operator patterns
+			QList<pat_t>    pat_arg; // list of arg? patterns
+			
+			QQueue<str_tok_t> tokens; // tokens to parse
+			QStack<str_tok_t> mOperators;
+			QStack<ExprTree> mOperands;
+			
+		public:
+			ExprTree*       tree;
+			
+			bool            reduce;
+			
+			friend bool operator>(const str_tok_t& lhs, const str_tok_t& rhs);
+		};
+		\end{lstlisting}
+		\end{spacing}	
+		Razred definira tipične metode razredov v C++. To so konstruktor, destruktor, ki sprosti drevo iz spomina, ter metoda \codequote{init}.
+		Funkcija se kliče v konstruktorju in inicializira vrednosti spremenljivk.
+		Ker so operatorji deklarirani kot statične spremenljivke, jih \codequote{init} skripta ne inicializira, nastavi pa začetne vrednosti članom \angl{member} \codequote{pat\_eos}, \codequote{pat\_ops} in \codequote{pat\_arg}.\odstavek
+		Pretvorbo v AST lahko kličemo na dva načina, prvi je metoda \codequote{exprParseTD}, drugi je pa s pomočjo preobloženega operatorja \codequote{()}, kot parameter, jima pa podamo niz z izrazom, ki ga želimo pretvoriti.
+		\odstavek
+		Razred si definira tudi privatne funkcije, ki olajšajo implementacijo.
+		Metoda \codequote{consume} vzame token iz sklada, metoda \codequote{next} pa vrne token na vrhu sklada, če je pa ta prazen pa vrne \codequote{tok\_end}.\odstavek
+		\codequote{expect} metode vzamejo neko obliko tokena kot parameter, in če je enak naslednjemu tokenu, le tega vzamejo iz sklada in vrnejo \texttt{true}, drugače pa vrnejo \texttt{false}. \odstavek
+		Metoda \codequote{match} glede na \textquote{regex} vzorce izve kakšne vrste token je naslednji v nizu, metoda \codequote{tokenize} pa zaporedno kliče metodo \codequote{match} z različnimi vhodnimi podatki.
+		Metodi \codequote{exprTD} in \codequote{pTD} pomagata metodi \codequote{exprParseTD} pri pretvorbi v AST.
 \chapter{Navodila za uporabo}
 	\section{Jezik kalkulatorja}
 		Jezik kalkulatorja je enak jeziku knjižnice Exprtk.
