@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2018.4.13)  17 APR 2018 02:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2018.4.13)  17 APR 2018 10:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -531,6 +531,9 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 (/usr/share/texmf-dist/tex/latex/notoccite/notoccite.sty
 Package: notoccite 2000/07/20
 )
+(/usr/share/texmf-dist/tex/latex/psnfss/helvet.sty
+Package: helvet 2005/04/12 PSNFSS-v9.2a (WaS) 
+)
 (/usr/share/texmf-dist/tex/latex/wrapfig/wrapfig.sty
 \wrapoverhang=\dimen110
 \WF@size=\dimen111
@@ -681,6 +684,13 @@ LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
 Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
 \symrsfs=\mathgroup8
 )
+(/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
+
+(/usr/share/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
+))
 (/usr/share/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
 (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
 (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
@@ -1248,65 +1258,6 @@ File: lstlang1.sty 2015/06/04 1.6 listings language file
 (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 )
-(/usr/share/texmf-dist/tex/latex/frankenstein/compsci.sty
-Package: compsci 2001/08/31 v1.2 macros for writing about macros (Frankenstein'
-s conscience)
-
-(/usr/share/texmf-dist/tex/latex/frankenstein/abbrevs.sty
-Package: abbrevs 2001/09/08 v1.4 abbreviation macros (Frankenstein's briefs)
-
-(/usr/share/texmf-dist/tex/latex/frankenstein/moredefs.sty
-Package: moredefs 2001/08/31 v1.8 more defining commands (Frankenstein's brain)
-
-\sc@toks@a=\toks44
-\sc@toks@b=\toks45
-)
-(/usr/share/texmf-dist/tex/latex/frankenstein/slemph.sty
-Package: slemph 1999/02/25 v1.2 slanted emphasis (Frankenstein's gait)
-LaTeX Info: Redefining \itswitch on input line 177.
-LaTeX Info: Redefining \slswitch on input line 186.
-LaTeX Info: Redefining \textitswitch on input line 195.
-LaTeX Info: Redefining \textslswitch on input line 196.
-
-(/usr/share/texmf-dist/tex/latex/frankenstein/slemph.cfg
-File: slemph.cfg 
-))
-\c@tm@util=\count345
-
-(/usr/share/texmf-dist/tex/latex/frankenstein/abbrevs.cfg
-File: abbrevs.cfg 
-
-(/usr/share/texmf-dist/tex/latex/relsize/relsize.sty
-Package: relsize 2013/03/29 ver 4.1
-)))
-(/usr/share/texmf-dist/tex/latex/base/alltt.sty
-Package: alltt 1997/06/16 v2.0g defines alltt environment
-)
-(/usr/share/texmf-dist/tex/latex/frankenstein/lips.sty
-Package: lips 2001/08/31 v2.1 Chicago Manual text ellipses (Frankenstein's lips
-)
-)
-(/usr/share/texmf-dist/tex/latex/base/shortvrb.sty
-Package: shortvrb 2016/02/15 v2.1g Standard LaTeX documentation package (FMi)
-)
-(/usr/share/texmf-dist/tex/latex/frankenstein/titles.sty
-Package: titles 2001/08/31 v1.2 title macros (Frankenstein's references)
-
-(/usr/share/texmf-dist/tex/latex/frankenstein/titles.cfg
-File: titles.cfg 
-))
-(/usr/share/texmf-dist/tex/latex/tools/verbatim.sty
-Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks46
-\verbatim@line=\toks47
-\verbatim@in@stream=\read3
-)
-Package shortvrb Info: Made | a short reference for \verb on input line 509.
-\verbatim@out=\write6
-
-(/usr/share/texmf-dist/tex/latex/frankenstein/compsci.cfg
-File: compsci.cfg 
-))
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
@@ -1342,24 +1293,24 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
 LaTeX Font Info:    ... okay on input line 87.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
 LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 87.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 87.
 
-(/usr/share/texmf-dist/tex/latex/psnfss/ot1ptm.fd
-File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+(/usr/share/texmf-dist/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 )
 (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count346
+\scratchcounter=\count345
 \scratchdimen=\dimen264
 \scratchbox=\box73
-\nofMPsegments=\count347
-\nofMParguments=\count348
-\everyMPshowfont=\toks48
-\MPscratchCnt=\count349
+\nofMPsegments=\count346
+\nofMParguments=\count347
+\everyMPshowfont=\toks44
+\MPscratchCnt=\count348
 \MPscratchDim=\dimen265
-\MPnumerator=\count350
-\makeMPintoPDFobject=\count351
-\everyMPtoPDFconversion=\toks49
+\MPnumerator=\count349
+\makeMPintoPDFobject=\count350
+\everyMPtoPDFconversion=\toks45
 ) (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -1394,7 +1345,7 @@ ABD: EveryShipout initializing macros
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count352
+\c@lstlisting=\count351
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
@@ -1445,19 +1396,19 @@ File: VegovaZnakVodoravno.jpg Graphic file (type jpg)
 <use VegovaZnakVodoravno.jpg>
 Package pdftex.def Info: VegovaZnakVodoravno.jpg  used on input line 89.
 (pdftex.def)             Requested size: 341.43306pt x 72.18962pt.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24.88> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 89.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <24.88> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 89.
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./VegovaZnakVodoravno.jpg>
 ]
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20.74> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 92.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 97.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <20.74> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 92.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <17.28> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 97.
  [2] (./Poro훾ilo.toc
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 6.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 6.
 LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 10
 .
  (/usr/share/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
@@ -1481,6 +1432,13 @@ LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 10
 (/usr/share/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 10.
+
+(/usr/share/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 10.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 10.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
@@ -1492,37 +1450,56 @@ File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 ) [3
 
 ] [4])
-\tf@toc=\write7
-\openout7 = `Poro훾ilo.toc'.
+\tf@toc=\write6
+\openout6 = `Poro훾ilo.toc'.
 
  [5]
 (./Poro훾ilo.lof)
-\tf@lof=\write8
-\openout8 = `Poro훾ilo.lof'.
+\tf@lof=\write7
+\openout7 = `Poro훾ilo.lof'.
 
  [6
 
 ]
 Poglavje 1.
 Poglavje 2.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 127.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 138.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 127.
+LaTeX Font Info:    Try loading font information for OMS+phv on input line 138.
 
-(/usr/share/texmf-dist/tex/latex/psnfss/omsptm.fd
-File: omsptm.fd 
+(/usr/share/texmf-dist/tex/latex/psnfss/omsphv.fd
+File: omsphv.fd 
 )
-LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
+LaTeX Font Info:    Font shape `OMS/phv/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 138.
  [7
 
-] [8] [9] [10]
+] [8]
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <12> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 193.
+ [9]
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 206.
+
+
+(/usr/share/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+Overfull \hbox (8.54616pt too wide) in paragraph at lines 206--210
+\T1/phv/m/n/12 ^^R  \T1/cmtt/m/n/12 connect\T1/phv/m/n/12 ^^Q in ^^R  \T1/cmtt/
+m/n/12 disconnect\T1/phv/m/n/12 ^^Q. [14] Si-gnali se po-na-vadi spro-튷jo, ko 
+se objekt (angl. \T1/phv/m/sl/12 object\T1/phv/m/n/12 )
+ []
+
+[10]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 236.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 236.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 236.
- [11]
-[12]
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10.95> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 236.
+ [11] [12]
 <images/json_object.png, id=50, 1931.80147pt x 547.42448pt>
 File: images/json_object.png Graphic file (type png)
 <use images/json_object.png>
@@ -1551,13 +1528,7 @@ File: images/json_number.png Graphic file (type png)
 Package pdftex.def Info: images/json_number.png  used on input line 290.
 (pdftex.def)             Requested size: 441.01773pt x 200.6893pt.
  [14 <./images/json_value.png (PNG copy)> <./images/json_string.png (PNG copy)>
-]
-Overfull \hbox (3.12035pt too wide) in paragraph at lines 296--299
-\OT1/ptm/m/n/12 Abstrakten sis-tem pre-pi-so-va-nja (okraj[]sano ARS iz angl. \
-OT1/ptm/m/sl/12 ab-stract re-wri-ting sy-stem\OT1/ptm/m/n/12 ) je mno[]zica
- []
-
-[15 <./images/json_number.png>]
+] [15 <./images/json_number.png>]
 Poglavje 3.
 <images/mw_tabs.png, id=68, 402.76315pt x 23.25931pt>
 File: images/mw_tabs.png Graphic file (type png)
@@ -1614,26 +1585,17 @@ File: images/settings.png Graphic file (type png)
 <use images/settings.png>
 Package pdftex.def Info: images/settings.png  used on input line 400.
 (pdftex.def)             Requested size: 436.86702pt x 357.19566pt.
-[16 <./images/mw_tabs.png (PNG copy)> <./images/tools.png (PNG copy)>] [17 <./i
-mages/mw_status.png (PNG copy)> <./images/mw_calc.png (PNG copy)>] [18 <./image
-s/mw_adv.png (PNG copy)>]
-Overfull \vbox (8.0709pt too high) has occurred while \output is active []
+[16] [17 <./images/mw_tabs.png (PNG copy)> <./images/tools.png (PNG copy)> <./i
+mages/mw_status.png (PNG copy)>] [18 <./images/mw_calc.png (PNG copy)>]
+[19 <./images/mw_adv.png (PNG copy)>]
+Overfull \vbox (8.13698pt too high) has occurred while \output is active []
 
 
-[19 <./images/mw_plot.png (PNG copy)>] [20 <./images/mw_const.png (PNG copy)>]
-[21 <./images/mw_hist.png (PNG copy)>] [22 <./images/settings.png (PNG copy)>]
-LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 414
-.
-LaTeX Font Info:    No file OMScmtt.fd. on input line 414.
-
-
-LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbraceleft' on input line 414.
-
-[23]
+[20 <./images/mw_plot.png (PNG copy)>] [21 <./images/mw_const.png (PNG copy)>]
+[22 <./images/mw_hist.png (PNG copy)>] [23 <./images/settings.png (PNG copy)>]
+[24]
 Poglavje 4.
-<images/project_tree.png, id=103, 190.01326pt x 671.19724pt>
+<images/project_tree.png, id=107, 190.01326pt x 671.19724pt>
 File: images/project_tree.png Graphic file (type png)
 <use images/project_tree.png>
 Package pdftex.def Info: images/project_tree.png  used on input line 422.
@@ -1643,96 +1605,95 @@ Overfull \hbox (1.23335pt too wide) in paragraph at lines 422--423
 [][] 
  []
 
+[25
 
-Underfull \hbox (badness 1708) in paragraph at lines 423--423
-[]\OT1/ptm/m/n/12 Slika 4.1: |Dre-ve-sna struk-tura
+ <./images/project_tree.png (PNG copy)>]
+Overfull \hbox (3.80147pt too wide) in paragraph at lines 470--473
+\T1/phv/m/n/12 ni-ran v \T1/phv/b/n/12 mu-fe-xpr-par-ser.cpp\T1/phv/m/n/12 . V 
+da-to-teki \T1/phv/b/n/12 mu-fla-tex.h \T1/phv/m/n/12 je de-kla-ra-cija ra-zred
+a ^^R  \T1/cmtt/m/n/12 MufLatex\T1/phv/m/n/12 ^^Q,
  []
 
-[24
-
- <./images/project_tree.png (PNG copy)>] [25
+[26
 
 ]
-Overfull \hbox (17.21468pt too wide) in paragraph at lines 515--516
-\OT1/ptm/m/n/12 Podprogram najde na-sta-vi-tve L[]T[]X ozadja in z njimi na-red
-i nov []  \OT1/cmtt/m/n/12 KLFPreviewBuilderThread\OT1/ptm/m/n/12 ". 
+Overfull \hbox (40.01181pt too wide) in paragraph at lines 515--516
+\T1/phv/m/n/12 Podprogram najde na-sta-vi-tve L[]T[]X ozadja in z njimi na-redi
+ nov ^^R  \T1/cmtt/m/n/12 KLFPreviewBuilderThread\T1/phv/m/n/12 ^^Q. 
  []
 
-[26]
-Overfull \hbox (21.21785pt too wide) in paragraph at lines 557--557
+[27] [28]
+Overfull \hbox (24.3293pt too wide) in paragraph at lines 557--557
 [][] 
  []
 
-<images/latex_adv.png, id=114, 596.02449pt x 317.32346pt>
+<images/latex_adv.png, id=121, 596.02449pt x 317.32346pt>
 File: images/latex_adv.png Graphic file (type png)
 <use images/latex_adv.png>
 Package pdftex.def Info: images/latex_adv.png  used on input line 572.
 (pdftex.def)             Requested size: 441.01773pt x 234.80598pt.
-<images/latex_plot.png, id=115, 597.64854pt x 495.09103pt>
+<images/latex_plot.png, id=122, 597.64854pt x 495.09103pt>
 File: images/latex_plot.png Graphic file (type png)
 <use images/latex_plot.png>
 Package pdftex.def Info: images/latex_plot.png  used on input line 587.
 (pdftex.def)             Requested size: 441.01773pt x 365.34932pt.
-[27] [28] [29 <./images/latex_adv.png (PNG copy)>]
+
+Overfull \hbox (37.88934pt too wide) in paragraph at lines 537--588
+\T1/phv/m/n/12 zika. Ko je re-zul-tat ob-de-lan se za즢e iz-va-jati funk-cija ^
+^R  \T1/cmtt/m/n/12 updatePreviewBuilderThreadInput\T1/phv/m/n/12 ^^Q,
+ []
+
+[29] [30 <./images/latex_adv.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 598--599
 
  []
 
-[30 <./images/latex_plot.png (PNG copy)>]
-LaTeX Font Info:    Try loading font information for OML+ptm on input line 627.
-
-
-(/usr/share/texmf-dist/tex/latex/psnfss/omlptm.fd
-File: omlptm.fd 
-)
-LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 627.
- [31] [32]
-Overfull \hbox (5.69138pt too wide) in paragraph at lines 691--694
-\OT1/ptm/m/n/12 bljajo. Od-stra-nil bom tudi de-fi-ni-cije zgo-raj na-ve-de-nih
- ra-zre-dov (Kode: 4.1[], 4.2[], 4.3[], 4.4[] in 4.5[]). 
+[31 <./images/latex_plot.png (PNG copy)>] [32] [33]
+Overfull \hbox (73.06813pt too wide) in paragraph at lines 691--694
+\T1/phv/m/n/12 upo-ra-bljajo. Od-stra-nil bom tudi de-fi-ni-cije zgo-raj na-ve-
+de-nih ra-zre-dov (Kode: 4.1[], 4.2[], 4.3[], 4.4[] in 4.5[]). 
  []
 
-[33] [34]
-Overfull \hbox (2.88303pt too wide) in paragraph at lines 779--789
-[]\OT1/ptm/m/n/12 .[] Ra-zred si de-fi-nira tudi pri-va-tne funk-cije, ki olaj[
-]sajo im-ple-men-ta-cijo. Me-toda []  \OT1/cmtt/m/n/12 consume\OT1/ptm/m/n/12 "
-
- []
-
+[34] [35]
 Poglavje 5.
-[35]
+
+Overfull \hbox (0.66162pt too wide) in paragraph at lines 791--793
+\T1/phv/m/n/12 Jezik kal-ku-la-torja je enak je-ziku knji-틁ice Exprtk. Te po-d
+atke sem pre-ve-ril na 17. april
+ []
+
+[36]
 Underfull \hbox (badness 10000) in paragraph at lines 797--797
-[]\OT1/cmtt/m/n/12 and, mand, mor, nand, nor, not, or,
+[]\T1/cmtt/m/n/12 and, mand, mor, nand, nor, not, or,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 798--798
-[]\OT1/cmtt/m/n/12 abs, avg, ceil, clamp, equal, erf, erfc, exp, expm1, floor,
+[]\T1/cmtt/m/n/12 abs, avg, ceil, clamp, equal, erf, erfc, exp, expm1, floor,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 798--798
-\OT1/cmtt/m/n/12 frac, log, log10, log1p, log2, logn, max, min, mul, ncdf,
+\T1/cmtt/m/n/12 frac, log, log10, log1p, log2, logn, max, min, mul, ncdf,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 799--799
-[]\OT1/cmtt/m/n/12 acos, acosh, asin, asinh, atan, atanh, atan2, cos,
+[]\T1/cmtt/m/n/12 acos, acosh, asin, asinh, atan, atanh, atan2, cos,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 799--799
-\OT1/cmtt/m/n/12 cosh, cot, csc, sec, sin, sinc, sinh, tan, tanh,
+\T1/cmtt/m/n/12 cosh, cot, csc, sec, sin, sinc, sinh, tan, tanh,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 800--800
-[]\OT1/cmtt/m/n/12 if-then-else, troji^^Tski pogojni
+[]\T1/cmtt/m/n/12 if-then-else, troji쾘i pogojni
  []
 
 
-Overfull \hbox (72.73705pt too wide) in paragraph at lines 793--802
+Overfull \hbox (84.23265pt too wide) in paragraph at lines 793--802
 [][] 
  []
 
@@ -1741,7 +1702,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 818--818
 
  []
 
-[36]
+[37]
 Overfull \hbox (29.3747pt too wide) in paragraph at lines 840--840
 []$[]$ 
  []
@@ -1776,52 +1737,56 @@ Overfull \hbox (29.3747pt too wide) in paragraph at lines 840--840
 []$[]$
  []
 
-[37] [38]
+[38]
 Poglavje 6.
 [39] [40]
 Poglavje 7.
+
+Overfull \hbox (16.67021pt too wide) in paragraph at lines 905--905
+[]\T1/phv/m/sl/12 C++ re-fe-rence\T1/phv/m/n/12 . \T1/phv/m/sc/12 url\T1/phv/m/
+n/12 : $\T1/cmtt/m/n/12 https : / / en . cppreference . com / w/$ \T1/phv/m/n/1
+2 (pri-do-bljeno 15. 4. 2018). 
+ []
+
 [41]
-Overfull \hbox (3.83281pt too wide) in paragraph at lines 905--905
-\OT1/cmtt/m/n/12 e83c5163316f89bfbde7d9ab23ca2e25604af290 / README$ \OT1/ptm/m/
-n/12 (pri-do-bljeno 16. 4. 2018). 
+Overfull \hbox (13.32417pt too wide) in paragraph at lines 905--905
+\T1/cmtt/m/n/12 e83c5163316f89bfbde7d9ab23ca2e25604af290 / README$ \T1/phv/m/n/
+12 (pri-do-bljeno 16. 4. 2018). 
  []
 
 
-Overfull \hbox (9.75749pt too wide) in paragraph at lines 909--910
-\OT1/cmtt/m/n/12 http://www.ecma-international.org/publications/files/ECMA-ST/E
-CMA-404.pdf 
+Overfull \hbox (9.64722pt too wide) in paragraph at lines 909--910
+\T1/cmtt/m/n/12 http://www.ecma-international.org/publications/files/ECMA-ST/EC
+MA-404.pdf 
  []
 
 [42] [43] [44] (./Poro훾ilo.aux)
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
 Package logreq Info: Writing requests to 'Poro훾ilo.run.xml'.
 \openout1 = `Poro훾ilo.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26547 strings out of 492982
- 476415 string characters out of 6138579
- 958984 words of memory out of 5000000
- 29554 multiletter control sequences out of 15000+600000
- 47419 words of font info for 105 fonts, out of 8000000 for 9000
+ 26261 strings out of 492982
+ 471502 string characters out of 6138579
+ 948493 words of memory out of 5000000
+ 29295 multiletter control sequences out of 15000+600000
+ 70872 words of font info for 110 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,10n,58p,816b,2606s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsltt10.pfb></
-usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf-dist/fonts/t
-ype1/urw/symbol/usyr.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pf
-b></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dis
-t/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times
-/utmri8a.pfb>
-Output written on Poro훾ilo.pdf (44 pages, 857832 bytes).
+ 55i,9n,58p,816b,2621s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/t
+exmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr
+/share/texmf-dist/fonts/type1/public/cm-super/sfit1200.pfb></usr/share/texmf-di
+st/fonts/type1/public/cm-super/sftt1200.pfb></usr/share/texmf-dist/fonts/type1/
+urw/helvetic/uhvb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.
+pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/tex
+mf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/share/texmf-dist/fonts/type1/urw/
+times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on Poro훾ilo.pdf (44 pages, 863238 bytes).
 PDF statistics:
- 216 PDF objects out of 1000 (max. 8388607)
- 138 compressed objects within 2 object streams
+ 217 PDF objects out of 1000 (max. 8388607)
+ 139 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  103 words of extra memory for PDF output out of 10000 (max. 10000000)
 

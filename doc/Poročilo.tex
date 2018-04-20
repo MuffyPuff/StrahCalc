@@ -9,14 +9,14 @@
 \usepackage{csquotes}
 \usepackage{float}
 \usepackage{notoccite}
-%\usepackage{helvet} % helvetica?
+\usepackage{helvet} % helvetica?
 \usepackage{wrapfig}
 \usepackage{multicol}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{mathrsfs}
-%\usepackage[T1]{fontenc}% http://ctan.org/pkg/fontenc
+\usepackage[T1]{fontenc}% http://ctan.org/pkg/fontenc
 \usepackage{tikz}
 \usepackage{titlesec}
 \usepackage{titletoc}
@@ -57,7 +57,7 @@
 \renewcommand{\lstlistingname}{Koda}
 
 \title{KALKULATOR}
-\project{Strokovno poročilo}
+\project{Strokovno poročilo za 4. predmet splošne mature}
 \author{Rok Strah, R 4. C}
 \mentor{Darjan Toth, prof.}
 
@@ -65,8 +65,8 @@
 	frameround=single,%
 	xleftmargin = \parindent%
 }
-\usepackage{compsci}
-%\renewcommand{\familydefault}{\sfdefault}
+%\usepackage{compsci}
+\renewcommand{\familydefault}{\sfdefault}
 %\fontfamily{phv}\selectfont
 \newcommand{\wdot}{\textcolor{white}{.}}
 \newcommand{\anglimp}[1]{angl.~\emph{#1}}
@@ -139,7 +139,7 @@
 			sedaj pa delajo na naslednjem standardu, ki naj bi prišel v letu 2020 in je znan pod imenom C++20~\cite{cpp_naming,cpp_ref,cpp20_naming}.
 			\odstavek
 			Bjarne je leta 1979 začel razvijati \textquote{C with Classes}, razširitev C-ju in predhodnik C++.~\cite{cpp_evolution}
-			Ko je delal na doktorski nalogi, je opazil, da ima jezik \textquote{Simula} nekaj funkcij, ki so zelo uporabne za velike projekte, vendar je prepočasen za praktično rabo, vendar pa jeziku \textquote{BCPL}, ki je hiter, manjkajo visoko-nivojske funkcije za večje projekte.
+			Ko je delal na doktorski nalogi, je opazil, da ima jezik \textquote{Simula} nekaj funkcij, ki so zelo uporabne za velike projekte, toda je prepočasen za praktično rabo, vendar pa jeziku \textquote{BCPL}, ki je hiter, manjkajo visoko-nivojske funkcije za večje projekte.
 			Med delom v \textquote{AT\&T Bell Labs} je bil navdihnjen izboljšati C s funkcijami podobnimi tistim v Simuli.
 			Izbral si je C, ker je fleksibilen, učinkovit, dostopen in prenosljiv.
 			Poleg vplivov C in Simule, so na C++ vplivali tudi drugi jeziki, kot so ALGOL 68, Ada, CLU in ML.
@@ -160,7 +160,7 @@
 				\begin{itemize}
 					\item Splošna pravila:~\cite{cpp_evolution}
 					\begin{itemize}
-						\item Evolucija c++ morejo voditi resnični problemi.
+						\item Evolucijo C++ morejo voditi resnični problemi.
 						\item Ne ukvarjaj se z nesmiselnim iskanjem popolnosti.
 						\item C++ more biti uporaben zdaj.
 						\item Vsaka funkcija jezika mora imeti razumno očitno implementacijo.
@@ -394,7 +394,7 @@
 		\begin{figure}[H]
 			\centering
 			\includegraphics{settings.png}
-			\caption{Zgodovina}
+			\caption{Nastavitve}
 			\label{fig:settings}
 		\end{figure}
 		Na dnu okna najdemo gumba \textquote{OK} in \textquote{Prekliči} ter gumb za nastavitev privzetih vrednosti.}
@@ -405,7 +405,7 @@
 			\subsection{Poenostavljanje izrazov}
 				Poenostavljanje izrazov poteka v treh delih:
 				\begin{itemize}
-					\item ponovno poenostavljanje po preprostih pravilih.
+					\item ponovno poenostavljanje po preprostih pravilih,
 					\item pretvorbe vseh elementov drevesa v ulomke in
 					\item ponovno poenostavljanje po preprostih pravilih.
 				\end{itemize}

@@ -53,79 +53,79 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2.2}Sistem prepisovanja \IeC {\v c}lenov}{15}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.3}Sistem prepisovanja nizov}{15}
+\contentsline {subsection}{\numberline {2.2.3}Sistem prepisovanja nizov}{16}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2.4}Abstraktno sintakti\IeC {\v c}no drevo}{16}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Funkcionalnost}{16}
+\contentsline {chapter}{\numberline {3}Funkcionalnost}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.1}Glavno okno}{16}
+\contentsline {section}{\numberline {3.1}Glavno okno}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1.1}Kalkulator}{17}
+\contentsline {subsection}{\numberline {3.1.1}Kalkulator}{18}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1.2}Napredno}{18}
+\contentsline {subsection}{\numberline {3.1.2}Napredno}{19}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1.3}Grafi\IeC {\v c}no}{19}
+\contentsline {subsection}{\numberline {3.1.3}Grafi\IeC {\v c}no}{20}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1.4}Spremenljivke in Konstante}{20}
+\contentsline {subsection}{\numberline {3.1.4}Spremenljivke in Konstante}{21}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1.5}Zgodovina}{21}
+\contentsline {subsection}{\numberline {3.1.5}Zgodovina}{22}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}Nastavitve}{22}
+\contentsline {section}{\numberline {3.2}Nastavitve}{23}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.3}Simboli}{22}
+\contentsline {section}{\numberline {3.3}Simboli}{23}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.1}Poenostavljanje izrazov}{23}
+\contentsline {subsection}{\numberline {3.3.1}Poenostavljanje izrazov}{24}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.2}Pretvorba v \LaTeX {}}{23}
+\contentsline {subsection}{\numberline {3.3.2}Pretvorba v \LaTeX {}}{24}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Implementacija}{24}
+\contentsline {chapter}{\numberline {4}Implementacija}{25}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Drevesna struktura programa}{24}
+\contentsline {section}{\numberline {4.1}Drevesna struktura programa}{25}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.1}StrahCalc}{24}
+\contentsline {subsection}{\numberline {4.1.1}StrahCalc}{25}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.2}MufLatex}{25}
+\contentsline {subsection}{\numberline {4.1.2}MufLatex}{26}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.3}Headers}{25}
+\contentsline {subsection}{\numberline {4.1.3}Headers}{26}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.4}Sources}{25}
+\contentsline {subsection}{\numberline {4.1.4}Sources}{27}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Glavno okno}{26}
+\contentsline {section}{\numberline {4.2}Glavno okno}{27}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.1}Inicializacija}{26}
+\contentsline {subsection}{\numberline {4.2.1}Inicializacija}{27}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{KLFBackend}{26}
+\contentsline {subsubsection}{KLFBackend}{27}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Exprtk}{26}
+\contentsline {subsubsection}{Exprtk}{27}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Glavno okno}{26}
+\contentsline {subsubsection}{Glavno okno}{28}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Meni}{26}
+\contentsline {subsubsection}{Meni}{28}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Spremenljivke in konstante}{27}
+\contentsline {subsubsection}{Spremenljivke in konstante}{28}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Funkcije}{27}
+\contentsline {subsubsection}{Funkcije}{28}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Kalkulator}{27}
+\contentsline {subsubsection}{Kalkulator}{28}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Nastavitve}{27}
+\contentsline {subsubsection}{Nastavitve}{28}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Posodobitev teksta}{27}
+\contentsline {subsubsection}{Posodobitev teksta}{29}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.2}Potek ra\IeC {\v c}unanja}{27}
+\contentsline {subsection}{\numberline {4.2.2}Potek ra\IeC {\v c}unanja}{29}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Navadni na\IeC {\v c}in}{28}
+\contentsline {subsubsection}{Navadni na\IeC {\v c}in}{30}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Napredni na\IeC {\v c}in}{29}
+\contentsline {subsubsection}{Napredni na\IeC {\v c}in}{30}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Grafi\IeC {\v c}ni na\IeC {\v c}in}{30}
+\contentsline {subsubsection}{Grafi\IeC {\v c}ni na\IeC {\v c}in}{31}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}MufExprParser}{31}
+\contentsline {section}{\numberline {4.3}MufExprParser}{32}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Navodila za uporabo}{36}
+\contentsline {chapter}{\numberline {5}Navodila za uporabo}{37}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Jezik kalkulatorja}{36}
+\contentsline {section}{\numberline {5.1}Jezik kalkulatorja}{37}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.1.1}Vhodno/izhodne operacije}{39}
 \defcounter {refsection}{0}\relax 
